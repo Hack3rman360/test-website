@@ -205,10 +205,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div id="tab-plan" class="tab-content active">
   <div class="content">
     <div class="stats">
-      <div class="stat"><div class="stat-n">32</div><div class="stat-l">dagen</div></div>
-      <div class="stat"><div class="stat-n">~14</div><div class="stat-l">pasta</div></div>
-      <div class="stat"><div class="stat-n">4</div><div class="stat-l">chilli</div></div>
-      <div class="stat"><div class="stat-n">4</div><div class="stat-l">BBQ</div></div>
+      <div class="stat"><div class="stat-n" id="stat-dagen">32</div><div class="stat-l">dagen</div></div>
+      <div class="stat"><div class="stat-n" id="stat-pasta">0</div><div class="stat-l">pasta</div></div>
+      <div class="stat"><div class="stat-n" id="stat-chilli">0</div><div class="stat-l">chilli</div></div>
+      <div class="stat"><div class="stat-n" id="stat-bbq">0</div><div class="stat-l">BBQ</div></div>
     </div>
     <div class="legenda">
       <div class="leg-item"><div class="leg-dot" style="background:#3B82F6"></div>pasta</div>
@@ -218,16 +218,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div class="filter-bar">
       <button class="filter-pill active" onclick="filterLand('all',this)">Alles</button>
-      <button class="filter-pill" onclick="filterLand('NL',this)">🇳🇱 NL</button>
-      <button class="filter-pill" onclick="filterLand('DE',this)">🇩🇪 DE</button>
-      <button class="filter-pill" onclick="filterLand('PL',this)">🇵🇱 PL</button>
-      <button class="filter-pill" onclick="filterLand('LT',this)">🇱🇹 LT</button>
-      <button class="filter-pill" onclick="filterLand('LV',this)">🇱🇻 LV</button>
-      <button class="filter-pill" onclick="filterLand('EE',this)">🇪🇪 EE</button>
-      <button class="filter-pill" onclick="filterLand('FI',this)">🇫🇮 FI</button>
-      <button class="filter-pill" onclick="filterLand('NO',this)">🇳🇴 NO</button>
-      <button class="filter-pill" onclick="filterLand('SE',this)">🇸🇪 SE</button>
-      <button class="filter-pill" onclick="filterLand('DK',this)">🇩🇰 DK</button>
+      <button class="filter-pill" onclick="filterLand('NL',this)">🇳🇱 Nederland</button>
+      <button class="filter-pill" onclick="filterLand('DE',this)">🇩🇪 Duitsland</button>
+      <button class="filter-pill" onclick="filterLand('PL',this)">🇵🇱 Polen</button>
+      <button class="filter-pill" onclick="filterLand('LT',this)">🇱🇹 Litouwen</button>
+      <button class="filter-pill" onclick="filterLand('LV',this)">🇱🇻 Letland</button>
+      <button class="filter-pill" onclick="filterLand('EE',this)">🇪🇪 Estland</button>
+      <button class="filter-pill" onclick="filterLand('FI',this)">🇫🇮 Finland</button>
+      <button class="filter-pill" onclick="filterLand('NO',this)">🇳🇴 Noorwegen</button>
+      <button class="filter-pill" onclick="filterLand('SE',this)">🇸🇪 Zweden</button>
+      <button class="filter-pill" onclick="filterLand('DK',this)">🇩🇰 Denemarken</button>
     </div>
     <div id="daglijst"></div>
   </div>
@@ -253,16 +253,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
     <div class="filter-bar" id="reis-filter-bar">
       <button class="filter-pill active" onclick="filterReis('all',this)">Alles</button>
-      <button class="filter-pill" onclick="filterReis('NL',this)">🇳🇱 NL</button>
-      <button class="filter-pill" onclick="filterReis('DE',this)">🇩🇪 DE</button>
-      <button class="filter-pill" onclick="filterReis('PL',this)">🇵🇱 PL</button>
-      <button class="filter-pill" onclick="filterReis('LT',this)">🇱🇹 LT</button>
-      <button class="filter-pill" onclick="filterReis('LV',this)">🇱🇻 LV</button>
-      <button class="filter-pill" onclick="filterReis('EE',this)">🇪🇪 EE</button>
-      <button class="filter-pill" onclick="filterReis('FI',this)">🇫🇮 FI</button>
-      <button class="filter-pill" onclick="filterReis('NO',this)">🇳🇴 NO</button>
-      <button class="filter-pill" onclick="filterReis('SE',this)">🇸🇪 SE</button>
-      <button class="filter-pill" onclick="filterReis('DK',this)">🇩🇰 DK</button>
+      <button class="filter-pill" onclick="filterReis('NL',this)">🇳🇱 Nederland</button>
+      <button class="filter-pill" onclick="filterReis('DE',this)">🇩🇪 Duitsland</button>
+      <button class="filter-pill" onclick="filterReis('PL',this)">🇵🇱 Polen</button>
+      <button class="filter-pill" onclick="filterReis('LT',this)">🇱🇹 Litouwen</button>
+      <button class="filter-pill" onclick="filterReis('LV',this)">🇱🇻 Letland</button>
+      <button class="filter-pill" onclick="filterReis('EE',this)">🇪🇪 Estland</button>
+      <button class="filter-pill" onclick="filterReis('FI',this)">🇫🇮 Finland</button>
+      <button class="filter-pill" onclick="filterReis('NO',this)">🇳🇴 Noorwegen</button>
+      <button class="filter-pill" onclick="filterReis('SE',this)">🇸🇪 Zweden</button>
+      <button class="filter-pill" onclick="filterReis('DK',this)">🇩🇰 Denemarken</button>
     </div>
 
     <div id="reis-lijst"></div>
@@ -564,34 +564,34 @@ const ORIGINEEL=[
   {d:2,land:'DE',datum:'19 jul',loc:'Dresden → Białowieża',O:'Croissant + koffie (tankstation)',L:'Broodjes kaas + komkommer',A:'Pasta bolognese',tag:'pasta',act:'Lange rijdag · tussenstop Warschau parking'},
   {d:3,land:'PL',datum:'20 jul',loc:'Białowieża',shop:true,O:'Havermout + banaan',L:'Wraps met kip + paprika + sla',A:'Pasta pesto + zongedroogde tomaat',tag:'pasta',act:'🛒 Boodschappen doen · fietstocht Path of the Bison · bizons spotten'},
   {d:4,land:'PL',datum:'21 jul',loc:'Białowieża → Trakai',O:'Cruesli + melk',L:'Baguette + hummus + komkommer',A:'Gebakken aardappelen + spekjes + ei',act:'Rijdag naar Trakai · Holiday Centre Slenis'},
-  {d:5,land:'LT',datum:'22 jul',loc:'Trakai / Vilnius',O:'Ei op toast',L:'Tomatensoep (blik) + brood',A:'Pasta arrabiata + gehakt',tag:'pasta',act:'Kasteel Trakai · suppen of avondwandeling Vilnius'},
-  {d:6,land:'LV',datum:'23 jul',loc:'Heuvel der Kruisen → Riga',O:'Havermout + rozijnen',L:'Rijstsalade + maïs + tonijn',A:'Chilli con carne (blik) + rijst',tag:'chilli',act:'Heuvel der Kruisen · aankomst Riga · skyline bar 20:00'},
-  {d:7,land:'LV',datum:'24 jul',loc:'Riga',O:'Yoghurt + granola',L:'Broodjes gerookte zalm + komkommer',A:'Pasta carbonara',tag:'pasta',act:'Centraal markt Riga · stadswandeling'},
-  {d:8,land:'EE',datum:'25 jul',loc:'Riga → Cēsis → Tallinn',O:'Boterhammen + pindakaas',L:'Baguette + kaas + druiven',A:'Couscous met gegrilde paprika (pot) + kikkererwten + feta',tag:'med',act:'Cēsis wandelen · doorrijden naar Tallinn'},
-  {d:9,land:'EE',datum:'26 jul',loc:'Tallinn',O:'Havermout',L:'Tonijnsalade + crackers + komkommer',A:'Pasta met groene pesto + mozzarella',tag:'pasta',act:'Pirita Harbour Camping · Tallinn oude stad'},
-  {d:10,land:'FI',datum:'27 jul',loc:'Tallinn → Helsinki (ferry) → Koli NP',O:'Knäckebröd + kaas + honing (ferry)',L:'Ferry: soep + brood',A:'Pasta met tomatensaus + paprika (blik) + worst',tag:'pasta',act:'Koli Ukko-Koli viewpoint · middernachtzon'},
-  {d:11,land:'FI',datum:'28 jul',loc:'Koli → Hossa NP',O:'Havermout + bosvruchten',L:'Rijstsalade + kipfilet + maïs',A:'BBQ-worstjes + gegrilde ui + brood',tag:'bbq',act:'Kanoën Julma-Ölkky · wandelen middernachtzon'},
-  {d:12,land:'FI',datum:'29 jul',loc:'Hossa → Rovaniemi',O:'Yoghurt + muesli',L:'Baguette + smeerkaas + komkommer',A:'Pasta met spinazie (blik) + knoflook + room',tag:'pasta',act:'Rijdag naar Rovaniemi'},
-  {d:13,land:'FI',datum:'30 jul',loc:'Rovaniemi → Inari',O:'Brood + pindakaas + honing',L:'Soep blik + crackers',A:'Wraps met roergebakken kip + paprika (blik) + ui',tag:'med',act:'Rijdag Inari · poolcirkel-streek'},
-  {d:14,land:'FI',datum:'31 jul',loc:'Inari → Karigasniemi → Lakselv',O:'Havermout + noten',L:'Wraps met bonen + maïs + salsa',A:'Pasta napolitana + kaaskorst',tag:'pasta',act:'Finse Lapland · grens naar Noorwegen'},
-  {d:15,land:'NO',datum:'1 aug',loc:'Lakselv → Noordkaap → Skarsvåg',O:'Ei + toast',L:'Baguette + gerookte makreel + komkommer',A:'Pasta met zalm + room + dille',tag:'pasta',act:'Hike Knivskjellodden — noordelijkste punt Europa'},
-  {d:16,land:'NO',datum:'2 aug',loc:'Skarsvåg → Alta',O:'Cruesli + melk',L:'Groentesoep + brood',A:'Chilli con carne (blik) + rijst',tag:'chilli',act:'Noorderlicht kathedraal Alta · sauna'},
-  {d:17,land:'NO',datum:'3 aug',loc:'Alta → Tromsø',O:'Havermout + banaan',L:'Wraps met kipfilet + paprika + sla',A:'Pasta met courgette (blik) + knoflook + olijfolie',tag:'pasta',act:'Kvænangsfjellet viewpoint · Lyngen Alps · wildkamperen Håkøya'},
-  {d:18,land:'NO',datum:'4 aug',loc:'Tromsø → Lofoten (Bjerkvik route)',O:'Toast + pindakaas',L:'Crackers + kaas + appel',A:'Chilli con carne (blik) + tortilla wraps',tag:'chilli',act:'Tjeldsundbrua · Gullesfjord · Raftsundet · avondwandeling Tjeldbergtinden'},
-  {d:19,land:'NO',datum:'5 aug',loc:'Lofoten — Kabelvåg',O:'Yoghurt + granola',L:'Rijstsalade + tonijn + maïs',A:'Pasta puttanesca met tonijn + olijven + kappertjes',tag:'pasta',act:'Festvågtind hike (3-4 uur) · Kabelvåg viewpoint'},
-  {d:20,land:'NO',datum:'6 aug',loc:'Lofoten — Henningsvær → Reine',O:'Havermout + bosvruchten',L:'Baguette + gerookte zalm + komkommer',A:'Pasta met tomatensaus + mozzarella + basilicum',tag:'pasta',act:'Reinebringen hike · Ramberg beach · Skagsanden · Hamnøy viewpoint'},
-  {d:21,land:'NO',datum:'7 aug',loc:'Reine → Å',O:'Ei op toast',L:'Wraps met avocado + ei + sla',A:'BBQ-worstjes + aardappelen in folie',tag:'bbq',act:'Munkebu hut trail (6-7 uur, top 3 Lofoten)'},
-  {d:22,land:'NO',datum:'8 aug',loc:'Lofoten — Ryten / Haukland',O:'Cruesli + melk',L:'Energiereep + noten + appel (op pad!)',A:'Pasta met gehakt + tomatensaus',tag:'pasta',act:'Ryten hike (5-6 uur) · Kvalvika Beach · zwemmen Haukland'},
-  {d:23,land:'NO',datum:'9 aug',loc:'Ferry Moskenes → Bodø → Mo i Rana',O:'Brood + kaas (ferry)',L:'Ferry: soep + brood',A:'Roergebakken rijst met ei + paprika (blik) + maïs + sojasaus',tag:'med',act:'Via ferrata Bratten Bodø · rijdag Mo i Rana'},
-  {d:24,land:'NO',datum:'10 aug',loc:'Mo i Rana → Laksforsen → Steinkjer',O:'Havermout',L:'Baguette + ham + komkommer',A:'Pasta puttanesca (olijven + kappertjes + ansjovis)',tag:'pasta',act:'Laksforsen waterval · Namsskogan · Steinkjer'},
-  {d:25,land:'NO',datum:'11 aug',loc:'Steinkjer → Trollstigen → Geiranger',O:'Yoghurt + muesli',L:'Rijstsalade + maïs + paprika',A:'Kipfilet met roergebakken courgette (blik) + paprika + knoflook + rijst',tag:'med',act:'Trollstigen · Geiranger · Dalsnibba viewpoint'},
-  {d:26,land:'NO',datum:'12 aug',loc:'Geiranger',O:'Ei + toast',L:'Wraps met tonijn + maïs + sla',A:'Pasta met room + gerookte zalm + dille',tag:'pasta',act:'Kayakken fjord · Skageflå hike · Flydalsjuvet · Ørnesvingen'},
-  {d:27,land:'NO',datum:'13 aug',loc:'Geiranger → Loen Skylift → Lovatnet',O:'Havermout + noten',L:'Baguette + kaas + appel',A:'Chilli con carne (blik) + tortilla wraps',tag:'chilli',act:'Loen Skylift · Kjenndalsbreen gletsjer · Lovatnet meer'},
-  {d:28,land:'NO',datum:'14 aug',loc:'Lovatnet → Nærøyfjord → Erdal/Oppheim',O:'Cruesli + melk',L:'Soep + crackers + kaas',A:'Pasta met groente (blik) + pesto + pijnboompitten',tag:'pasta',act:'Nærøyfjord World Heritage · wandelpad'},
-  {d:29,land:'NO',datum:'15 aug',loc:'Tyssedal — Trolltunga',O:'⏰ Vroeg havermout (6:00!)',L:'Energiereep + noten + banaan (op pad)',A:'Pasta bolognese — welverdiend!',tag:'pasta',act:'Trolltunga hike 20 km — VROEG STARTEN'},
-  {d:30,land:'NO',datum:'16 aug',loc:'Tyssedal → Preikestolen → Oslofjord',O:'Ei + toast',L:'Wraps met kipfilet + paprika + sla',A:'BBQ-worstjes + maïs + brood',tag:'bbq',act:'Preikestolen hike 8 km · Magma Geopark · Oslofjord'},
-  {d:31,land:'SE',datum:'17 aug',loc:'Oslofjord → Karlstad → Huskvarna',O:'Boterhammen + jam',L:'Baguette + smeerkaas + komkommer',A:'Pasta met courgette (blik) + knoflook + olijfolie',tag:'pasta',act:'Karlstad centrum · Vänernmeer strand · Örebro Castle · Vätternmeer'},
-  {d:32,land:'DK',datum:'18 aug',loc:'Huskvarna → Malmö → Odense → thuis 🏠',O:'Cruesli + melk (laatste camping)',L:'Rugbrød + gerookte zalm (Deens!)',A:'Thuis eten — welverdiend! 🎉',act:'Rijdag naar huis · aankomst Gelderland'},
+  {d:5,land:'LV',datum:'22 jul',loc:'Heuvel der Kruisen → Riga',O:'Ei op toast',L:'Tomatensoep (blik) + brood',A:'Uit eten — Skyline Bar Riga 🍸',act:'Heuvel der Kruisen onderweg · Skyline Bar Riga 20:00 · €100 al betaald'},
+  {d:6,land:'LV',datum:'23 jul',loc:'Riga → Cēsis → Tallinn',O:'Havermout + rozijnen',L:'Rijstsalade + maïs + tonijn',A:'Chilli con carne (blik) + rijst',tag:'chilli',act:'Heuvel der Kruisen · aankomst Riga · skyline bar 20:00'},
+  {d:7,land:'EE',datum:'24 jul',loc:'Tallinn',O:'Yoghurt + granola',L:'Broodjes gerookte zalm + komkommer',A:'Pasta carbonara',tag:'pasta',act:'Centraal markt Riga · stadswandeling'},
+  {d:8,land:'EE',datum:'25 jul',loc:'Tallinn → Helsinki (ferry) → Koli NP',O:'Boterhammen + pindakaas',L:'Baguette + kaas + druiven',A:'Couscous met gegrilde paprika (pot) + kikkererwten + feta',tag:'med',act:'Cēsis wandelen · doorrijden naar Tallinn'},
+  {d:9,land:'FI',datum:'26 jul',loc:'Koli → Hossa NP',O:'Havermout',L:'Tonijnsalade + crackers + komkommer',A:'Pasta met groene pesto + mozzarella',tag:'pasta',act:'Pirita Harbour Camping · Tallinn oude stad'},
+  {d:10,land:'FI',datum:'27 jul',loc:'Hossa → Rovaniemi',O:'Knäckebröd + kaas + honing (ferry)',L:'Ferry: soep + brood',A:'Pasta met tomatensaus + paprika (blik) + worst',tag:'pasta',act:'Koli Ukko-Koli viewpoint · middernachtzon'},
+  {d:11,land:'FI',datum:'28 jul',loc:'Rovaniemi → Inari',O:'Havermout + bosvruchten',L:'Rijstsalade + kipfilet + maïs',A:'BBQ-worstjes + gegrilde ui + brood',tag:'bbq',act:'Kanoën Julma-Ölkky · wandelen middernachtzon'},
+  {d:12,land:'FI',datum:'29 jul',loc:'Inari → Karigasniemi → Lakselv',O:'Yoghurt + muesli',L:'Baguette + smeerkaas + komkommer',A:'Pasta met spinazie (blik) + knoflook + room',tag:'pasta',act:'Rijdag naar Rovaniemi'},
+  {d:13,land:'NO',datum:'30 jul',loc:'Lakselv → Noordkaap → Skarsvåg',O:'Brood + pindakaas + honing',L:'Soep blik + crackers',A:'Wraps met roergebakken kip + paprika (blik) + ui',tag:'med',act:'Rijdag Inari · poolcirkel-streek'},
+  {d:14,land:'NO',datum:'31 jul',loc:'Skarsvåg → Alta',O:'Havermout + noten',L:'Wraps met bonen + maïs + salsa',A:'Pasta napolitana + kaaskorst',tag:'pasta',act:'Finse Lapland · grens naar Noorwegen'},
+  {d:15,land:'NO',datum:'1 aug',loc:'Alta → Tromsø',O:'Ei + toast',L:'Baguette + gerookte makreel + komkommer',A:'Pasta met zalm + room + dille',tag:'pasta',act:'Hike Knivskjellodden — noordelijkste punt Europa'},
+  {d:16,land:'NO',datum:'2 aug',loc:'Tromsø → Lofoten (Bjerkvik route)',O:'Cruesli + melk',L:'Groentesoep + brood',A:'Chilli con carne (blik) + rijst',tag:'chilli',act:'Noorderlicht kathedraal Alta · sauna'},
+  {d:17,land:'NO',datum:'3 aug',loc:'Lofoten — Kabelvåg',O:'Havermout + banaan',L:'Wraps met kipfilet + paprika + sla',A:'Pasta met courgette (blik) + knoflook + olijfolie',tag:'pasta',act:'Kvænangsfjellet viewpoint · Lyngen Alps · wildkamperen Håkøya'},
+  {d:18,land:'NO',datum:'4 aug',loc:'Lofoten — Henningsvær → Reine',O:'Toast + pindakaas',L:'Crackers + kaas + appel',A:'Chilli con carne (blik) + tortilla wraps',tag:'chilli',act:'Tjeldsundbrua · Gullesfjord · Raftsundet · avondwandeling Tjeldbergtinden'},
+  {d:19,land:'NO',datum:'5 aug',loc:'Reine → Å',O:'Yoghurt + granola',L:'Rijstsalade + tonijn + maïs',A:'Pasta puttanesca met tonijn + olijven + kappertjes',tag:'pasta',act:'Festvågtind hike (3-4 uur) · Kabelvåg viewpoint'},
+  {d:20,land:'NO',datum:'6 aug',loc:'Lofoten — Ryten & Haukland',O:'Havermout + bosvruchten',L:'Baguette + gerookte zalm + komkommer',A:'Pasta met tomatensaus + mozzarella + basilicum',tag:'pasta',act:'Reinebringen hike · Ramberg beach · Skagsanden · Hamnøy viewpoint'},
+  {d:21,land:'NO',datum:'7 aug',loc:'Ferry Moskenes → Bodø → Mo i Rana',O:'Ei op toast',L:'Wraps met avocado + ei + sla',A:'BBQ-worstjes + aardappelen in folie',tag:'bbq',act:'Munkebu hut trail (6-7 uur, top 3 Lofoten)'},
+  {d:22,land:'NO',datum:'8 aug',loc:'Mo i Rana → Laksforsen → Namsskogan → Steinkjer',O:'Cruesli + melk',L:'Energiereep + noten + appel (op pad!)',A:'Pasta met gehakt + tomatensaus',tag:'pasta',act:'Ryten hike (5-6 uur) · Kvalvika Beach · zwemmen Haukland'},
+  {d:23,land:'NO',datum:'9 aug',loc:'Steinkjer → Trollstigen → Geiranger → Dalsnibba',O:'Brood + kaas (ferry)',L:'Ferry: soep + brood',A:'Roergebakken rijst met ei + paprika (blik) + maïs + sojasaus',tag:'med',act:'Via ferrata Bratten Bodø · rijdag Mo i Rana'},
+  {d:24,land:'NO',datum:'10 aug',loc:'Geiranger — activiteitendag',O:'Havermout',L:'Baguette + ham + komkommer',A:'Pasta puttanesca (olijven + kappertjes + ansjovis)',tag:'pasta',act:'Laksforsen waterval · Namsskogan · Steinkjer'},
+  {d:25,land:'NO',datum:'11 aug',loc:'Geiranger → Loen Skylift → Kjenndalsbreen → Lovatnet',O:'Yoghurt + muesli',L:'Rijstsalade + maïs + paprika',A:'Kipfilet met roergebakken courgette (blik) + paprika + knoflook + rijst',tag:'med',act:'Trollstigen · Geiranger · Dalsnibba viewpoint'},
+  {d:26,land:'NO',datum:'12 aug',loc:'Lovatnet → Nærøyfjord → Erdal/Oppheim',O:'Ei + toast',L:'Wraps met tonijn + maïs + sla',A:'Pasta met room + gerookte zalm + dille',tag:'pasta',act:'Kayakken fjord · Skageflå hike · Flydalsjuvet · Ørnesvingen'},
+  {d:27,land:'NO',datum:'13 aug',loc:'Tyssedal — Trolltunga 20km hike',O:'Havermout + noten',L:'Baguette + kaas + appel',A:'Chilli con carne (blik) + tortilla wraps',tag:'chilli',act:'Loen Skylift · Kjenndalsbreen gletsjer · Lovatnet meer'},
+  {d:28,land:'NO',datum:'14 aug',loc:'Tyssedal → Preikestolen → Magma Geopark → Oslofjord',O:'Cruesli + melk',L:'Soep + crackers + kaas',A:'Pasta met groente (blik) + pesto + pijnboompitten',tag:'pasta',act:'Nærøyfjord World Heritage · wandelpad'},
+  {d:29,land:'NO',datum:'15 aug',loc:'Oslofjord → Karlstad',O:'⏰ Vroeg havermout (6:00!)',L:'Energiereep + noten + banaan (op pad)',A:'Pasta bolognese — welverdiend!',tag:'pasta',act:'Trolltunga hike 20 km — VROEG STARTEN'},
+  {d:30,land:'SE',datum:'16 aug',loc:'Karlstad → Huskvarna',O:'Ei + toast',L:'Wraps met kipfilet + paprika + sla',A:'BBQ-worstjes + maïs + brood',tag:'bbq',act:'Preikestolen hike 8 km · Magma Geopark · Oslofjord'},
+  {d:31,land:'SE',datum:'17 aug',loc:'Huskvarna → Malmö → Odense',O:'Boterhammen + jam',L:'Baguette + smeerkaas + komkommer',A:'Pasta met courgette (blik) + knoflook + olijfolie',tag:'pasta',act:'Karlstad centrum · Vänernmeer strand · Örebro Castle · Vätternmeer'},
+  {d:32,land:'DK',datum:'18 aug',loc:'Odense → Thuis 🏠',O:'Cruesli + melk (laatste camping)',L:'Rugbrød + gerookte zalm (Deens!)',A:'Thuis eten — welverdiend! 🎉',act:'Rijdag naar huis · aankomst Gelderland'},
 ];
 
 const BOODSCHAPPEN=[
@@ -635,6 +635,7 @@ onSnapshot(wijzDoc, snap=>{
     wijzigingen={};
   }
   renderDagen();
+  updateStats();
   setSyncStatus('online');
 }, err=>{
   console.error(err);
@@ -690,9 +691,31 @@ window.filterLand=function(land,btn){
 };
 
 // RENDER DAGEN
+
+function updateStats() {
+  // Count tags across all days, merging origineel with wijzigingen
+  let pasta = 0, chilli = 0, bbq = 0, dagen = ORIGINEEL.length;
+  ORIGINEEL.forEach(function(orig) {
+    const dag = dagData(orig);
+    const tag = dag.tag || '';
+    if (tag === 'pasta') pasta++;
+    else if (tag === 'chilli') chilli++;
+    else if (tag === 'bbq') bbq++;
+  });
+  const el_p = document.getElementById('stat-pasta');
+  const el_c = document.getElementById('stat-chilli');
+  const el_b = document.getElementById('stat-bbq');
+  const el_d = document.getElementById('stat-dagen');
+  if (el_p) el_p.textContent = pasta;
+  if (el_c) el_c.textContent = chilli;
+  if (el_b) el_b.textContent = bbq;
+  if (el_d) el_d.textContent = dagen;
+}
+
 function dagData(dag){return wijzigingen[dag.d]?{...dag,...wijzigingen[dag.d]}:dag;}
 
 function renderDagen(){
+  updateStats();
   const lijst=document.getElementById('daglijst');
   const gef=huidigLand==='all'?ORIGINEEL:ORIGINEEL.filter(d=>d.land===huidigLand);
   if(!gef.length){lijst.innerHTML='<p style="color:#9E9C96;font-size:13px;padding:2rem 0;text-align:center">Geen dagen voor dit land.</p>';return;}
@@ -940,172 +963,181 @@ function updateVolumeBars() {
 
 // =================== REISROUTE DATA ===================
 const REISDAGEN = [
-  {d:1, land:'NL', datum:'18 jul', titel:'Vertrek → Dresden', stops:[
-    {type:'tussenstop', icon:'🚗', naam:'Vertrek Gelderland', detail:'~06:00 vertrek'},
-    {type:'overnacht', icon:'⛺', naam:'Campingplatz Dresden-Mockritz', detail:'Aankomst 15:00–16:00', nav:'Campingplatz Dresden-Mockritz, Dresden', link:'https://www.eurocampings.nl/duitsland/saksen/dresden/campingplatz-dresden-mockritz-102661/'},
-    {type:'activiteit', icon:'🏛️', naam:'Dresden centrum', detail:"'s Avonds: operagebouw, Frauenkirche, Elbe", nav:'Semperoper Dresden'},
+  {d:1, land:'NL', datum:'18 jul', titel:'Vertrek → Dresden (DE)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Vertrek Gelderland', detail:'~06:00', nav:''},
+    {type:'overnacht', icon:'⛺', naam:'Campingplatz Dresden-Mockritz', detail:'Aankomst 15:00–16:00 · €55', nav:'Campingplatz Dresden-Mockritz, Dresden', link:'https://www.eurocampings.nl/duitsland/saksen/dresden/campingplatz-dresden-mockritz-102661/'},
+    {type:'activiteit', icon:'🏛️', naam:'Dresden centrum', detail:'Avond: operagebouw, Frauenkirche, Elbe', nav:'Semperoper Dresden'},
   ]},
-  {d:2, land:'DE', datum:'19 jul', titel:'Dresden → Białowieża', stops:[
-    {type:'tussenstop', icon:'🚗', naam:'Vertrek Dresden', detail:'~08:30'},
-    {type:'tussenstop', icon:'🅿️', naam:'Guarded Parking Warschau', detail:'Ulica Boleść 2, 00-259 Warszawa · tussenstop', nav:'Ulica Boleść 2, Warszawa'},
+  {d:2, land:'DE', datum:'19 jul', titel:'Dresden → Białowieża (PL)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Vertrek Dresden', detail:'~08:30', nav:''},
+    {type:'tussenstop', icon:'🅿️', naam:'Guarded Parking Warschau', detail:'Ulica Boleść 2, 00-259 Warszawa', nav:'Ulica Boleść 2, Warszawa, Polen'},
     {type:'overnacht', icon:'🏕️', naam:'U Michała, Białowieża', detail:'Aankomst ~19:00 · €25', nav:'U Michała Białowieża'},
   ]},
   {d:3, land:'PL', datum:'20 jul', titel:'Białowieża — Oerbos & Bizons', stops:[
-    {type:'tussenstop', icon:'🛒', naam:'Boodschappen Białowieża', detail:'ul. Stoczek 12, Białowieża · 09:00', nav:'ul. Stoczek 12, Białowieża'},
+    {type:'tussenstop', icon:'🛒', naam:'Boodschappen Białowieża', detail:'ul. Stoczek 12 · 09:00', nav:'ul. Stoczek 12, Białowieża'},
     {type:'activiteit', icon:'🚲', naam:'Path of the Bison — Royal Oaks Trail', detail:'Fietsen huren 10:00–16:30 · €15 pp · Zwierzyniec open natuurgebied', nav:'Białowieża National Park, Poland'},
-    {type:'activiteit', icon:'🦬', naam:'Bizons spotten', detail:"'s Avonds in het oerbos", nav:'Białowieża Forest'},
+    {type:'activiteit', icon:'🦬', naam:'Bizons spotten', detail:'Avond in het oerbos', nav:'Białowieża Forest'},
     {type:'overnacht', icon:'🏕️', naam:'U Michała, Białowieża', detail:'€25', nav:'U Michała Białowieża'},
   ]},
-  {d:4, land:'PL', datum:'21 jul', titel:'Białowieża → Trakai', stops:[
-    {type:'tussenstop', icon:'🚗', naam:'Vertrek ~08:30', detail:'Rijdag Polen → Litouwen'},
-    {type:'overnacht', icon:'🏕️', naam:'Holiday Centre Slenis, Trakai', detail:'€27,20+', nav:'Holiday Centre Slenis Trakai', link:''},
+  {d:4, land:'PL', datum:'21 jul', titel:'Białowieża → Trakai (LT)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Vertrek ~08:30', detail:'Rijdag Polen → Litouwen', nav:''},
+    {type:'overnacht', icon:'🏕️', naam:'Holiday Centre Slenis, Trakai', detail:'€27,20+', nav:'Holiday Centre Slenis Trakai'},
+    {type:'activiteit', icon:'🏰', naam:'Kasteel Trakai / Vilnius', detail:'Suppen rond kasteel of avondwandeling Vilnius', nav:'Trakai Island Castle, Lithuania'},
   ]},
-  {d:5, land:'LT', datum:'22 jul', titel:'Trakai & Vilnius', stops:[
-    {type:'activiteit', icon:'🏰', naam:'Kasteel van Trakai', detail:'Eilandkasteel op het meer', nav:'Trakai Island Castle, Lithuania'},
-    {type:'activiteit', icon:'🚣', naam:'Suppen / kajakken', detail:'Op het meer rond het kasteel', nav:'Trakai, Lithuania'},
-    {type:'activiteit', icon:'🌆', naam:'Vilnius centrum', detail:"'s Avonds of volgende ochtend", nav:'Vilnius Old Town, Lithuania'},
-    {type:'overnacht', icon:'🏕️', naam:'Holiday Centre Slenis', detail:'', nav:'Holiday Centre Slenis Trakai'},
+  {d:5, land:'LV', datum:'22 jul', titel:'Heuvel der Kruisen → Riga (LV)', stops:[
+    {type:'activiteit', icon:'✝️', naam:'Heuvel der Kruisen', detail:'Šiauliai, Litouwen — onderweg naar Riga', nav:'Hill of Crosses, Šiauliai, Lithuania'},
+    {type:'activiteit', icon:'🍸', naam:'Skyline Bar Riga', detail:'20:00 · €100 al betaald', nav:'Skyline Bar Riga Latvia'},
+    {type:'overnacht', icon:'🏕️', naam:'Riverside Camping, Riga', detail:'', nav:'Riverside Camping Riga'},
   ]},
-  {d:6, land:'LV', datum:'23 jul', titel:'Heuvel der Kruisen → Riga', stops:[
-    {type:'activiteit', icon:'✝️', naam:'Heuvel der Kruisen', detail:'Šiauliai, Litouwen · bijzonder pelgrimsoord', nav:'Hill of Crosses, Šiauliai, Lithuania'},
-    {type:'activiteit', icon:'🍸', naam:'Skyline Bar Riga', detail:'20:00 · €100 al betaald', nav:'Skyline Bar Riga'},
-    {type:'overnacht', icon:'🏕️', naam:'Riverside Camping Riga', detail:'', nav:'Riverside Camping Riga', link:''},
+  {d:6, land:'LV', datum:'23 jul', titel:'Riga → Cēsis → Tallinn (EE)', stops:[
+    {type:'activiteit', icon:'🏛️', naam:'Centraal markt Riga', detail:'Maskavas Forštate — ochtend voor vertrek', nav:'Central Market Riga, Latvia'},
+    {type:'tussenstop', icon:'🚗', naam:'Vertrek Riga ~09:00', detail:'', nav:''},
+    {type:'activiteit', icon:'🏰', naam:'Cēsis', detail:'Middeleeuws stadje, wandelen', nav:'Cēsis, Latvia'},
+    {type:'overnacht', icon:'🏕️', naam:'Pirita Harbour Camping, Tallinn', detail:'€20 (of overnachting Cēsis)', nav:'Pirita Harbour Camping Tallinn'},
   ]},
-  {d:7, land:'LV', datum:'24 jul', titel:'Riga', stops:[
-    {type:'activiteit', icon:'🏛️', naam:'Centraal markt Riga', detail:'Maskavas Forštate · een van de grootste markten van Europa', nav:'Central Market Riga, Latvia'},
-    {type:'activiteit', icon:'🚶', naam:'Riga oude stad', detail:'Stadswandeling, Art Nouveau architectuur', nav:'Riga Old Town, Latvia'},
-    {type:'overnacht', icon:'🏕️', naam:'Riverside Camping Riga', detail:'', nav:'Riverside Camping Riga'},
-  ]},
-  {d:8, land:'EE', datum:'25 jul', titel:'Riga → Cēsis → Tallinn', stops:[
-    {type:'activiteit', icon:'🏰', naam:'Cēsis', detail:'Middeleeuws stadje, ruïnes, wandelen', nav:'Cēsis, Latvia'},
-    {type:'overnacht', icon:'🏕️', naam:'Pirita Harbour Camping, Tallinn', detail:'€20', nav:'Pirita Harbour Camping Tallinn', link:''},
-  ]},
-  {d:9, land:'EE', datum:'26 jul', titel:'Tallinn', stops:[
+  {d:7, land:'EE', datum:'24 jul', titel:'Tallinn', stops:[
     {type:'activiteit', icon:'🏰', naam:'Tallinn oude stad', detail:'UNESCO werelderfgoed, middeleeuwse stadsmuur', nav:'Tallinn Old Town, Estonia'},
     {type:'activiteit', icon:'🌊', naam:'Pirita strand', detail:'Vlakbij camping', nav:'Pirita Beach, Tallinn'},
-    {type:'overnacht', icon:'🏕️', naam:'Pirita Harbour Camping', detail:'', nav:'Pirita Harbour Camping Tallinn'},
+    {type:'overnacht', icon:'🏕️', naam:'Pirita Harbour Camping', detail:'€20', nav:'Pirita Harbour Camping Tallinn', link:'https://www.piritage.ee/'},
   ]},
-  {d:10, land:'FI', datum:'27 jul', titel:'Tallinn → Helsinki (ferry) → Koli NP', stops:[
+  {d:8, land:'EE', datum:'25 jul', titel:'Tallinn → Helsinki (ferry) → Koli NP (FI)', stops:[
     {type:'tussenstop', icon:'⛴️', naam:'Ferry Tallinn → Helsinki', detail:'Eckerö Line of Tallink · boek vooraf!', nav:'Tallinn Ferry Terminal, Estonia'},
-    {type:'activiteit', icon:'⛰️', naam:'Koli Ukko-Koli viewpoint', detail:'Nationaal park, beste uitzicht van Finland', nav:'Ukko-Koli, Koli National Park, Finland'},
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag Helsinki → Koli', detail:'~4,5 uur', nav:'Helsinki, Finland'},
+    {type:'activiteit', icon:'⛰️', naam:'Koli Ukko-Koli viewpoint', detail:'Nationaal park · beste uitzicht van Finland', nav:'Ukko-Koli, Koli National Park, Finland'},
     {type:'activiteit', icon:'🌙', naam:'Middernachtzon', detail:'Rond 23:00 nog licht', nav:'Koli National Park, Finland'},
-    {type:'overnacht', icon:'🏕️', naam:'Koli — wilde camping', detail:'', nav:'58.0849,29.8143'},
+    {type:'overnacht', icon:'🏕️', naam:'Koli — wilde camping', detail:'', nav:'63.0849,29.8143'},
   ]},
-  {d:11, land:'FI', datum:'28 jul', titel:'Koli → Hossa NP', stops:[
-    {type:'activiteit', icon:'🛶', naam:'Kanoën Julma-Ölkky', detail:'Hossa National Park · 2-3 uur · verhuur ter plaatse', nav:'Hossa National Park, Finland', link:'https://hossa-kylmaluoma.fi/en/hossa-nationalpark-nature-centre/rental-equipment/#!/hossakylmaluoma/canoe-in-julma-olkky'},
+  {d:9, land:'FI', datum:'26 jul', titel:'Koli → Hossa NP (FI)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag Koli → Hossa', detail:'~3 uur', nav:''},
+    {type:'activiteit', icon:'🛶', naam:'Kanoën Julma-Ölkky', detail:'Hossa NP · 2-3 uur · verhuur ter plaatse', nav:'Hossa National Park, Finland', link:'https://hossa-kylmaluoma.fi/en/hossa-nationalpark-nature-centre/rental-equipment/#!/hossakylmaluoma/canoe-in-julma-olkky'},
     {type:'activiteit', icon:'🌙', naam:'Wandelen middernachtzon', detail:'Hossa trailnetwerk', nav:'Hossa National Park, Finland'},
     {type:'overnacht', icon:'🏕️', naam:'Hossa — wilde camping', detail:'', nav:'Hossa National Park Finland'},
   ]},
-  {d:12, land:'FI', datum:'29 jul', titel:'Hossa → Rovaniemi', stops:[
-    {type:'tussenstop', icon:'🚗', naam:'Rijdag naar Rovaniemi', detail:'~3 uur rijden'},
-    {type:'activiteit', icon:'🌊', naam:'Rivier Ounasjoki', detail:'Rovaniemi centrum, Arctische sfeer', nav:'Rovaniemi, Finland'},
+  {d:10, land:'FI', datum:'27 jul', titel:'Hossa → Rovaniemi (FI)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag naar Rovaniemi', detail:'~3 uur', nav:''},
+    {type:'activiteit', icon:'🌊', naam:'Rovaniemi centrum', detail:'Rivier Ounasjoki, Arctische sfeer', nav:'Rovaniemi, Finland'},
     {type:'overnacht', icon:'🏕️', naam:'Camping Rovaniemi', detail:'', nav:'Camping Rovaniemi Finland'},
   ]},
-  {d:13, land:'FI', datum:'30 jul', titel:'Rovaniemi → Inari', stops:[
-    {type:'tussenstop', icon:'🚗', naam:'Rijdag door Lapland', detail:'~3,5 uur · poolcirkel'},
+  {d:11, land:'FI', datum:'28 jul', titel:'Rovaniemi → Inari (FI)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag door Lapland', detail:'~3,5 uur · voorbij poolcirkel', nav:''},
     {type:'activiteit', icon:'🌊', naam:'Inari meer', detail:'Een van de grootste meren van Finland', nav:'Lake Inari, Finland'},
     {type:'overnacht', icon:'🏕️', naam:'Camping Inari', detail:'', nav:'Camping Inari Finland'},
   ]},
-  {d:14, land:'FI', datum:'31 jul', titel:'Inari → Lakselv (Noorwegen)', stops:[
-    {type:'tussenstop', icon:'🚗', naam:'Karigasniemi — grensovergang', detail:'Finland → Noorwegen', nav:'Karigasniemi border crossing Finland Norway'},
+  {d:12, land:'FI', datum:'29 jul', titel:'Inari → Karigasniemi → Lakselv (NO)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Karigasniemi — grensovergang FI→NO', detail:'Finse Lapland', nav:'Karigasniemi border crossing Finland Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Lakselv, Noorwegen', detail:'', nav:'Lakselv, Norway'},
   ]},
-  {d:15, land:'NO', datum:'1 aug', titel:'Lakselv → Noordkaap → Skarsvåg', stops:[
-    {type:'activiteit', icon:'🏔️', naam:'Noordkaap', detail:"71°10'21\"N · meest noordelijke punt per auto bereikbaar", nav:'North Cape, Norway'},
-    {type:'activiteit', icon:'🥾', naam:'Hike Knivskjellodden', detail:'~18 km retour · echt noordelijkste punt van Europa', nav:'Knivskjellodden trailhead, Norway'},
+  {d:13, land:'NO', datum:'30 jul', titel:'Lakselv → Noordkaap → Skarsvåg (NO)', stops:[
+    {type:'activiteit', icon:'🏔️', naam:'Noordkaap', detail:'71°N · meest noordelijke punt per auto bereikbaar', nav:'North Cape, Norway'},
+    {type:'activiteit', icon:'🥾', naam:'Hike Knivskjellodden', detail:'~18 km retour · echt noordelijkste punt Europa', nav:'Knivskjellodden trailhead, Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Skarsvåg — wilde camping', detail:'', nav:'Skarsvåg, Norway'},
   ]},
-  {d:16, land:'NO', datum:'2 aug', titel:'Skarsvåg → Alta', stops:[
+  {d:14, land:'NO', datum:'31 jul', titel:'Skarsvåg → Alta (NO)', stops:[
     {type:'activiteit', icon:'🌌', naam:'Noorderlicht kathedraal Alta', detail:'Bijzondere architectuur', nav:'Northern Lights Cathedral Alta Norway'},
-    {type:'activiteit', icon:'♨️', naam:'Sauna', detail:'', nav:'Alta, Norway'},
+    {type:'activiteit', icon:'♨️', naam:'Sauna Alta', detail:'', nav:'Alta, Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Alta — camping', detail:'', nav:'Camping Alta Norway'},
   ]},
-  {d:17, land:'NO', datum:'3 aug', titel:'Alta → Tromsø', stops:[
+  {d:15, land:'NO', datum:'1 aug', titel:'Alta → Tromsø (NO)', stops:[
     {type:'activiteit', icon:'🏔️', naam:'Kvænangsfjellet viewpoint', detail:'Spectaculair uitzicht op fjorden', nav:'Kvænangsfjellet viewpoint Norway'},
+    {type:'tussenstop', icon:'🚗', naam:'Nordkjosbotn', detail:'', nav:'Nordkjosbotn, Norway'},
     {type:'activiteit', icon:'⛰️', naam:'Lyngen Alps viewpoints', detail:'Gletsjers tot aan het water', nav:'Lyngen Alps, Norway'},
     {type:'overnacht', icon:'🌿', naam:'Wildkamperen Håkøya', detail:'Eiland bij Tromsø', nav:'69.6167,18.8333'},
   ]},
-  {d:18, land:'NO', datum:'4 aug', titel:'Tromsø → Lofoten', stops:[
+  {d:16, land:'NO', datum:'2 aug', titel:'Tromsø → Lofoten (NO)', stops:[
+    {type:'tussenstop', icon:'🌉', naam:'Bjerkvik', detail:'', nav:'Bjerkvik, Norway'},
     {type:'tussenstop', icon:'🌉', naam:'Tjeldsundbrua', detail:'Brug over Tjeldsund', nav:'Tjeldsundbrua, Norway'},
     {type:'activiteit', icon:'🏔️', naam:'Gullesfjord viewpoint', detail:'', nav:'Gullesfjord, Norway'},
     {type:'activiteit', icon:'🛳️', naam:'Raftsundet', detail:'Smal vaargeul door de bergen', nav:'Raftsundet, Norway'},
-    {type:'activiteit', icon:'🥾', naam:'Tjeldbergtinden', detail:'Avondwandeling 2-3 uur', nav:'Tjeldbergtinden, Norway'},
-    {type:'overnacht', icon:'🏕️', naam:'Camping Lofoten', detail:'', nav:'Camping Lofoten Kabelvåg', link:'https://camping-lofoten.no/'},
+    {type:'activiteit', icon:'🥾', naam:'Tjeldbergtinden avondwandeling', detail:'2-3 uur', nav:'Tjeldbergtinden, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Lofoten, Kabelvåg', detail:'', nav:'Kabelvåg Lofoten Norway', link:'https://camping-lofoten.no/'},
   ]},
-  {d:19, land:'NO', datum:'5 aug', titel:'Lofoten — Kabelvåg', stops:[
+  {d:17, land:'NO', datum:'3 aug', titel:'Lofoten — Kabelvåg (NO)', stops:[
     {type:'activiteit', icon:'🥾', naam:'Festvågtind hike', detail:'3-4 uur · insane uitzicht', nav:'Festvågtind trailhead, Kabelvåg, Norway'},
     {type:'activiteit', icon:'📸', naam:'Kabelvåg viewpoint', detail:'', nav:'Kabelvåg, Lofoten, Norway'},
-    {type:'overnacht', icon:'🏕️', naam:'Camping Lofoten', detail:'', nav:'Camping Lofoten Kabelvåg', link:'https://camping-lofoten.no/'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Lofoten', detail:'', nav:'Kabelvåg Lofoten Norway', link:'https://camping-lofoten.no/'},
   ]},
-  {d:20, land:'NO', datum:'6 aug', titel:'Henningsvær → Reine', stops:[
+  {d:18, land:'NO', datum:'4 aug', titel:'Henningsvær → Reine (NO)', stops:[
     {type:'activiteit', icon:'🥾', naam:'Reinebringen hike', detail:'448m · ~2,5 uur · iconisch uitzicht', nav:'Reinebringen trailhead, Lofoten, Norway'},
     {type:'activiteit', icon:'🏖️', naam:'Ramberg beach', detail:'Wit zand, turquoise water', nav:'Ramberg Beach, Lofoten, Norway'},
     {type:'activiteit', icon:'🏖️', naam:'Skagsanden beach', detail:'', nav:'Skagsanden Beach, Lofoten'},
     {type:'activiteit', icon:'📸', naam:'Hamnøy viewpoint', detail:'Bekendste foto van Noorwegen', nav:'Hamnøy, Lofoten, Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Moskenes Camping, Reine', detail:'', nav:'Moskenes Camping Reine Norway', link:'https://campio.no/campsite/moskenes-camping'},
   ]},
-  {d:21, land:'NO', datum:'7 aug', titel:'Reine → Å', stops:[
-    {type:'activiteit', icon:'🥾', naam:'Munkebu hut trail', detail:'6-7 uur · top 3 van Lofoten · Munkebu hut op 360m', nav:'Munkebu trailhead, Sørvågen, Norway'},
+  {d:19, land:'NO', datum:'5 aug', titel:'Reine → Å (NO)', stops:[
+    {type:'activiteit', icon:'🥾', naam:'Munkebu hut trail', detail:'6-7 uur · top 3 van Lofoten', nav:'Munkebu trailhead, Sørvågen, Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Moskenes Camping', detail:'', nav:'Moskenes Camping Reine Norway', link:'https://campio.no/campsite/moskenes-camping'},
   ]},
-  {d:22, land:'NO', datum:'8 aug', titel:'Lofoten — Ryten & Haukland', stops:[
+  {d:20, land:'NO', datum:'6 aug', titel:'Lofoten — Ryten & Haukland (NO)', stops:[
     {type:'activiteit', icon:'🥾', naam:'Ryten hike', detail:'5-6 uur · uitzicht op Kvalvika Beach', nav:'Ryten trailhead, Lofoten, Norway'},
-    {type:'activiteit', icon:'🏖️', naam:'Haukland Beach', detail:'Zwemmen · zonsondergang', nav:'Haukland Beach, Lofoten, Norway'},
+    {type:'activiteit', icon:'📸', naam:'Bergsbotn viewpoint', detail:'Onderweg', nav:'Bergsbotn viewpoint Norway'},
+    {type:'activiteit', icon:'🏔️', naam:'Flakstadpollen fjord', detail:'', nav:'Flakstadpollen, Lofoten'},
     {type:'activiteit', icon:'🥾', naam:'Mannen hike (optioneel)', detail:'2-3 uur · start bij Haukland', nav:'Mannen trailhead Haukland, Lofoten'},
+    {type:'activiteit', icon:'🏖️', naam:'Haukland Beach', detail:'Zwemmen · zonsondergang magisch', nav:'Haukland Beach, Lofoten, Norway'},
     {type:'activiteit', icon:'🧺', naam:'Picknick Uttakleiv', detail:'', nav:'Uttakleiv Beach, Lofoten'},
     {type:'overnacht', icon:'🏕️', naam:'Moskenes Camping', detail:'', nav:'Moskenes Camping Reine Norway', link:'https://campio.no/campsite/moskenes-camping'},
   ]},
-  {d:23, land:'NO', datum:'9 aug', titel:'Ferry Moskenes → Bodø → Mo i Rana', stops:[
+  {d:21, land:'NO', datum:'7 aug', titel:'Ferry Moskenes → Bodø → Mo i Rana (NO)', stops:[
     {type:'tussenstop', icon:'⛴️', naam:'Ferry Moskenes → Bodø', detail:'Aanwezig 14:50 · 1 uur overtocht', nav:'Moskenes Ferry Terminal, Norway'},
-    {type:'activiteit', icon:'🧗', naam:'Via Ferrata Bratten Bodø', detail:'Bratten 7, 8014 Bodø', nav:'Bratten 7, 8014 Bodø, Norway'},
+    {type:'activiteit', icon:'🧗', naam:'Via Ferrata Bratten, Bodø', detail:'Bratten 7, 8014 Bodø', nav:'Bratten 7, 8014 Bodø, Norway'},
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag naar Mo i Rana', detail:'', nav:''},
     {type:'overnacht', icon:'🏕️', naam:'Mo i Rana', detail:'', nav:'Camping Mo i Rana Norway'},
   ]},
-  {d:24, land:'NO', datum:'10 aug', titel:'Mo i Rana → Steinkjer', stops:[
+  {d:22, land:'NO', datum:'8 aug', titel:'Mo i Rana → Laksforsen → Namsskogan → Steinkjer (NO)', stops:[
     {type:'activiteit', icon:'💧', naam:'Laksforsen waterval', detail:'Grote waterval, zalm kijken', nav:'Laksforsen waterfall, Norway'},
     {type:'tussenstop', icon:'🦌', naam:'Namsskogan', detail:'', nav:'Namsskogan, Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Steinkjer', detail:'', nav:'Camping Steinkjer Norway'},
   ]},
-  {d:25, land:'NO', datum:'11 aug', titel:'Steinkjer → Geiranger', stops:[
+  {d:23, land:'NO', datum:'9 aug', titel:'Steinkjer → Trollstigen → Geiranger → Dalsnibba (NO)', stops:[
     {type:'activiteit', icon:'🌊', naam:'Trollstigen', detail:'Beroemde serpentineweg · 11 haarspeldbochten', nav:'Trollstigen, Norway'},
     {type:'activiteit', icon:'🏔️', naam:'Dalsnibba viewpoint', detail:'1476m · uitzicht over Geirangerfjord', nav:'Dalsnibba viewpoint, Geiranger, Norway'},
-    {type:'overnacht', icon:'🏕️', naam:'Geiranger', detail:'', nav:'Camping Geiranger Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Geiranger camping', detail:'', nav:'Camping Geiranger Norway'},
   ]},
-  {d:26, land:'NO', datum:'12 aug', titel:'Geiranger', stops:[
+  {d:24, land:'NO', datum:'10 aug', titel:'Geiranger — activiteitendag (NO)', stops:[
     {type:'activiteit', icon:'🚣', naam:'Kayakken Geirangerfjord', detail:'Verhuur ter plaatse', nav:'Geiranger Kayak Rental Norway', link:'https://www.geirangerfjord.no/kayak-rental-2'},
     {type:'activiteit', icon:'🥾', naam:'Skageflå hike', detail:'Verlaten boerderij aan de fjordwand', nav:'Skageflå, Geiranger, Norway'},
     {type:'activiteit', icon:'📸', naam:'Flydalsjuvet viewpoint', detail:'Bekende uitkijkplek over fjord', nav:'Flydalsjuvet, Geiranger, Norway'},
     {type:'activiteit', icon:'🦅', naam:'Ørnesvingen — Eagle Road', detail:'', nav:'Ørnesvingen viewpoint, Norway'},
-    {type:'overnacht', icon:'🏕️', naam:'Geiranger', detail:'', nav:'Camping Geiranger Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Geiranger camping', detail:'', nav:'Camping Geiranger Norway'},
   ]},
-  {d:27, land:'NO', datum:'13 aug', titel:'Geiranger → Loen Skylift → Lovatnet', stops:[
-    {type:'activiteit', icon:'🚡', naam:'Loen Skylift', detail:'Kabelbaan naar 1011m · spectaculair', nav:'Loen Skylift, Norway'},
+  {d:25, land:'NO', datum:'11 aug', titel:'Geiranger → Loen Skylift → Kjenndalsbreen → Lovatnet (NO)', stops:[
+    {type:'activiteit', icon:'🚡', naam:'Loen Skylift', detail:'Kabelbaan naar 1011m', nav:'Loen Skylift, Norway'},
     {type:'activiteit', icon:'🧊', naam:'Kjenndalsbreen gletsjer', detail:'Gletsjerarm van Jostedalsbreen', nav:'Kjenndalsbreen glacier, Norway'},
     {type:'overnacht', icon:'🌊', naam:'Lovatnet meer', detail:'Turquoise gletsjermeer', nav:'Lovatnet, Norway'},
   ]},
-  {d:28, land:'NO', datum:'14 aug', titel:'Lovatnet → Nærøyfjord', stops:[
-    {type:'activiteit', icon:'🏔️', naam:'Nærøyfjord', detail:'UNESCO werelderfgoed · smalste fjord van Noorwegen', nav:'Nærøyfjord, Aurland, Norway'},
+  {d:26, land:'NO', datum:'12 aug', titel:'Lovatnet → Nærøyfjord → Erdal/Oppheim (NO)', stops:[
+    {type:'activiteit', icon:'🏔️', naam:'Nærøyfjord World Heritage Park', detail:'UNESCO · smalste fjord van Noorwegen', nav:'Nærøyfjord, Aurland, Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Erdal / Oppheim', detail:'', nav:'Erdal, Aurland, Norway'},
   ]},
-  {d:29, land:'NO', datum:'15 aug', titel:'Trolltunga — 20 km hike', stops:[
-    {type:'activiteit', icon:'⚠️', naam:'VROEG VERTREK — 06:00!', detail:'Trolltunga is druk, vroeg starten = leeg pad', nav:'Tyssedal Trolltunga Carpark P1, Skjeggedalsvegen 66, 5770 Tyssedal'},
-    {type:'activiteit', icon:'🥾', naam:'Trolltunga hike', detail:'~20 km retour · 800m hoogteverschil · 8-10 uur · spectaculairste rotspunt van Noorwegen', nav:'Trolltunga trailhead P1, Tyssedal, Norway'},
-    {type:'overnacht', icon:'🏕️', naam:'Tyssedal', detail:'', nav:'Tyssedal Trolltunga Carpark P1, Skjeggedalsvegen 66, 5770 Tyssedal'},
+  {d:27, land:'NO', datum:'13 aug', titel:'Tyssedal — Trolltunga 20km hike (NO)', stops:[
+    {type:'activiteit', icon:'⚠️', naam:'VROEG VERTREK 06:00!', detail:'Trolltunga is druk, vroeg starten = leeg pad', nav:'Tyssedal Trolltunga Carpark P1, Skjeggedalsvegen 66, 5770 Tyssedal'},
+    {type:'activiteit', icon:'🥾', naam:'Trolltunga hike', detail:'~20 km retour · 800m hoogte · 8-10 uur', nav:'Trolltunga trailhead P1, Tyssedal, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Tyssedal', detail:'', nav:'Tyssedal, Norway'},
   ]},
-  {d:30, land:'NO', datum:'16 aug', titel:'Tyssedal → Preikestolen → Oslofjord', stops:[
-    {type:'activiteit', icon:'🥾', naam:'Preikestolen hike', detail:'~8 km retour · 600m hoogte · Pulpit Rock', nav:'Preikestolen trailhead, Norway'},
-    {type:'activiteit', icon:'🌋', naam:'Magma Geopark', detail:'Uniek gesteente, UNESCO geopark', nav:'Magma Geopark, Egersund, Norway'},
+  {d:28, land:'NO', datum:'14 aug', titel:'Tyssedal → Preikestolen → Magma Geopark → Oslofjord (NO)', stops:[
+    {type:'activiteit', icon:'🥾', naam:'Preikestolen hike', detail:'~8 km retour · 600m hoogte · Pulpit Rock', nav:'Preikestolen Fjellstue, Norway'},
+    {type:'activiteit', icon:'🌋', naam:'Magma Geopark', detail:'UNESCO geopark · uniek gesteente', nav:'Magma Geopark, Egersund, Norway'},
     {type:'overnacht', icon:'🌊', naam:'Oslofjord', detail:'', nav:'Camping Oslofjord Norway'},
   ]},
-  {d:31, land:'SE', datum:'17 aug', titel:'Oslofjord → Karlstad → Huskvarna', stops:[
+  {d:29, land:'NO', datum:'15 aug', titel:'Oslofjord → Karlstad (SE)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag Oslofjord → Karlstad', detail:'Noorwegen → Zweden', nav:''},
     {type:'activiteit', icon:'🏙️', naam:'Karlstad centrum', detail:'Klein, gezellig Zweeds stadje', nav:'Karlstad, Sweden'},
     {type:'activiteit', icon:'🏖️', naam:'Strand Vänernmeer', detail:'Grootste meer van Zweden', nav:'Vänern lake beach, Karlstad, Sweden'},
-    {type:'activiteit', icon:'🏰', naam:'Örebro Castle', detail:'Fotospot', nav:'Örebro Castle, Sweden'},
-    {type:'activiteit', icon:'🏛️', naam:'Wadköping open-air museum', detail:'Gratis · leuk', nav:'Wadköping Museum, Örebro, Sweden'},
-    {type:'overnacht', icon:'🏕️', naam:'Utsikten Huskvarna', detail:'Vätternmeer viewpoints', nav:'Utsikten Huskvarna Sweden'},
+    {type:'activiteit', icon:'📸', naam:'Solastaden viewpoint', detail:'', nav:'Solastaden, Karlstad, Sweden'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Karlstad', detail:'', nav:'Camping Karlstad Sweden'},
   ]},
-  {d:32, land:'DK', datum:'18 aug', titel:'Huskvarna → Malmö → Odense → Thuis 🏠', stops:[
-    {type:'tussenstop', icon:'🌉', naam:'Øresundbrug', detail:'Malmö → Kopenhagen', nav:'Øresund Bridge, Sweden'},
-    {type:'tussenstop', icon:'🚗', naam:'Odense', detail:'Denemarken', nav:'Odense, Denmark'},
+  {d:30, land:'SE', datum:'16 aug', titel:'Karlstad → Huskvarna (SE)', stops:[
+    {type:'activiteit', icon:'🏰', naam:'Örebro Castle', detail:'Fotospot onderweg', nav:'Örebro Castle, Sweden'},
+    {type:'activiteit', icon:'🏛️', naam:'Wadköping open-air museum', detail:'Gratis · leuk', nav:'Wadköping Museum, Örebro, Sweden'},
+    {type:'activiteit', icon:'🌅', naam:'Vätternmeer viewpoints', detail:'Hjo, Huskvarna', nav:'Huskvarna, Sweden'},
+    {type:'overnacht', icon:'🏕️', naam:'Utsikten Huskvarna', detail:'Vätternmeer', nav:'Utsikten Huskvarna Sweden'},
+  ]},
+  {d:31, land:'SE', datum:'17 aug', titel:'Huskvarna → Malmö → Odense (DK)', stops:[
+    {type:'tussenstop', icon:'🌉', naam:'Øresundbrug Malmö → DK', detail:'Zweden → Denemarken', nav:'Øresund Bridge, Sweden'},
+    {type:'tussenstop', icon:'🚗', naam:'Odense, Denemarken', detail:'', nav:'Odense, Denmark'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Odense', detail:'', nav:'Camping Odense Denmark'},
+  ]},
+  {d:32, land:'DK', datum:'18 aug', titel:'Odense → Thuis 🏠', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag naar huis', detail:'Via Duitsland', nav:''},
     {type:'overnacht', icon:'🏠', naam:'Thuis in Gelderland!', detail:'Welverdiend 🎉', nav:'Zelhem, Netherlands'},
   ]},
 ];
