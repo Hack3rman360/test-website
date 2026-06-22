@@ -142,6 +142,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   .stats{grid-template-columns:repeat(2,1fr)}
   .modal-btns{grid-template-columns:1fr}
 }
+
+/* REIS TAB */
+.reis-kaart{background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.reis-dag-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.reis-stops{display:flex;flex-direction:column;gap:6px}
+.reis-stop{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;background:var(--bg);border-radius:var(--radius-klein)}
+.reis-stop-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.reis-stop-info{flex:1;min-width:0}
+.reis-stop-naam{font-size:13px;font-weight:600;color:var(--tekst);line-height:1.3}
+.reis-stop-detail{font-size:11px;color:var(--tekst-zacht);margin-top:2px;line-height:1.4}
+.nav-btn-kaart{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:4px 10px;font-size:11px;font-weight:600;border:none;border-radius:var(--radius-pill);background:var(--blauw);color:white;cursor:pointer;text-decoration:none}
+.link-btn{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:4px 10px;font-size:11px;font-weight:600;border:none;border-radius:var(--radius-pill);background:var(--groen-licht);color:var(--groen-donker);cursor:pointer;text-decoration:none;margin-left:4px}
+.stop-type-overnacht{border-left:3px solid var(--groen)}
+.stop-type-activiteit{border-left:3px solid var(--blauw)}
+.stop-type-tussenstop{border-left:3px solid var(--oranje)}
+.stop-type-info{border-left:3px solid var(--tekst-heel-zacht)}
+.stop-legenda{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--tekst-zacht)}
+.stop-legenda-item{display:flex;align-items:center;gap:5px}
+.stop-legenda-dot{width:3px;height:14px;border-radius:2px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -159,6 +178,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
   <nav class="nav">
     <button class="nav-btn active" onclick="toonTab('plan',this)">Maaltijdplan</button>
+    <button class="nav-btn" onclick="toonTab('reis',this)">Reisroute</button>
     <button class="nav-btn" onclick="toonTab('bood',this)">Boodschappen</button>
     <button class="nav-btn" onclick="toonTab('koel',this)">Koelkast</button>
     <button class="nav-btn" onclick="toonTab('auto',this)">Auto/Bewaren</button>
@@ -193,6 +213,42 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="filter-pill" onclick="filterLand('DK',this)">🇩🇰 DK</button>
     </div>
     <div id="daglijst"></div>
+  </div>
+</div>
+
+<!-- REISROUTE TAB -->
+<div id="tab-reis" class="tab-content">
+  <div class="content">
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <div style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius-klein);padding:9px 12px;flex:1;text-align:center">
+        <div style="font-size:20px;font-weight:700;color:var(--groen)">32</div>
+        <div style="font-size:10px;color:var(--tekst-zacht)">dagen</div>
+      </div>
+      <div style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius-klein);padding:9px 12px;flex:1;text-align:center">
+        <div style="font-size:20px;font-weight:700;color:var(--groen)">10</div>
+        <div style="font-size:10px;color:var(--tekst-zacht)">landen</div>
+      </div>
+      <div style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius-klein);padding:9px 12px;flex:1;text-align:center">
+        <div style="font-size:20px;font-weight:700;color:var(--groen)">~9000</div>
+        <div style="font-size:10px;color:var(--tekst-zacht)">km</div>
+      </div>
+    </div>
+
+    <div class="filter-bar" id="reis-filter-bar">
+      <button class="filter-pill active" onclick="filterReis('all',this)">Alles</button>
+      <button class="filter-pill" onclick="filterReis('NL',this)">🇳🇱 NL</button>
+      <button class="filter-pill" onclick="filterReis('DE',this)">🇩🇪 DE</button>
+      <button class="filter-pill" onclick="filterReis('PL',this)">🇵🇱 PL</button>
+      <button class="filter-pill" onclick="filterReis('LT',this)">🇱🇹 LT</button>
+      <button class="filter-pill" onclick="filterReis('LV',this)">🇱🇻 LV</button>
+      <button class="filter-pill" onclick="filterReis('EE',this)">🇪🇪 EE</button>
+      <button class="filter-pill" onclick="filterReis('FI',this)">🇫🇮 FI</button>
+      <button class="filter-pill" onclick="filterReis('NO',this)">🇳🇴 NO</button>
+      <button class="filter-pill" onclick="filterReis('SE',this)">🇸🇪 SE</button>
+      <button class="filter-pill" onclick="filterReis('DK',this)">🇩🇰 DK</button>
+    </div>
+
+    <div id="reis-lijst"></div>
   </div>
 </div>
 
@@ -366,6 +422,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="bottom-btn active" id="bn-plan" onclick="toonTab('plan',null,'bn-plan')">
     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="12" y2="17"/></svg>Plan
   </button>
+  <button class="bottom-btn" id="bn-reis" onclick="toonTab('reis',null,'bn-reis')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 13 8 13s8-7.75 8-13a8 8 0 0 0-8-8z"/></svg>Route
+  </button>
   <button class="bottom-btn" id="bn-bood" onclick="toonTab('bood',null,'bn-bood')">
     <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Boodschappen
   </button>
@@ -515,7 +574,7 @@ window.toonTab=function(id,navBtn,bnId){
   document.getElementById('tab-'+id).classList.add('active');
   if(navBtn){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));navBtn.classList.add('active');}
   document.querySelectorAll('.bottom-btn').forEach(b=>b.classList.remove('active'));
-  const map={plan:'bn-plan',bood:'bn-bood',koel:'bn-koel',auto:'bn-auto'};
+  const map={plan:'bn-plan',reis:'bn-reis',bood:'bn-bood',koel:'bn-koel',auto:'bn-auto'};
   document.getElementById(bnId||map[id]).classList.add('active');
 };
 
@@ -702,6 +761,231 @@ window.resetBoodschappen=async function(){
   await slaLijstOp();
   await slaBoodOp();
 };
+
+
+// =================== REISROUTE DATA ===================
+const REISDAGEN = [
+  {d:1, land:'NL', datum:'18 jul', titel:'Vertrek → Dresden', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Vertrek Gelderland', detail:'~06:00 vertrek'},
+    {type:'overnacht', icon:'⛺', naam:'Campingplatz Dresden-Mockritz', detail:'Aankomst 15:00–16:00', nav:'Campingplatz Dresden-Mockritz, Dresden', link:'https://www.eurocampings.nl/duitsland/saksen/dresden/campingplatz-dresden-mockritz-102661/'},
+    {type:'activiteit', icon:'🏛️', naam:'Dresden centrum', detail:''s Avonds: operagebouw, Frauenkirche, Elbe', nav:'Semperoper Dresden'},
+  ]},
+  {d:2, land:'DE', datum:'19 jul', titel:'Dresden → Białowieża', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Vertrek Dresden', detail:'~08:30'},
+    {type:'tussenstop', icon:'🅿️', naam:'Guarded Parking Warschau', detail:'Ulica Boleść 2, 00-259 Warszawa · tussenstop', nav:'Ulica Boleść 2, Warszawa'},
+    {type:'overnacht', icon:'🏕️', naam:'U Michała, Białowieża', detail:'Aankomst ~19:00 · €25', nav:'U Michała Białowieża'},
+  ]},
+  {d:3, land:'PL', datum:'20 jul', titel:'Białowieża — Oerbos & Bizons', stops:[
+    {type:'tussenstop', icon:'🛒', naam:'Boodschappen Białowieża', detail:'ul. Stoczek 12, Białowieża · 09:00', nav:'ul. Stoczek 12, Białowieża'},
+    {type:'activiteit', icon:'🚲', naam:'Path of the Bison — Royal Oaks Trail', detail:'Fietsen huren 10:00–16:30 · €15 pp · Zwierzyniec open natuurgebied', nav:'Białowieża National Park, Poland'},
+    {type:'activiteit', icon:'🦬', naam:'Bizons spotten', detail:''s Avonds in het oerbos', nav:'Białowieża Forest'},
+    {type:'overnacht', icon:'🏕️', naam:'U Michała, Białowieża', detail:'€25', nav:'U Michała Białowieża'},
+  ]},
+  {d:4, land:'PL', datum:'21 jul', titel:'Białowieża → Trakai', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Vertrek ~08:30', detail:'Rijdag Polen → Litouwen'},
+    {type:'overnacht', icon:'🏕️', naam:'Holiday Centre Slenis, Trakai', detail:'€27,20+', nav:'Holiday Centre Slenis Trakai', link:''},
+  ]},
+  {d:5, land:'LT', datum:'22 jul', titel:'Trakai & Vilnius', stops:[
+    {type:'activiteit', icon:'🏰', naam:'Kasteel van Trakai', detail:'Eilandkasteel op het meer', nav:'Trakai Island Castle, Lithuania'},
+    {type:'activiteit', icon:'🚣', naam:'Suppen / kajakken', detail:'Op het meer rond het kasteel', nav:'Trakai, Lithuania'},
+    {type:'activiteit', icon:'🌆', naam:'Vilnius centrum', detail:''s Avonds of volgende ochtend', nav:'Vilnius Old Town, Lithuania'},
+    {type:'overnacht', icon:'🏕️', naam:'Holiday Centre Slenis', detail:'', nav:'Holiday Centre Slenis Trakai'},
+  ]},
+  {d:6, land:'LV', datum:'23 jul', titel:'Heuvel der Kruisen → Riga', stops:[
+    {type:'activiteit', icon:'✝️', naam:'Heuvel der Kruisen', detail:'Šiauliai, Litouwen · bijzonder pelgrimsoord', nav:'Hill of Crosses, Šiauliai, Lithuania'},
+    {type:'activiteit', icon:'🍸', naam:'Skyline Bar Riga', detail:'20:00 · €100 al betaald', nav:'Skyline Bar Riga'},
+    {type:'overnacht', icon:'🏕️', naam:'Riverside Camping Riga', detail:'', nav:'Riverside Camping Riga', link:''},
+  ]},
+  {d:7, land:'LV', datum:'24 jul', titel:'Riga', stops:[
+    {type:'activiteit', icon:'🏛️', naam:'Centraal markt Riga', detail:'Maskavas Forštate · een van de grootste markten van Europa', nav:'Central Market Riga, Latvia'},
+    {type:'activiteit', icon:'🚶', naam:'Riga oude stad', detail:'Stadswandeling, Art Nouveau architectuur', nav:'Riga Old Town, Latvia'},
+    {type:'overnacht', icon:'🏕️', naam:'Riverside Camping Riga', detail:'', nav:'Riverside Camping Riga'},
+  ]},
+  {d:8, land:'EE', datum:'25 jul', titel:'Riga → Cēsis → Tallinn', stops:[
+    {type:'activiteit', icon:'🏰', naam:'Cēsis', detail:'Middeleeuws stadje, ruïnes, wandelen', nav:'Cēsis, Latvia'},
+    {type:'overnacht', icon:'🏕️', naam:'Pirita Harbour Camping, Tallinn', detail:'€20', nav:'Pirita Harbour Camping Tallinn', link:''},
+  ]},
+  {d:9, land:'EE', datum:'26 jul', titel:'Tallinn', stops:[
+    {type:'activiteit', icon:'🏰', naam:'Tallinn oude stad', detail:'UNESCO werelderfgoed, middeleeuwse stadsmuur', nav:'Tallinn Old Town, Estonia'},
+    {type:'activiteit', icon:'🌊', naam:'Pirita strand', detail:'Vlakbij camping', nav:'Pirita Beach, Tallinn'},
+    {type:'overnacht', icon:'🏕️', naam:'Pirita Harbour Camping', detail:'', nav:'Pirita Harbour Camping Tallinn'},
+  ]},
+  {d:10, land:'FI', datum:'27 jul', titel:'Tallinn → Helsinki (ferry) → Koli NP', stops:[
+    {type:'tussenstop', icon:'⛴️', naam:'Ferry Tallinn → Helsinki', detail:'Eckerö Line of Tallink · boek vooraf!', nav:'Tallinn Ferry Terminal, Estonia'},
+    {type:'activiteit', icon:'⛰️', naam:'Koli Ukko-Koli viewpoint', detail:'Nationaal park, beste uitzicht van Finland', nav:'Ukko-Koli, Koli National Park, Finland'},
+    {type:'activiteit', icon:'🌙', naam:'Middernachtzon', detail:'Rond 23:00 nog licht', nav:'Koli National Park, Finland'},
+    {type:'overnacht', icon:'🏕️', naam:'Koli — wilde camping', detail:'', nav:'58.0849,29.8143'},
+  ]},
+  {d:11, land:'FI', datum:'28 jul', titel:'Koli → Hossa NP', stops:[
+    {type:'activiteit', icon:'🛶', naam:'Kanoën Julma-Ölkky', detail:'Hossa National Park · 2-3 uur · verhuur ter plaatse', nav:'Hossa National Park, Finland', link:'https://hossa-kylmaluoma.fi/en/hossa-nationalpark-nature-centre/rental-equipment/#!/hossakylmaluoma/canoe-in-julma-olkky'},
+    {type:'activiteit', icon:'🌙', naam:'Wandelen middernachtzon', detail:'Hossa trailnetwerk', nav:'Hossa National Park, Finland'},
+    {type:'overnacht', icon:'🏕️', naam:'Hossa — wilde camping', detail:'', nav:'Hossa National Park Finland'},
+  ]},
+  {d:12, land:'FI', datum:'29 jul', titel:'Hossa → Rovaniemi', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag naar Rovaniemi', detail:'~3 uur rijden'},
+    {type:'activiteit', icon:'🌊', naam:'Rivier Ounasjoki', detail:'Rovaniemi centrum, Arctische sfeer', nav:'Rovaniemi, Finland'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Rovaniemi', detail:'', nav:'Camping Rovaniemi Finland'},
+  ]},
+  {d:13, land:'FI', datum:'30 jul', titel:'Rovaniemi → Inari', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Rijdag door Lapland', detail:'~3,5 uur · poolcirkel'},
+    {type:'activiteit', icon:'🌊', naam:'Inari meer', detail:'Een van de grootste meren van Finland', nav:'Lake Inari, Finland'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Inari', detail:'', nav:'Camping Inari Finland'},
+  ]},
+  {d:14, land:'FI', datum:'31 jul', titel:'Inari → Lakselv (Noorwegen)', stops:[
+    {type:'tussenstop', icon:'🚗', naam:'Karigasniemi — grensovergang', detail:'Finland → Noorwegen', nav:'Karigasniemi border crossing Finland Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Lakselv, Noorwegen', detail:'', nav:'Lakselv, Norway'},
+  ]},
+  {d:15, land:'NO', datum:'1 aug', titel:'Lakselv → Noordkaap → Skarsvåg', stops:[
+    {type:'activiteit', icon:'🏔️', naam:'Noordkaap', detail:'71°10'21"N · meest noordelijke punt per auto bereikbaar', nav:'North Cape, Norway'},
+    {type:'activiteit', icon:'🥾', naam:'Hike Knivskjellodden', detail:'~18 km retour · echt noordelijkste punt van Europa', nav:'Knivskjellodden trailhead, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Skarsvåg — wilde camping', detail:'', nav:'Skarsvåg, Norway'},
+  ]},
+  {d:16, land:'NO', datum:'2 aug', titel:'Skarsvåg → Alta', stops:[
+    {type:'activiteit', icon:'🌌', naam:'Noorderlicht kathedraal Alta', detail:'Bijzondere architectuur', nav:'Northern Lights Cathedral Alta Norway'},
+    {type:'activiteit', icon:'♨️', naam:'Sauna', detail:'', nav:'Alta, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Alta — camping', detail:'', nav:'Camping Alta Norway'},
+  ]},
+  {d:17, land:'NO', datum:'3 aug', titel:'Alta → Tromsø', stops:[
+    {type:'activiteit', icon:'🏔️', naam:'Kvænangsfjellet viewpoint', detail:'Spectaculair uitzicht op fjorden', nav:'Kvænangsfjellet viewpoint Norway'},
+    {type:'activiteit', icon:'⛰️', naam:'Lyngen Alps viewpoints', detail:'Gletsjers tot aan het water', nav:'Lyngen Alps, Norway'},
+    {type:'overnacht', icon:'🌿', naam:'Wildkamperen Håkøya', detail:'Eiland bij Tromsø', nav:'69.6167,18.8333'},
+  ]},
+  {d:18, land:'NO', datum:'4 aug', titel:'Tromsø → Lofoten', stops:[
+    {type:'tussenstop', icon:'🌉', naam:'Tjeldsundbrua', detail:'Brug over Tjeldsund', nav:'Tjeldsundbrua, Norway'},
+    {type:'activiteit', icon:'🏔️', naam:'Gullesfjord viewpoint', detail:'', nav:'Gullesfjord, Norway'},
+    {type:'activiteit', icon:'🛳️', naam:'Raftsundet', detail:'Smal vaargeul door de bergen', nav:'Raftsundet, Norway'},
+    {type:'activiteit', icon:'🥾', naam:'Tjeldbergtinden', detail:'Avondwandeling 2-3 uur', nav:'Tjeldbergtinden, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Lofoten', detail:'', nav:'Camping Lofoten Kabelvåg', link:'https://camping-lofoten.no/'},
+  ]},
+  {d:19, land:'NO', datum:'5 aug', titel:'Lofoten — Kabelvåg', stops:[
+    {type:'activiteit', icon:'🥾', naam:'Festvågtind hike', detail:'3-4 uur · insane uitzicht', nav:'Festvågtind trailhead, Kabelvåg, Norway'},
+    {type:'activiteit', icon:'📸', naam:'Kabelvåg viewpoint', detail:'', nav:'Kabelvåg, Lofoten, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Camping Lofoten', detail:'', nav:'Camping Lofoten Kabelvåg', link:'https://camping-lofoten.no/'},
+  ]},
+  {d:20, land:'NO', datum:'6 aug', titel:'Henningsvær → Reine', stops:[
+    {type:'activiteit', icon:'🥾', naam:'Reinebringen hike', detail:'448m · ~2,5 uur · iconisch uitzicht', nav:'Reinebringen trailhead, Lofoten, Norway'},
+    {type:'activiteit', icon:'🏖️', naam:'Ramberg beach', detail:'Wit zand, turquoise water', nav:'Ramberg Beach, Lofoten, Norway'},
+    {type:'activiteit', icon:'🏖️', naam:'Skagsanden beach', detail:'', nav:'Skagsanden Beach, Lofoten'},
+    {type:'activiteit', icon:'📸', naam:'Hamnøy viewpoint', detail:'Bekendste foto van Noorwegen', nav:'Hamnøy, Lofoten, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Moskenes Camping, Reine', detail:'', nav:'Moskenes Camping Reine Norway', link:'https://campio.no/campsite/moskenes-camping'},
+  ]},
+  {d:21, land:'NO', datum:'7 aug', titel:'Reine → Å', stops:[
+    {type:'activiteit', icon:'🥾', naam:'Munkebu hut trail', detail:'6-7 uur · top 3 van Lofoten · Munkebu hut op 360m', nav:'Munkebu trailhead, Sørvågen, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Moskenes Camping', detail:'', nav:'Moskenes Camping Reine Norway', link:'https://campio.no/campsite/moskenes-camping'},
+  ]},
+  {d:22, land:'NO', datum:'8 aug', titel:'Lofoten — Ryten & Haukland', stops:[
+    {type:'activiteit', icon:'🥾', naam:'Ryten hike', detail:'5-6 uur · uitzicht op Kvalvika Beach', nav:'Ryten trailhead, Lofoten, Norway'},
+    {type:'activiteit', icon:'🏖️', naam:'Haukland Beach', detail:'Zwemmen · zonsondergang', nav:'Haukland Beach, Lofoten, Norway'},
+    {type:'activiteit', icon:'🥾', naam:'Mannen hike (optioneel)', detail:'2-3 uur · start bij Haukland', nav:'Mannen trailhead Haukland, Lofoten'},
+    {type:'activiteit', icon:'🧺', naam:'Picknick Uttakleiv', detail:'', nav:'Uttakleiv Beach, Lofoten'},
+    {type:'overnacht', icon:'🏕️', naam:'Moskenes Camping', detail:'', nav:'Moskenes Camping Reine Norway', link:'https://campio.no/campsite/moskenes-camping'},
+  ]},
+  {d:23, land:'NO', datum:'9 aug', titel:'Ferry Moskenes → Bodø → Mo i Rana', stops:[
+    {type:'tussenstop', icon:'⛴️', naam:'Ferry Moskenes → Bodø', detail:'Aanwezig 14:50 · 1 uur overtocht', nav:'Moskenes Ferry Terminal, Norway'},
+    {type:'activiteit', icon:'🧗', naam:'Via Ferrata Bratten Bodø', detail:'Bratten 7, 8014 Bodø', nav:'Bratten 7, 8014 Bodø, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Mo i Rana', detail:'', nav:'Camping Mo i Rana Norway'},
+  ]},
+  {d:24, land:'NO', datum:'10 aug', titel:'Mo i Rana → Steinkjer', stops:[
+    {type:'activiteit', icon:'💧', naam:'Laksforsen waterval', detail:'Grote waterval, zalm kijken', nav:'Laksforsen waterfall, Norway'},
+    {type:'tussenstop', icon:'🦌', naam:'Namsskogan', detail:'', nav:'Namsskogan, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Steinkjer', detail:'', nav:'Camping Steinkjer Norway'},
+  ]},
+  {d:25, land:'NO', datum:'11 aug', titel:'Steinkjer → Geiranger', stops:[
+    {type:'activiteit', icon:'🌊', naam:'Trollstigen', detail:'Beroemde serpentineweg · 11 haarspeldbochten', nav:'Trollstigen, Norway'},
+    {type:'activiteit', icon:'🏔️', naam:'Dalsnibba viewpoint', detail:'1476m · uitzicht over Geirangerfjord', nav:'Dalsnibba viewpoint, Geiranger, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Geiranger', detail:'', nav:'Camping Geiranger Norway'},
+  ]},
+  {d:26, land:'NO', datum:'12 aug', titel:'Geiranger', stops:[
+    {type:'activiteit', icon:'🚣', naam:'Kayakken Geirangerfjord', detail:'Verhuur ter plaatse', nav:'Geiranger Kayak Rental Norway', link:'https://www.geirangerfjord.no/kayak-rental-2'},
+    {type:'activiteit', icon:'🥾', naam:'Skageflå hike', detail:'Verlaten boerderij aan de fjordwand', nav:'Skageflå, Geiranger, Norway'},
+    {type:'activiteit', icon:'📸', naam:'Flydalsjuvet viewpoint', detail:'Bekende uitkijkplek over fjord', nav:'Flydalsjuvet, Geiranger, Norway'},
+    {type:'activiteit', icon:'🦅', naam:'Ørnesvingen — Eagle Road', detail:'', nav:'Ørnesvingen viewpoint, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Geiranger', detail:'', nav:'Camping Geiranger Norway'},
+  ]},
+  {d:27, land:'NO', datum:'13 aug', titel:'Geiranger → Loen Skylift → Lovatnet', stops:[
+    {type:'activiteit', icon:'🚡', naam:'Loen Skylift', detail:'Kabelbaan naar 1011m · spectaculair', nav:'Loen Skylift, Norway'},
+    {type:'activiteit', icon:'🧊', naam:'Kjenndalsbreen gletsjer', detail:'Gletsjerarm van Jostedalsbreen', nav:'Kjenndalsbreen glacier, Norway'},
+    {type:'overnacht', icon:'🌊', naam:'Lovatnet meer', detail:'Turquoise gletsjermeer', nav:'Lovatnet, Norway'},
+  ]},
+  {d:28, land:'NO', datum:'14 aug', titel:'Lovatnet → Nærøyfjord', stops:[
+    {type:'activiteit', icon:'🏔️', naam:'Nærøyfjord', detail:'UNESCO werelderfgoed · smalste fjord van Noorwegen', nav:'Nærøyfjord, Aurland, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Erdal / Oppheim', detail:'', nav:'Erdal, Aurland, Norway'},
+  ]},
+  {d:29, land:'NO', datum:'15 aug', titel:'Trolltunga — 20 km hike', stops:[
+    {type:'activiteit', icon:'⚠️', naam:'VROEG VERTREK — 06:00!', detail:'Trolltunga is druk, vroeg starten = leeg pad', nav:'Tyssedal Trolltunga Carpark P1, Skjeggedalsvegen 66, 5770 Tyssedal'},
+    {type:'activiteit', icon:'🥾', naam:'Trolltunga hike', detail:'~20 km retour · 800m hoogteverschil · 8-10 uur · spectaculairste rotspunt van Noorwegen', nav:'Trolltunga trailhead P1, Tyssedal, Norway'},
+    {type:'overnacht', icon:'🏕️', naam:'Tyssedal', detail:'', nav:'Tyssedal Trolltunga Carpark P1, Skjeggedalsvegen 66, 5770 Tyssedal'},
+  ]},
+  {d:30, land:'NO', datum:'16 aug', titel:'Tyssedal → Preikestolen → Oslofjord', stops:[
+    {type:'activiteit', icon:'🥾', naam:'Preikestolen hike', detail:'~8 km retour · 600m hoogte · Pulpit Rock', nav:'Preikestolen trailhead, Norway'},
+    {type:'activiteit', icon:'🌋', naam:'Magma Geopark', detail:'Uniek gesteente, UNESCO geopark', nav:'Magma Geopark, Egersund, Norway'},
+    {type:'overnacht', icon:'🌊', naam:'Oslofjord', detail:'', nav:'Camping Oslofjord Norway'},
+  ]},
+  {d:31, land:'SE', datum:'17 aug', titel:'Oslofjord → Karlstad → Huskvarna', stops:[
+    {type:'activiteit', icon:'🏙️', naam:'Karlstad centrum', detail:'Klein, gezellig Zweeds stadje', nav:'Karlstad, Sweden'},
+    {type:'activiteit', icon:'🏖️', naam:'Strand Vänernmeer', detail:'Grootste meer van Zweden', nav:'Vänern lake beach, Karlstad, Sweden'},
+    {type:'activiteit', icon:'🏰', naam:'Örebro Castle', detail:'Fotospot', nav:'Örebro Castle, Sweden'},
+    {type:'activiteit', icon:'🏛️', naam:'Wadköping open-air museum', detail:'Gratis · leuk', nav:'Wadköping Museum, Örebro, Sweden'},
+    {type:'overnacht', icon:'🏕️', naam:'Utsikten Huskvarna', detail:'Vätternmeer viewpoints', nav:'Utsikten Huskvarna Sweden'},
+  ]},
+  {d:32, land:'DK', datum:'18 aug', titel:'Huskvarna → Malmö → Odense → Thuis 🏠', stops:[
+    {type:'tussenstop', icon:'🌉', naam:'Øresundbrug', detail:'Malmö → Kopenhagen', nav:'Øresund Bridge, Sweden'},
+    {type:'tussenstop', icon:'🚗', naam:'Odense', detail:'Denemarken', nav:'Odense, Denmark'},
+    {type:'overnacht', icon:'🏠', naam:'Thuis in Gelderland!', detail:'Welverdiend 🎉', nav:'Zelhem, Netherlands'},
+  ]},
+];
+
+let huidigReisLand = 'all';
+
+window.filterReis = function(land, btn) {
+  huidigReisLand = land;
+  document.querySelectorAll('#reis-filter-bar .filter-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReis();
+};
+
+function mapsUrl(nav) {
+  return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(nav);
+}
+
+function renderReis() {
+  const lijst = document.getElementById('reis-lijst');
+  const gef = huidigReisLand === 'all' ? REISDAGEN : REISDAGEN.filter(d => d.land === huidigReisLand);
+  if (!gef.length) { lijst.innerHTML = '<p style="color:#9E9C96;font-size:13px;padding:2rem 0;text-align:center">Geen dagen voor dit land.</p>'; return; }
+
+  lijst.innerHTML = '<div class="stop-legenda">' +
+    '<div class="stop-legenda-item"><div class="stop-legenda-dot" style="background:var(--groen)"></div>Overnachting</div>' +
+    '<div class="stop-legenda-item"><div class="stop-legenda-dot" style="background:var(--blauw)"></div>Activiteit</div>' +
+    '<div class="stop-legenda-item"><div class="stop-legenda-dot" style="background:var(--oranje)"></div>Tussenstop</div>' +
+    '</div>' +
+    gef.map(function(dag) {
+      const l = LANDEN[dag.land];
+      const stops = dag.stops.map(function(stop) {
+        const borderColor = stop.type === 'overnacht' ? 'var(--groen)' : stop.type === 'activiteit' ? 'var(--blauw)' : 'var(--oranje)';
+        const navBtn = stop.nav ? '<a href="' + mapsUrl(stop.nav) + '" target="_blank" class="nav-btn-kaart">📍 Navigeer</a>' : '';
+        const linkBtn = stop.link ? '<a href="' + stop.link + '" target="_blank" class="link-btn">🔗 Link</a>' : '';
+        return '<div class="reis-stop" style="border-left:3px solid ' + borderColor + '">' +
+          '<div class="reis-stop-icon">' + stop.icon + '</div>' +
+          '<div class="reis-stop-info">' +
+            '<div class="reis-stop-naam">' + stop.naam + '</div>' +
+            (stop.detail ? '<div class="reis-stop-detail">' + stop.detail + '</div>' : '') +
+            '<div style="display:flex;flex-wrap:wrap;gap:4px">' + navBtn + linkBtn + '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+      return '<div class="reis-kaart">' +
+        '<div class="reis-dag-header">' +
+          '<span class="dag-num">Dag ' + dag.d + '</span>' +
+          '<span class="land-badge" style="background:' + l.bg + ';color:' + l.tekst + '">' + l.vlag + ' ' + l.naam + '</span>' +
+          '<span class="dag-datum">' + dag.datum + '</span>' +
+          '<span class="dag-loc">' + dag.titel + '</span>' +
+        '</div>' +
+        '<div class="reis-stops">' + stops + '</div>' +
+      '</div>';
+    }).join('');
+}
+
+renderReis();
 
 // SERVICE WORKER
 if('serviceWorker' in navigator){
