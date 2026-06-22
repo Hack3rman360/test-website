@@ -197,6 +197,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="nav-btn active" onclick="toonTab('plan',this)">Maaltijdplan</button>
     <button class="nav-btn" onclick="toonTab('reis',this)">Reisroute</button>
     <button class="nav-btn" onclick="toonTab('bood',this)">Boodschappen</button>
+    <button class="nav-btn" onclick="toonTab('pack',this)">Packlist</button>
+    <button class="nav-btn" onclick="toonTab('geld',this)">Uitgaven</button>
+    <button class="nav-btn" onclick="toonTab('weer',this)">Weer</button>
     <button class="nav-btn" onclick="toonTab('koel',this)">Koelkast</button>
     <button class="nav-btn" onclick="toonTab('auto',this)">Auto/Bewaren</button>
   </nav>
@@ -306,6 +309,128 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="btn-cancel" onclick="sluitBoodModal()">Sluiten</button>
       <button class="btn-reset" style="grid-column:unset;margin-top:0" onclick="resetBoodschappen()">↩ Alles resetten</button>
     </div>
+  </div>
+</div>
+
+
+<!-- PACKLIST TAB -->
+<div id="tab-pack" class="tab-content">
+  <div class="content">
+    <div class="bood-intro">🎒 Vink af wat ingepakt is — gesynchroniseerd met je vriendin</div>
+    <div style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius);padding:12px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:6px">
+        <span>Voortgang</span><span id="pack-tel">0 / 0</span>
+      </div>
+      <div class="vol-bar-bg"><div class="vol-bar-fill" id="pack-bar" style="background:var(--groen);width:0%;transition:width .3s"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+        <span style="font-size:11px;color:var(--tekst-zacht)">Tik een item aan om het af te vinken</span>
+        <button onclick="openPackEdit()" style="padding:4px 10px;font-size:11px;border:1px solid var(--rand-donker);border-radius:var(--radius-pill);background:transparent;color:var(--tekst-zacht);cursor:pointer;font-weight:500">✏️ Bewerk lijst</button>
+      </div>
+    </div>
+    <div id="pack-lijst"></div>
+  </div>
+</div>
+
+<!-- PACKLIST EDIT MODAL -->
+<div class="modal-overlay" id="pack-modal" onclick="packModalKlik(event)">
+  <div class="modal" style="max-height:85vh">
+    <div class="modal-title">Packlist bewerken</div>
+    <div class="modal-sub" style="margin-bottom:12px">Wijzigingen zijn zichtbaar voor iedereen</div>
+    <div id="pack-edit-inhoud"></div>
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--rand)">
+      <div style="font-size:12px;font-weight:600;color:var(--tekst-zacht);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Nieuw item toevoegen</div>
+      <div style="display:flex;gap:6px;margin-bottom:6px">
+        <select id="pack-nieuw-cat" class="modal-select" style="flex:1;padding:8px 10px;font-size:12px"></select>
+      </div>
+      <div style="display:flex;gap:6px">
+        <input id="pack-nieuw-item" class="modal-input" placeholder="Bijv. Regenjas" style="flex:1;padding:8px 10px;font-size:13px;border-radius:var(--radius-klein)">
+        <button onclick="packVoegToe()" style="padding:8px 14px;border:none;border-radius:var(--radius-klein);background:var(--groen);color:white;font-size:13px;font-weight:600;cursor:pointer">+ Voeg toe</button>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="btn-cancel" onclick="sluitPackModal()">Sluiten</button>
+      <button class="btn-reset" style="grid-column:unset;margin-top:0" onclick="resetPacklist()">↩ Resetten</button>
+    </div>
+  </div>
+</div>
+
+<!-- UITGAVEN TAB -->
+<div id="tab-geld" class="tab-content">
+  <div class="content">
+    <div id="geld-samenvatting"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div class="sectie-titel" style="margin-bottom:0">💸 Uitgaven</div>
+      <button onclick="openUitgaveModal()" style="padding:6px 14px;border:none;border-radius:var(--radius-pill);background:var(--groen);color:white;font-size:13px;font-weight:600;cursor:pointer">+ Toevoegen</button>
+    </div>
+    <div id="geld-lijst"></div>
+  </div>
+</div>
+
+<!-- UITGAVE INVOER MODAL -->
+<div class="modal-overlay" id="uitgave-modal" onclick="uitgaveModalKlik(event)">
+  <div class="modal">
+    <div class="modal-title" id="uitgave-modal-titel">Uitgave toevoegen</div>
+    <div class="modal-sub" style="margin-bottom:14px">Beide kunnen uitgaven invoeren</div>
+    <div class="modal-field">
+      <div class="modal-label">Bedrag (€)</div>
+      <input id="uitgave-bedrag" class="modal-input" type="number" min="0" step="0.01" placeholder="0.00" style="padding:10px 12px;font-size:18px;font-weight:600;border-radius:var(--radius-klein)">
+    </div>
+    <div class="modal-field">
+      <div class="modal-label">Categorie</div>
+      <select id="uitgave-cat" class="modal-select">
+        <option value="camping">⛺ Camping / overnachting</option>
+        <option value="eten">🍽️ Eten & drinken</option>
+        <option value="activiteit">🎟️ Activiteiten & entree</option>
+        <option value="ferry">⛴️ Ferry / boot</option>
+        <option value="brandstof">⛽ Brandstof</option>
+        <option value="boodschappen">🛒 Boodschappen</option>
+        <option value="overig">📦 Overig</option>
+      </select>
+    </div>
+    <div class="modal-field">
+      <div class="modal-label">Omschrijving</div>
+      <input id="uitgave-omschr" class="modal-input" placeholder="bijv. Campingplatz Dresden" style="padding:10px 12px;font-size:13px;border-radius:var(--radius-klein)">
+    </div>
+    <div class="modal-field">
+      <div class="modal-label">Dag</div>
+      <select id="uitgave-dag" class="modal-select"></select>
+    </div>
+    <div class="modal-field">
+      <div class="modal-label">Betaald door</div>
+      <select id="uitgave-wie" class="modal-select">
+        <option value="Barry">Barry</option>
+        <option value="Lynn">Lynn</option>
+        <option value="Samen">Samen (gedeeld)</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="sluitUitgaveModal()">Annuleren</button>
+      <button class="btn-save" onclick="slaUitgaveOp()">Opslaan</button>
+    </div>
+    <div id="uitgave-verwijder-wrap" style="margin-top:8px;display:none">
+      <button class="btn-reset" onclick="verwijderUitgave()" style="width:100%">🗑️ Verwijder deze uitgave</button>
+    </div>
+  </div>
+</div>
+
+<!-- WEER TAB -->
+<div id="tab-weer" class="tab-content">
+  <div class="content">
+    <div class="bood-intro">☀️ Weersvoorspelling op basis van je reislocaties — wordt live opgehaald</div>
+    <div class="filter-bar" id="weer-filter-bar">
+      <button class="filter-pill active" onclick="filterWeer('all',this)">Alles</button>
+      <button class="filter-pill" onclick="filterWeer('NL',this)">🇳🇱 Nederland</button>
+      <button class="filter-pill" onclick="filterWeer('DE',this)">🇩🇪 Duitsland</button>
+      <button class="filter-pill" onclick="filterWeer('PL',this)">🇵🇱 Polen</button>
+      <button class="filter-pill" onclick="filterWeer('LT',this)">🇱🇹 Litouwen</button>
+      <button class="filter-pill" onclick="filterWeer('LV',this)">🇱🇻 Letland</button>
+      <button class="filter-pill" onclick="filterWeer('EE',this)">🇪🇪 Estland</button>
+      <button class="filter-pill" onclick="filterWeer('FI',this)">🇫🇮 Finland</button>
+      <button class="filter-pill" onclick="filterWeer('NO',this)">🇳🇴 Noorwegen</button>
+      <button class="filter-pill" onclick="filterWeer('SE',this)">🇸🇪 Zweden</button>
+      <button class="filter-pill" onclick="filterWeer('DK',this)">🇩🇰 Denemarken</button>
+    </div>
+    <div id="weer-lijst"></div>
   </div>
 </div>
 
@@ -527,14 +652,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <button class="bottom-btn" id="bn-reis" onclick="toonTab('reis',null,'bn-reis')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 13 8 13s8-7.75 8-13a8 8 0 0 0-8-8z"/></svg>Route
   </button>
-  <button class="bottom-btn" id="bn-bood" onclick="toonTab('bood',null,'bn-bood')">
-    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Boodschappen
+  <button class="bottom-btn" id="bn-geld" onclick="toonTab('geld',null,'bn-geld')">
+    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Uitgaven
   </button>
-  <button class="bottom-btn" id="bn-koel" onclick="toonTab('koel',null,'bn-koel')">
-    <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="5" y1="10" x2="19" y2="10"/><line x1="10" y1="6" x2="10" y2="8"/><line x1="10" y1="14" x2="10" y2="18"/></svg>Koelkast
+  <button class="bottom-btn" id="bn-pack" onclick="toonTab('pack',null,'bn-pack')">
+    <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Packlist
   </button>
-  <button class="bottom-btn" id="bn-auto" onclick="toonTab('auto',null,'bn-auto')">
-    <svg viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v9a2 2 0 0 1-2 2h-3"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>Auto
+  <button class="bottom-btn" id="bn-weer" onclick="toonTab('weer',null,'bn-weer')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>Weer
   </button>
 </div>
 
@@ -676,9 +801,10 @@ async function slaBoodOp(){
 window.toonTab=function(id,navBtn,bnId){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
+  if(id==='weer') renderWeer();
   if(navBtn){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));navBtn.classList.add('active');}
   document.querySelectorAll('.bottom-btn').forEach(b=>b.classList.remove('active'));
-  const map={plan:'bn-plan',reis:'bn-reis',bood:'bn-bood',koel:'bn-koel',auto:'bn-auto'};
+  const map={plan:'bn-plan',reis:'bn-reis',bood:'bn-bood',pack:'bn-pack',geld:'bn-geld',weer:'bn-weer',koel:'bn-koel',auto:'bn-auto'};
   document.getElementById(bnId||map[id]).classList.add('active');
 };
 
@@ -717,7 +843,7 @@ function dagData(dag){return wijzigingen[dag.d]?{...dag,...wijzigingen[dag.d]}:d
 function renderDagen(){
   updateStats();
   const lijst=document.getElementById('daglijst');
-  const gef=huidigLand==='all'?ORIGINEEL:ORIGINEEL.filter(d=>d.land===huidigLand);
+  const gef=huidigLand==='all'?ORIGINEEL:ORIGINEEL.filter(d=>dagData(d).land===huidigLand);
   if(!gef.length){lijst.innerHTML='<p style="color:#9E9C96;font-size:13px;padding:2rem 0;text-align:center">Geen dagen voor dit land.</p>';return;}
   lijst.innerHTML=gef.map(orig=>{
     const dag=dagData(orig);
@@ -1313,7 +1439,7 @@ function reisData(dag) {
 
 function renderReis() {
   const lijst = document.getElementById('reis-lijst');
-  const gef = huidigReisLand === 'all' ? REISDAGEN : REISDAGEN.filter(d => d.land === huidigReisLand);
+  const gef = huidigReisLand === 'all' ? REISDAGEN : REISDAGEN.filter(d => reisData(d).land === huidigReisLand);
   if (!gef.length) { lijst.innerHTML = '<p style="color:#9E9C96;font-size:13px;padding:2rem 0;text-align:center">Geen dagen voor dit land.</p>'; return; }
 
   lijst.innerHTML = '<div class="stop-legenda">' +
@@ -1323,7 +1449,7 @@ function renderReis() {
     '</div>' +
     gef.map(function(dag) {
       const dagActueel = reisData(dag);
-      const l = LANDEN[dag.land];
+      const l = LANDEN[dagActueel.land] || LANDEN[dag.land];
       const stops = dagActueel.stops.map(function(stop) {
         const borderColor = stop.type === 'overnacht' ? 'var(--groen)' : stop.type === 'activiteit' ? 'var(--blauw)' : 'var(--oranje)';
         const navBtn = stop.nav ? '<a href="' + mapsUrl(stop.nav) + '" target="_blank" class="nav-btn-kaart">📍 Navigeer</a>' : '';
@@ -1359,6 +1485,406 @@ function renderReis() {
 
 renderReis();
 
+
+// =================== PACKLIST ===================
+const PACKLIST_ORIGINEEL = [
+  {cat:'👕 Kleding', items:['T-shirts 7x','Lange broeken 2x','Shorts 2x','Ondergoed 7x','Sokken 7x','Fleece vest','Regenjas','Warme jas (Noorwegen!)','Zwemkleding','Wandelschoenen','Slippers/sandalen','Pet / zonnebril']},
+  {cat:'🏕️ Camping gear', items:['Tent','Slaapzakken 2x','Slaapmatten / luchtbed','Gasbrander + gaspatronen','Pan + deksel','Borden + bestek 2x','Bekers 2x','Kurkentrekker / opener','Zaklamp + reservebatterijen','Campingstoel 2x','Tafeltje (opvouwbaar)']},
+  {cat:'🧴 Toilettas', items:['Tandenborstel + tandpasta','Shampoo + conditioner','Douchegel','Deodorant','Zonnebrandcrème SPF50','Lippenbalsem','Scheeraccessoires','Maandverband / tampons','Handdoeken 2x (microvezel)','Toiletpapier reserve','Insectenspray (Finland/Lapland!)']},
+  {cat:'🏥 EHBO & medicijnen', items:['EHBO-setje','Pijnstillers (ibuprofen + paracetamol)','Antihistamine (hooikoorts)','Pleister + wondverband','Zonnebrand na-zonnebrand','Reisverzekering documenten','Europese ziektekostenkaart (EHIC)']},
+  {cat:'📱 Elektronica', items:['Telefoons + opladers','Powerbank (groot)','Auto-oplader USB','Camera + geheugenkaarten','Laptop / tablet','Universele adapter (Noorwegen = EU stekker ✓)','Koptelefoon / oordopjes','USB-kabel extra']},
+  {cat:'🚗 Auto & navigatie', items:['Kentekenbewijs + groene kaart','Rijbewijzen','Vignetten (check per land)','Gevarendriehoek','EHBO-set auto','Reflecterende hesjes 2x','Touw / sleepkabel','Jerrycan (optioneel NO)','Navigatie offline (maps.me / Google offline)']},
+  {cat:'📄 Documenten', items:['Paspoorten 2x','Kopieën paspoort (apart bewaren)','Creditcard + pinpas','Contant geld (PLN, NOK, SEK, DKK)','Campingbevestigingen afgedrukt','Skyline Bar bevestiging (€100 betaald)','Reisverzekering polis','Inschrijving camping Lofoten']},
+  {cat:'🎒 Diversen', items:['Rugzakken voor hikes','Wandelstokken (optioneel)','Waterfles 2x (herbruikbaar)','Zonnescherm auto','Afvalzakken','Wasmiddel (klein flesje)','Paracord / touw','Duct tape']},
+];
+
+let packLijst = JSON.parse(JSON.stringify(PACKLIST_ORIGINEEL));
+let packGecheckt = {};
+
+const packLijstDoc = doc(db, 'vakantie', 'packlijst');
+const packCheckDoc = doc(db, 'vakantie', 'packcheck');
+
+onSnapshot(packLijstDoc, snap => {
+  if (snap.exists() && snap.data().lijst) packLijst = snap.data().lijst;
+  else packLijst = JSON.parse(JSON.stringify(PACKLIST_ORIGINEEL));
+  renderPacklist();
+}, err => {});
+
+onSnapshot(packCheckDoc, snap => {
+  if (snap.exists()) packGecheckt = snap.data() || {};
+  else packGecheckt = {};
+  renderPacklist();
+}, err => {});
+
+async function slaPackLijstOp() {
+  try { await setDoc(packLijstDoc, {lijst: packLijst}); } catch(e) {}
+}
+async function slaPackCheckOp() {
+  try { await setDoc(packCheckDoc, packGecheckt); } catch(e) {}
+}
+
+function renderPacklist() {
+  const lijst = document.getElementById('pack-lijst');
+  if (!lijst) return;
+  lijst.innerHTML = packLijst.map(function(sec, si) {
+    const items = sec.items.map(function(item, ii) {
+      const key = si + '-' + ii;
+      const checked = packGecheckt[key] ? 'checked' : '';
+      return '<div class="bood-item ' + checked + '" data-key="' + key + '" onclick="togglePack(this, this.dataset.key)"><div class="bood-check"></div><span class="bood-tekst">' + item + '</span></div>';
+    }).join('');
+    return '<div class="bood-sectie"><div class="bood-sectie-titel">' + sec.cat + '</div><div class="bood-card">' + items + '</div></div>';
+  }).join('');
+  updatePackProgress();
+}
+
+function updatePackProgress() {
+  const totaal = packLijst.reduce(function(s, sec) { return s + sec.items.length; }, 0);
+  const klaar = Object.values(packGecheckt).filter(Boolean).length;
+  const tel = document.getElementById('pack-tel');
+  const bar = document.getElementById('pack-bar');
+  if (tel) tel.textContent = klaar + ' / ' + totaal;
+  if (bar) bar.style.width = Math.round((klaar / totaal) * 100) + '%';
+}
+
+window.togglePack = async function(el, key) {
+  packGecheckt[key] = !packGecheckt[key];
+  el.classList.toggle('checked', packGecheckt[key]);
+  updatePackProgress();
+  await slaPackCheckOp();
+};
+
+window.openPackEdit = function() {
+  renderPackEditInhoud();
+  const sel = document.getElementById('pack-nieuw-cat');
+  sel.innerHTML = packLijst.map(function(sec, si) { return '<option value="' + si + '">' + sec.cat + '</option>'; }).join('');
+  document.getElementById('pack-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.sluitPackModal = function() {
+  document.getElementById('pack-modal').classList.remove('open');
+  document.body.style.overflow = '';
+};
+window.packModalKlik = function(e) {
+  if (e.target === document.getElementById('pack-modal')) window.sluitPackModal();
+};
+
+function renderPackEditInhoud() {
+  const el = document.getElementById('pack-edit-inhoud');
+  el.innerHTML = packLijst.map(function(sec, si) {
+    const itemsHtml = sec.items.map(function(item, ii) {
+      return '<div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:1px solid var(--rand);font-size:12px"><span style="flex:1">' + item + '</span><button onclick="packVerwijder(' + si + ',' + ii + ')" style="border:none;background:none;color:var(--rood);font-size:18px;cursor:pointer;padding:0 4px;font-weight:700">x</button></div>';
+    }).join('');
+    return '<div style="margin-bottom:12px"><div style="font-size:11px;font-weight:700;color:var(--tekst-zacht);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px">' + sec.cat + '</div><div style="background:var(--bg);border-radius:var(--radius-klein);overflow:hidden;border:1px solid var(--rand)">' + itemsHtml + (sec.items.length === 0 ? '<div style="padding:8px 10px;font-size:12px;color:var(--tekst-heel-zacht)">Leeg</div>' : '') + '</div></div>';
+  }).join('');
+}
+
+window.packVerwijder = async function(si, ii) {
+  packLijst[si].items.splice(ii, 1);
+  packGecheckt = {};
+  renderPackEditInhoud();
+  document.getElementById('pack-nieuw-cat').innerHTML = packLijst.map(function(sec, si) { return '<option value="' + si + '">' + sec.cat + '</option>'; }).join('');
+  renderPacklist();
+  await slaPackLijstOp();
+  await slaPackCheckOp();
+};
+
+window.packVoegToe = async function() {
+  const si = parseInt(document.getElementById('pack-nieuw-cat').value);
+  const tekst = document.getElementById('pack-nieuw-item').value.trim();
+  if (!tekst) return;
+  packLijst[si].items.push(tekst);
+  document.getElementById('pack-nieuw-item').value = '';
+  renderPackEditInhoud();
+  renderPacklist();
+  await slaPackLijstOp();
+};
+
+window.resetPacklist = async function() {
+  if (!confirm('Packlist terugzetten naar origineel?')) return;
+  packLijst = JSON.parse(JSON.stringify(PACKLIST_ORIGINEEL));
+  packGecheckt = {};
+  renderPackEditInhoud();
+  renderPacklist();
+  await slaPackLijstOp();
+  await slaPackCheckOp();
+};
+
+// =================== UITGAVEN ===================
+const CAT_INFO = {
+  camping:     {icon:'⛺', label:'Camping', kleur:'#065F46', bg:'#ECFDF5'},
+  eten:        {icon:'🍽️', label:'Eten & drinken', kleur:'#92400E', bg:'#FEF3C7'},
+  activiteit:  {icon:'🎟️', label:'Activiteiten', kleur:'#1D4ED8', bg:'#DBEAFE'},
+  ferry:       {icon:'⛴️', label:'Ferry / boot', kleur:'#5B21B6', bg:'#F5F3FF'},
+  brandstof:   {icon:'⛽', label:'Brandstof', kleur:'#9A3412', bg:'#FFF7ED'},
+  boodschappen:{icon:'🛒', label:'Boodschappen', kleur:'#166534', bg:'#F0FDF4'},
+  overig:      {icon:'📦', label:'Overig', kleur:'#374151', bg:'#F9FAFB'},
+};
+
+let uitgaven = [];
+let bewerkUitgaveId = null;
+const uitgavenDoc = doc(db, 'vakantie', 'uitgaven');
+
+onSnapshot(uitgavenDoc, snap => {
+  if (snap.exists() && snap.data().lijst) uitgaven = snap.data().lijst;
+  else uitgaven = [];
+  renderUitgaven();
+}, err => {});
+
+async function slaUitgavenOp() {
+  try { await setDoc(uitgavenDoc, {lijst: uitgaven}); } catch(e) {}
+}
+
+window.openUitgaveModal = function(id) {
+  bewerkUitgaveId = id || null;
+  const modal = document.getElementById('uitgave-modal');
+  const titel = document.getElementById('uitgave-modal-titel');
+  const verwijderWrap = document.getElementById('uitgave-verwijder-wrap');
+  // Fill dag dropdown
+  const dagSel = document.getElementById('uitgave-dag');
+  dagSel.innerHTML = ORIGINEEL.map(function(d) {
+    return '<option value="' + d.d + '">Dag ' + d.d + ' — ' + d.datum + ' — ' + dagData(d).loc + '</option>';
+  }).join('');
+  if (id !== undefined && id !== null) {
+    // Edit mode
+    const u = uitgaven.find(function(u) { return u.id === id; });
+    if (!u) return;
+    titel.textContent = 'Uitgave bewerken';
+    document.getElementById('uitgave-bedrag').value = u.bedrag;
+    document.getElementById('uitgave-cat').value = u.cat;
+    document.getElementById('uitgave-omschr').value = u.omschr;
+    document.getElementById('uitgave-dag').value = u.dag;
+    document.getElementById('uitgave-wie').value = u.wie;
+    verwijderWrap.style.display = 'block';
+  } else {
+    titel.textContent = 'Uitgave toevoegen';
+    document.getElementById('uitgave-bedrag').value = '';
+    document.getElementById('uitgave-cat').value = 'camping';
+    document.getElementById('uitgave-omschr').value = '';
+    document.getElementById('uitgave-dag').value = '1';
+    document.getElementById('uitgave-wie').value = 'Samen';
+    verwijderWrap.style.display = 'none';
+  }
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+
+window.sluitUitgaveModal = function() {
+  document.getElementById('uitgave-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  bewerkUitgaveId = null;
+};
+
+window.uitgaveModalKlik = function(e) {
+  if (e.target === document.getElementById('uitgave-modal')) window.sluitUitgaveModal();
+};
+
+window.slaUitgaveOp = async function() {
+  const bedrag = parseFloat(document.getElementById('uitgave-bedrag').value);
+  if (!bedrag || bedrag <= 0) {
+    document.getElementById('uitgave-bedrag').style.borderColor = 'var(--rood)';
+    return;
+  }
+  document.getElementById('uitgave-bedrag').style.borderColor = '';
+  const entry = {
+    id: bewerkUitgaveId || Date.now(),
+    bedrag: Math.round(bedrag * 100) / 100,
+    cat: document.getElementById('uitgave-cat').value,
+    omschr: document.getElementById('uitgave-omschr').value.trim(),
+    dag: parseInt(document.getElementById('uitgave-dag').value),
+    wie: document.getElementById('uitgave-wie').value,
+    ts: Date.now(),
+  };
+  if (bewerkUitgaveId !== null) {
+    const idx = uitgaven.findIndex(function(u) { return u.id === bewerkUitgaveId; });
+    if (idx >= 0) uitgaven[idx] = entry;
+  } else {
+    uitgaven.push(entry);
+  }
+  window.sluitUitgaveModal();
+  renderUitgaven();
+  await slaUitgavenOp();
+};
+
+window.verwijderUitgave = async function() {
+  if (!confirm('Uitgave verwijderen?')) return;
+  uitgaven = uitgaven.filter(function(u) { return u.id !== bewerkUitgaveId; });
+  window.sluitUitgaveModal();
+  renderUitgaven();
+  await slaUitgavenOp();
+};
+
+function renderUitgaven() {
+  const lijst = document.getElementById('geld-lijst');
+  const samenvatting = document.getElementById('geld-samenvatting');
+  if (!lijst) return;
+
+  const totaal = uitgaven.reduce(function(s, u) { return s + u.bedrag; }, 0);
+  const perCat = {};
+  const perWie = {Barry: 0, Lynn: 0, Samen: 0};
+  uitgaven.forEach(function(u) {
+    perCat[u.cat] = (perCat[u.cat] || 0) + u.bedrag;
+    if (perWie[u.wie] !== undefined) perWie[u.wie] += u.bedrag;
+  });
+
+  // Samenvatting
+  const catBlokken = Object.entries(perCat).map(function(e) {
+    const info = CAT_INFO[e[0]] || CAT_INFO.overig;
+    return '<div style="display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--rand);font-size:13px"><span>' + info.icon + ' ' + info.label + '</span><span style="margin-left:auto;font-weight:600">€' + e[1].toFixed(2) + '</span></div>';
+  }).join('');
+
+  samenvatting.innerHTML = '<div style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius);padding:14px;margin-bottom:14px">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+      '<span style="font-size:14px;font-weight:700">Totaal uitgegeven</span>' +
+      '<span style="font-size:22px;font-weight:700;color:var(--groen)">€' + totaal.toFixed(2) + '</span>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">' +
+      '<div style="background:var(--bg);border-radius:var(--radius-klein);padding:8px;text-align:center"><div style="font-size:11px;color:var(--tekst-zacht)">Barry</div><div style="font-size:15px;font-weight:700">€' + perWie.Barry.toFixed(0) + '</div></div>' +
+      '<div style="background:var(--bg);border-radius:var(--radius-klein);padding:8px;text-align:center"><div style="font-size:11px;color:var(--tekst-zacht)">Lynn</div><div style="font-size:15px;font-weight:700">€' + perWie.Lynn.toFixed(0) + '</div></div>' +
+      '<div style="background:var(--bg);border-radius:var(--radius-klein);padding:8px;text-align:center"><div style="font-size:11px;color:var(--tekst-zacht)">Samen</div><div style="font-size:15px;font-weight:700">€' + perWie.Samen.toFixed(0) + '</div></div>' +
+    '</div>' +
+    (catBlokken ? '<div>' + catBlokken + '</div>' : '<div style="font-size:12px;color:var(--tekst-heel-zacht);text-align:center;padding:8px">Nog geen uitgaven ingevoerd</div>') +
+  '</div>';
+
+  if (!uitgaven.length) {
+    lijst.innerHTML = '<div style="text-align:center;padding:2rem 0;font-size:13px;color:var(--tekst-heel-zacht)">Nog geen uitgaven — tik op + Toevoegen</div>';
+    return;
+  }
+
+  // Sort by dag
+  const gesorteerd = [...uitgaven].sort(function(a, b) { return a.dag - b.dag || b.ts - a.ts; });
+  lijst.innerHTML = gesorteerd.map(function(u) {
+    const info = CAT_INFO[u.cat] || CAT_INFO.overig;
+    const origDag = ORIGINEEL.find(function(d) { return d.d === u.dag; });
+    const dagLabel = origDag ? 'Dag ' + u.dag + ' · ' + origDag.datum : 'Dag ' + u.dag;
+    return '<div style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="openUitgaveModal(' + u.id + ')">' +
+      '<div style="width:38px;height:38px;border-radius:10px;background:' + info.bg + ';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">' + info.icon + '</div>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div style="font-size:13px;font-weight:600;color:var(--tekst)">' + (u.omschr || info.label) + '</div>' +
+        '<div style="font-size:11px;color:var(--tekst-zacht);margin-top:1px">' + dagLabel + ' · ' + u.wie + '</div>' +
+      '</div>' +
+      '<div style="font-size:15px;font-weight:700;color:var(--tekst);flex-shrink:0">€' + u.bedrag.toFixed(2) + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+// =================== WEER ===================
+const WEER_LOCATIES = [
+  {d:1,  land:'NL', naam:'Gelderland',    lat:51.97, lon:6.16},
+  {d:2,  land:'DE', naam:'Dresden',       lat:51.05, lon:13.74},
+  {d:3,  land:'PL', naam:'Białowieża',   lat:52.70, lon:23.87},
+  {d:4,  land:'PL', naam:'Trakai',        lat:54.64, lon:24.93},
+  {d:5,  land:'LT', naam:'Riga',          lat:56.95, lon:24.11},
+  {d:6,  land:'LV', naam:'Cēsis',         lat:57.31, lon:25.28},
+  {d:7,  land:'EE', naam:'Tallinn',       lat:59.44, lon:24.75},
+  {d:8,  land:'EE', naam:'Koli NP',       lat:63.08, lon:29.81},
+  {d:9,  land:'FI', naam:'Hossa NP',      lat:65.48, lon:29.55},
+  {d:10, land:'FI', naam:'Rovaniemi',     lat:66.50, lon:25.73},
+  {d:11, land:'FI', naam:'Inari',         lat:68.90, lon:27.03},
+  {d:12, land:'FI', naam:'Lakselv',       lat:70.05, lon:24.97},
+  {d:13, land:'NO', naam:'Noordkaap',     lat:71.17, lon:25.78},
+  {d:14, land:'NO', naam:'Alta',          lat:69.97, lon:23.27},
+  {d:15, land:'NO', naam:'Tromsø',        lat:69.65, lon:18.96},
+  {d:16, land:'NO', naam:'Lofoten',       lat:68.23, lon:14.57},
+  {d:17, land:'NO', naam:'Kabelvåg',      lat:68.21, lon:14.48},
+  {d:18, land:'NO', naam:'Reine',         lat:67.93, lon:13.09},
+  {d:19, land:'NO', naam:'Å, Lofoten',   lat:67.88, lon:13.00},
+  {d:20, land:'NO', naam:'Haukland',      lat:68.10, lon:13.55},
+  {d:21, land:'NO', naam:'Mo i Rana',     lat:66.31, lon:14.14},
+  {d:22, land:'NO', naam:'Steinkjer',     lat:64.01, lon:11.50},
+  {d:23, land:'NO', naam:'Geiranger',     lat:62.10, lon:7.20},
+  {d:24, land:'NO', naam:'Geiranger',     lat:62.10, lon:7.20},
+  {d:25, land:'NO', naam:'Lovatnet',      lat:61.87, lon:7.17},
+  {d:26, land:'NO', naam:'Nærøyfjord',    lat:60.92, lon:6.87},
+  {d:27, land:'NO', naam:'Tyssedal',      lat:59.86, lon:6.56},
+  {d:28, land:'NO', naam:'Preikestolen',  lat:58.99, lon:6.19},
+  {d:29, land:'NO', naam:'Karlstad',      lat:59.38, lon:13.50},
+  {d:30, land:'SE', naam:'Huskvarna',     lat:57.79, lon:14.30},
+  {d:31, land:'SE', naam:'Odense',        lat:55.40, lon:10.38},
+  {d:32, land:'DK', naam:'Gelderland',    lat:51.97, lon:6.16},
+];
+
+const WEER_ICONS = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌧️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'❄️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️'};
+const WEER_LABELS = {0:'Helder',1:'Licht bewolkt',2:'Bewolkt',3:'Zwaar bewolkt',45:'Mist',48:'Rijpige mist',51:'Lichte motregen',53:'Motregen',55:'Zware motregen',61:'Lichte regen',63:'Regen',65:'Zware regen',71:'Lichte sneeuw',73:'Sneeuw',75:'Zware sneeuw',80:'Regenbuien',81:'Zware buien',82:'Stortbuien',95:'Onweer',96:'Onweer met hagel',99:'Zwaar onweer'};
+
+let weerCache = {};
+let huidigWeerLand = 'all';
+
+window.filterWeer = function(land, btn) {
+  huidigWeerLand = land;
+  document.querySelectorAll('#weer-filter-bar .filter-pill').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  renderWeer();
+};
+
+async function haalWeerOp(loc) {
+  if (weerCache[loc.d]) return weerCache[loc.d];
+  try {
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + loc.lat + '&longitude=' + loc.lon + '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max&timezone=Europe%2FAmsterdam&start_date=2026-07-' + String(loc.d <= 13 ? 17 + loc.d : 0).padStart(2,'0');
+    // Build correct date
+    const startDatum = new Date('2026-07-18');
+    startDatum.setDate(startDatum.getDate() + loc.d - 1);
+    const dd = startDatum.toISOString().split('T')[0];
+    const finalUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + loc.lat + '&longitude=' + loc.lon + '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max&timezone=Europe%2FAmsterdam&start_date=' + dd + '&end_date=' + dd;
+    const resp = await fetch(finalUrl);
+    const data = await resp.json();
+    if (data.daily && data.daily.weathercode) {
+      const result = {
+        code: data.daily.weathercode[0],
+        max: Math.round(data.daily.temperature_2m_max[0]),
+        min: Math.round(data.daily.temperature_2m_min[0]),
+        regen: data.daily.precipitation_sum[0] || 0,
+        wind: Math.round(data.daily.windspeed_10m_max[0]),
+      };
+      weerCache[loc.d] = result;
+      return result;
+    }
+  } catch(e) {}
+  return null;
+}
+
+async function laadWeerVoorZichtbareLocaties() {
+  const lijst = document.getElementById('weer-lijst');
+  if (!lijst) return;
+  const zichtbaar = huidigWeerLand === 'all' ? WEER_LOCATIES : WEER_LOCATIES.filter(function(l) { return l.land === huidigWeerLand; });
+  
+  // Show loading
+  lijst.innerHTML = zichtbaar.map(function(loc) {
+    return '<div id="weer-dag-' + loc.d + '" style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-size:12px;font-weight:700">Dag ' + loc.d + ' — ' + loc.naam + '</div><div style="font-size:11px;color:var(--tekst-zacht)">Laden...</div></div><div style="font-size:24px">⏳</div></div>';
+  }).join('');
+
+  // Load all in parallel
+  await Promise.all(zichtbaar.map(async function(loc) {
+    const weer = await haalWeerOp(loc);
+    const el = document.getElementById('weer-dag-' + loc.d);
+    if (!el) return;
+    const l = LANDEN[loc.land];
+    const origDag = ORIGINEEL.find(function(d) { return d.d === loc.d; });
+    if (weer) {
+      const icon = WEER_ICONS[weer.code] || '🌡️';
+      const label = WEER_LABELS[weer.code] || 'Onbekend';
+      const regenKleur = weer.regen > 5 ? 'var(--rood)' : weer.regen > 1 ? 'var(--oranje)' : 'var(--tekst-heel-zacht)';
+      el.innerHTML =
+        '<div style="width:44px;height:44px;border-radius:10px;background:' + (l ? l.bg : '#F9FAFB') + ';display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">' + icon + '</div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div style="font-size:12px;font-weight:700;color:var(--tekst)">Dag ' + loc.d + ' — ' + loc.naam + '</div>' +
+          '<div style="font-size:11px;color:var(--tekst-zacht);margin-top:1px">' + (origDag ? origDag.datum : '') + (l ? ' · ' + l.vlag + ' ' + LANDEN[loc.land].naam : '') + '</div>' +
+          '<div style="font-size:11px;color:var(--tekst-zacht);margin-top:2px">' + label + ' · 💧 ' + '<span style="color:' + regenKleur + '">' + weer.regen.toFixed(1) + 'mm</span>' + ' · 💨 ' + weer.wind + 'km/u</div>' +
+        '</div>' +
+        '<div style="text-align:right;flex-shrink:0">' +
+          '<div style="font-size:18px;font-weight:700;color:var(--tekst)">' + weer.max + '°</div>' +
+          '<div style="font-size:12px;color:var(--tekst-zacht)">' + weer.min + '°</div>' +
+        '</div>';
+    } else {
+      el.innerHTML = '<div style="flex:1"><div style="font-size:12px;font-weight:700">Dag ' + loc.d + ' — ' + loc.naam + '</div><div style="font-size:11px;color:var(--tekst-zacht)">Weersdata niet beschikbaar (te ver in de toekomst)</div></div><div style="font-size:24px">🌡️</div>';
+    }
+  }));
+}
+
+function renderWeer() {
+  laadWeerVoorZichtbareLocaties();
+}
+
+
 // SERVICE WORKER
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
@@ -1367,6 +1893,7 @@ if('serviceWorker' in navigator){
 renderDagen();
 renderBoodschappen();
 updateVolumeBars();
+renderUitgaven();
 </script>
 </body>
 </html>
