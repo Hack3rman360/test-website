@@ -161,6 +161,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .stop-legenda{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;font-size:11px;color:var(--tekst-zacht)}
 .stop-legenda-item{display:flex;align-items:center;gap:5px}
 .stop-legenda-dot{width:3px;height:14px;border-radius:2px;flex-shrink:0}
+
+/* REIS EDIT MODAL */
+.reis-edit-stop{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;background:var(--bg);border-radius:var(--radius-klein);margin-bottom:6px;border-left:3px solid var(--rand-donker)}
+.reis-edit-stop.type-overnacht{border-left-color:var(--groen)}
+.reis-edit-stop.type-activiteit{border-left-color:var(--blauw)}
+.reis-edit-stop.type-tussenstop{border-left-color:var(--oranje)}
+.reis-edit-stop-info{flex:1;font-size:12px}
+.reis-edit-stop-naam{font-weight:600;color:var(--tekst)}
+.reis-edit-stop-detail{color:var(--tekst-zacht);margin-top:1px}
+.reis-edit-stop-nav{color:var(--tekst-heel-zacht);margin-top:1px;font-style:italic}
+.reis-del-btn{border:none;background:none;color:var(--rood);font-size:18px;cursor:pointer;padding:0 4px;flex-shrink:0;font-weight:700;line-height:1}
+.reis-edit-btn-small{border:none;background:none;color:var(--blauw);font-size:12px;cursor:pointer;padding:2px 6px;border:1px solid var(--blauw);border-radius:var(--radius-pill);margin-top:4px;font-weight:500}
+.type-pill{display:inline-block;font-size:10px;font-weight:600;padding:1px 6px;border-radius:var(--radius-pill);margin-right:4px}
+.type-overnacht-pill{background:var(--groen-licht);color:var(--groen-donker)}
+.type-activiteit-pill{background:var(--blauw-licht);color:var(--blauw)}
+.type-tussenstop-pill{background:var(--oranje-licht);color:var(--oranje)}
+.nieuw-stop-form{background:var(--bg);border-radius:var(--radius-klein);padding:10px;margin-top:10px;border:1px dashed var(--rand-donker)}
 </style>
 </head>
 <body>
@@ -417,6 +434,58 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button class="btn-cancel" onclick="sluitModal()">Annuleren</button>
       <button class="btn-save" onclick="slaOp()">Opslaan</button>
       <button class="btn-reset" onclick="resetDag()">↩ Terugzetten naar origineel</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- REISROUTE EDIT MODAL -->
+<div class="modal-overlay" id="reis-modal" onclick="reisModalKlik(event)">
+  <div class="modal" style="max-height:90vh">
+    <div class="modal-title" id="reis-modal-titel">Dag bewerken</div>
+    <div style="margin-bottom:14px">
+      <div class="modal-field">
+        <div class="modal-label">Dagtitel</div>
+        <input id="reis-edit-titel" class="modal-input" style="padding:9px 12px;font-size:13px;border-radius:var(--radius-klein)">
+      </div>
+      <div class="modal-field">
+        <div class="modal-label">Datum</div>
+        <input id="reis-edit-datum" class="modal-input" style="padding:9px 12px;font-size:13px;border-radius:var(--radius-klein)" placeholder="bijv. 18 jul">
+      </div>
+    </div>
+
+    <div style="font-size:12px;font-weight:700;color:var(--tekst-zacht);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Stops</div>
+    <div id="reis-stops-edit"></div>
+
+    <div class="nieuw-stop-form">
+      <div style="font-size:12px;font-weight:600;color:var(--tekst-zacht);margin-bottom:8px">➕ Nieuwe stop toevoegen</div>
+      <div class="modal-field">
+        <div class="modal-label">Type</div>
+        <select id="nieuw-stop-type" class="modal-select" style="padding:8px 10px;font-size:12px">
+          <option value="activiteit">🔵 Activiteit</option>
+          <option value="overnacht">🟢 Overnachting</option>
+          <option value="tussenstop">🟠 Tussenstop</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <div class="modal-label">Naam</div>
+        <input id="nieuw-stop-naam" class="modal-input" placeholder="bijv. Wildkamperen bij rivier" style="padding:8px 10px;font-size:13px;border-radius:var(--radius-klein)">
+      </div>
+      <div class="modal-field">
+        <div class="modal-label">Detail (optioneel)</div>
+        <input id="nieuw-stop-detail" class="modal-input" placeholder="bijv. Fantastische plek, ster 5" style="padding:8px 10px;font-size:13px;border-radius:var(--radius-klein)">
+      </div>
+      <div class="modal-field">
+        <div class="modal-label">Navigatieadres</div>
+        <input id="nieuw-stop-nav" class="modal-input" placeholder="bijv. 69.1234,18.5678 of plaatsnaam" style="padding:8px 10px;font-size:13px;border-radius:var(--radius-klein)">
+      </div>
+      <button onclick="voegStopToe()" style="width:100%;padding:10px;border:none;border-radius:var(--radius-klein);background:var(--groen);color:white;font-size:13px;font-weight:600;cursor:pointer;margin-top:4px">+ Voeg stop toe</button>
+    </div>
+
+    <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="btn-cancel" onclick="sluitReisModal()">Annuleren</button>
+      <button class="btn-save" onclick="slaReisOp()">Opslaan</button>
+      <button class="btn-reset" style="grid-column:1/-1" onclick="resetReisDag()">↩ Dag terugzetten naar origineel</button>
     </div>
   </div>
 </div>
@@ -1022,6 +1091,157 @@ function mapsUrl(nav) {
   return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(nav);
 }
 
+
+// =================== REISROUTE BEWERKEN ===================
+let reisWijzigingen = {};
+let bewerkReisDag = null;
+let tijdelijkeStops = [];
+
+const reisWijzDoc = doc(db, 'vakantie', 'reiswijzigingen');
+
+onSnapshot(reisWijzDoc, snap => {
+  if (snap.exists()) {
+    reisWijzigingen = snap.data() || {};
+  } else {
+    reisWijzigingen = {};
+  }
+  renderReis();
+  setSyncStatus('online');
+}, err => { setSyncStatus('offline'); });
+
+async function slaReisWijzOp() {
+  setSyncStatus('syncing');
+  try {
+    await setDoc(reisWijzDoc, reisWijzigingen);
+    setSyncStatus('online');
+  } catch(e) { setSyncStatus('offline'); }
+}
+
+const STOP_ICONS = { overnacht: '⛺', activiteit: '🔵', tussenstop: '🚗' };
+const BORDER_COLORS = { overnacht: 'var(--groen)', activiteit: 'var(--blauw)', tussenstop: 'var(--oranje)' };
+const TYPE_LABELS = { overnacht: 'Overnachting', activiteit: 'Activiteit', tussenstop: 'Tussenstop' };
+const TYPE_PILL_CSS = { overnacht: 'type-overnacht-pill', activiteit: 'type-activiteit-pill', tussenstop: 'type-tussenstop-pill' };
+
+window.openReisModal = function(dagNr) {
+  bewerkReisDag = dagNr;
+  const orig = REISDAGEN.find(d => d.d === dagNr);
+  const dag = reisData(orig);
+  tijdelijkeStops = JSON.parse(JSON.stringify(dag.stops));
+  document.getElementById('reis-modal-titel').textContent = 'Dag ' + dagNr + ' bewerken';
+  document.getElementById('reis-edit-titel').value = dag.titel || '';
+  document.getElementById('reis-edit-datum').value = dag.datum || '';
+  renderStopsEdit();
+  document.getElementById('reis-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+
+window.sluitReisModal = function() {
+  document.getElementById('reis-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  bewerkReisDag = null;
+  tijdelijkeStops = [];
+};
+
+window.reisModalKlik = function(e) {
+  if (e.target === document.getElementById('reis-modal')) window.sluitReisModal();
+};
+
+function renderStopsEdit() {
+  const el = document.getElementById('reis-stops-edit');
+  if (!tijdelijkeStops.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--tekst-heel-zacht);padding:8px 0;text-align:center">Geen stops — voeg er een toe hieronder</div>';
+    return;
+  }
+  el.innerHTML = tijdelijkeStops.map(function(stop, i) {
+    const border = BORDER_COLORS[stop.type] || 'var(--rand-donker)';
+    const pill = TYPE_PILL_CSS[stop.type] || '';
+    return '<div class="reis-edit-stop type-' + stop.type + '" id="stop-row-' + i + '">' +
+      '<div class="reis-edit-stop-info">' +
+        '<span class="type-pill ' + pill + '">' + (TYPE_LABELS[stop.type] || stop.type) + '</span>' +
+        '<span class="reis-edit-stop-naam">' + stop.naam + '</span>' +
+        (stop.detail ? '<div class="reis-edit-stop-detail">' + stop.detail + '</div>' : '') +
+        (stop.nav ? '<div class="reis-edit-stop-nav">📍 ' + stop.nav + '</div>' : '') +
+        '<div style="display:flex;gap:4px;margin-top:4px">' +
+          '<button class="reis-edit-btn-small" onclick="bewerkStop(' + i + ')">✏️ Pas aan</button>' +
+          (i > 0 ? '<button class="reis-edit-btn-small" onclick="verplaatsStop(' + i + ',-1)">↑</button>' : '') +
+          (i < tijdelijkeStops.length-1 ? '<button class="reis-edit-btn-small" onclick="verplaatsStop(' + i + ',1)">↓</button>' : '') +
+        '</div>' +
+      '</div>' +
+      '<button class="reis-del-btn" onclick="verwijderStop(' + i + ')">×</button>' +
+    '</div>';
+  }).join('');
+}
+
+window.verwijderStop = function(i) {
+  tijdelijkeStops.splice(i, 1);
+  renderStopsEdit();
+};
+
+window.verplaatsStop = function(i, dir) {
+  const j = i + dir;
+  if (j < 0 || j >= tijdelijkeStops.length) return;
+  const tmp = tijdelijkeStops[i];
+  tijdelijkeStops[i] = tijdelijkeStops[j];
+  tijdelijkeStops[j] = tmp;
+  renderStopsEdit();
+};
+
+window.bewerkStop = function(i) {
+  const stop = tijdelijkeStops[i];
+  document.getElementById('nieuw-stop-type').value = stop.type || 'activiteit';
+  document.getElementById('nieuw-stop-naam').value = stop.naam || '';
+  document.getElementById('nieuw-stop-detail').value = stop.detail || '';
+  document.getElementById('nieuw-stop-nav').value = stop.nav || '';
+  // Remove and re-add when saved
+  tijdelijkeStops.splice(i, 1);
+  renderStopsEdit();
+  document.getElementById('nieuw-stop-naam').focus();
+};
+
+window.voegStopToe = function() {
+  const naam = document.getElementById('nieuw-stop-naam').value.trim();
+  if (!naam) { document.getElementById('nieuw-stop-naam').style.borderColor = 'var(--rood)'; return; }
+  document.getElementById('nieuw-stop-naam').style.borderColor = '';
+  const type = document.getElementById('nieuw-stop-type').value;
+  const iconMap = { overnacht: '⛺', activiteit: '📍', tussenstop: '🚗' };
+  tijdelijkeStops.push({
+    type: type,
+    icon: iconMap[type] || '📍',
+    naam: naam,
+    detail: document.getElementById('nieuw-stop-detail').value.trim(),
+    nav: document.getElementById('nieuw-stop-nav').value.trim(),
+  });
+  document.getElementById('nieuw-stop-naam').value = '';
+  document.getElementById('nieuw-stop-detail').value = '';
+  document.getElementById('nieuw-stop-nav').value = '';
+  renderStopsEdit();
+};
+
+window.slaReisOp = async function() {
+  if (!bewerkReisDag) return;
+  reisWijzigingen[bewerkReisDag] = {
+    titel: document.getElementById('reis-edit-titel').value.trim(),
+    datum: document.getElementById('reis-edit-datum').value.trim(),
+    stops: tijdelijkeStops,
+  };
+  window.sluitReisModal();
+  renderReis();
+  await slaReisWijzOp();
+};
+
+window.resetReisDag = async function() {
+  if (!bewerkReisDag) return;
+  if (!confirm('Dag ' + bewerkReisDag + ' terugzetten naar origineel?')) return;
+  delete reisWijzigingen[bewerkReisDag];
+  window.sluitReisModal();
+  renderReis();
+  await slaReisWijzOp();
+};
+
+function reisData(dag) {
+  return reisWijzigingen[dag.d] ? Object.assign({}, dag, reisWijzigingen[dag.d]) : dag;
+}
+
 function renderReis() {
   const lijst = document.getElementById('reis-lijst');
   const gef = huidigReisLand === 'all' ? REISDAGEN : REISDAGEN.filter(d => d.land === huidigReisLand);
@@ -1033,8 +1253,9 @@ function renderReis() {
     '<div class="stop-legenda-item"><div class="stop-legenda-dot" style="background:var(--oranje)"></div>Tussenstop</div>' +
     '</div>' +
     gef.map(function(dag) {
+      const dagActueel = reisData(dag);
       const l = LANDEN[dag.land];
-      const stops = dag.stops.map(function(stop) {
+      const stops = dagActueel.stops.map(function(stop) {
         const borderColor = stop.type === 'overnacht' ? 'var(--groen)' : stop.type === 'activiteit' ? 'var(--blauw)' : 'var(--oranje)';
         const navBtn = stop.nav ? '<a href="' + mapsUrl(stop.nav) + '" target="_blank" class="nav-btn-kaart">📍 Navigeer</a>' : '';
         const linkBtn = stop.link ? '<a href="' + stop.link + '" target="_blank" class="link-btn">🔗 Link</a>' : '';
@@ -1047,12 +1268,14 @@ function renderReis() {
           '</div>' +
         '</div>';
       }).join('');
-      return '<div class="reis-kaart">' +
+      const gewijzigdDotReis = reisWijzigingen[dag.d] ? '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-left:5px;vertical-align:middle"></span>' : '';
+    return '<div class="reis-kaart">' +
         '<div class="reis-dag-header">' +
           '<span class="dag-num">Dag ' + dag.d + '</span>' +
           '<span class="land-badge" style="background:' + l.bg + ';color:' + l.tekst + '">' + l.vlag + ' ' + l.naam + '</span>' +
-          '<span class="dag-datum">' + dag.datum + '</span>' +
-          '<span class="dag-loc">' + dag.titel + '</span>' +
+          '<span class="dag-datum">' + dagActueel.datum + gewijzigdDotReis + '</span>' +
+          '<button class="edit-btn" onclick="openReisModal(' + dag.d + ')">✏️ Bewerk</button>' +
+          '<span class="dag-loc">' + dagActueel.titel + '</span>' +
         '</div>' +
         '<div class="reis-stops">' + stops + '</div>' +
       '</div>';
