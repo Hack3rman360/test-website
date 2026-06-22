@@ -416,6 +416,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="modal">
     <div class="modal-title" id="modal-titel"></div>
     <div class="modal-sub" id="modal-sub"></div>
+    <div class="modal-field">
+      <div class="modal-label">Land</div>
+      <select class="modal-select" id="edit-land">
+        <option value="NL">🇳🇱 Nederland</option>
+        <option value="DE">🇩🇪 Duitsland</option>
+        <option value="PL">🇵🇱 Polen</option>
+        <option value="LT">🇱🇹 Litouwen</option>
+        <option value="LV">🇱🇻 Letland</option>
+        <option value="EE">🇪🇪 Estland</option>
+        <option value="FI">🇫🇮 Finland</option>
+        <option value="NO">🇳🇴 Noorwegen</option>
+        <option value="SE">🇸🇪 Zweden</option>
+        <option value="DK">🇩🇰 Denemarken</option>
+      </select>
+    </div>
     <div class="modal-field"><div class="modal-label">Ontbijt</div><textarea class="modal-input" id="edit-O" rows="2"></textarea></div>
     <div class="modal-field"><div class="modal-label">Lunch</div><textarea class="modal-input" id="edit-L" rows="2"></textarea></div>
     <div class="modal-field"><div class="modal-label">Avondeten</div><textarea class="modal-input" id="edit-A" rows="2"></textarea></div>
@@ -451,6 +466,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="modal-field">
         <div class="modal-label">Datum</div>
         <input id="reis-edit-datum" class="modal-input" style="padding:9px 12px;font-size:13px;border-radius:var(--radius-klein)" placeholder="bijv. 18 jul">
+      </div>
+      <div class="modal-field">
+        <div class="modal-label">Land</div>
+        <select class="modal-select" id="reis-edit-land">
+          <option value="NL">🇳🇱 Nederland</option>
+          <option value="DE">🇩🇪 Duitsland</option>
+          <option value="PL">🇵🇱 Polen</option>
+          <option value="LT">🇱🇹 Litouwen</option>
+          <option value="LV">🇱🇻 Letland</option>
+          <option value="EE">🇪🇪 Estland</option>
+          <option value="FI">🇫🇮 Finland</option>
+          <option value="NO">🇳🇴 Noorwegen</option>
+          <option value="SE">🇸🇪 Zweden</option>
+          <option value="DK">🇩🇰 Denemarken</option>
+        </select>
       </div>
     </div>
 
@@ -683,6 +713,7 @@ window.openModal=function(dagNr){
   const dag=dagData(orig);
   document.getElementById('modal-titel').textContent=`Dag ${dagNr} bewerken`;
   document.getElementById('modal-sub').textContent=`${dag.datum} · ${orig.loc}`;
+  document.getElementById('edit-land').value=dag.land||orig.land;
   document.getElementById('edit-O').value=dag.O||'';
   document.getElementById('edit-L').value=dag.L||'';
   document.getElementById('edit-A').value=dag.A||'';
@@ -705,6 +736,7 @@ window.modalKlik=function(e){
 window.slaOp=async function(){
   if(!bewerkDag) return;
   wijzigingen[bewerkDag]={
+    land:document.getElementById('edit-land').value,
     O:document.getElementById('edit-O').value.trim(),
     L:document.getElementById('edit-L').value.trim(),
     A:document.getElementById('edit-A').value.trim(),
@@ -1128,6 +1160,7 @@ window.openReisModal = function(dagNr) {
   const dag = reisData(orig);
   tijdelijkeStops = JSON.parse(JSON.stringify(dag.stops));
   document.getElementById('reis-modal-titel').textContent = 'Dag ' + dagNr + ' bewerken';
+  document.getElementById('reis-edit-land').value = dag.land || orig.land;
   document.getElementById('reis-edit-titel').value = dag.titel || '';
   document.getElementById('reis-edit-datum').value = dag.datum || '';
   renderStopsEdit();
@@ -1220,6 +1253,7 @@ window.voegStopToe = function() {
 window.slaReisOp = async function() {
   if (!bewerkReisDag) return;
   reisWijzigingen[bewerkReisDag] = {
+    land: document.getElementById('reis-edit-land').value,
     titel: document.getElementById('reis-edit-titel').value.trim(),
     datum: document.getElementById('reis-edit-datum').value.trim(),
     stops: tijdelijkeStops,
