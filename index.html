@@ -431,7 +431,7 @@ function setSyncStatus(status){
   const el=document.getElementById('sync-status');
   const tekst=document.getElementById('sync-tekst');
   el.className='sync-status';
-  if(status==='online'){el.classList.add('');tekst.textContent='Gesynchroniseerd';}
+  if(status==='online'){tekst.textContent='Gesynchroniseerd';}
   else if(status==='syncing'){el.classList.add('syncing');tekst.textContent='Opslaan...';}
   else{el.classList.add('offline');tekst.textContent='Offline';}
 }
