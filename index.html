@@ -297,23 +297,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div class="sectie-titel">❄️ Koelkast indeling</div>
     <div class="kk-grid">
       <div class="kk-card">
-        <div class="kk-titel">4°C koelkast</div><div class="kk-sub">24 liter · bederfelijk</div>
-        <div class="vol-bar-bg"><div class="vol-bar-fill" style="width:85%;background:#1D9E75"></div></div>
-        <div class="vol-labels"><span>~20L bezet</span><span>4L vrij</span></div>
-        <div class="kk-item">🥩 Vacuum vlees/vis: ~8L</div>
-        <div class="kk-item">🥛 Melk (geopend) + yoghurt: ~4L</div>
-        <div class="kk-item">🧀 Kaasblok + feta: ~3L</div>
-        <div class="kk-item">🫙 Geopende sauzen: ~3L</div>
-        <div class="kk-item">🥚 Eieren (optioneel): ~3L</div>
+        <div class="kk-titel">❄️ 4°C koelkast</div><div class="kk-sub">24 liter · bederfelijk · vinkjes sturen de balk</div>
+        <div class="vol-bar-bg"><div class="vol-bar-fill" id="bar-koel4" style="width:0%;background:var(--groen);transition:width .4s,background .3s"></div></div>
+        <div class="vol-labels"><span id="bar-koel4-label" style="transition:color .3s">0L gebruikt · 24L vrij</span><span>max 24L</span></div>
+        <div class="kk-item">🥩 Vacuum vlees/vis</div>
+        <div class="kk-item">🧀 Kaasblok + feta vacuum</div>
+        <div class="kk-item">🥛 Geopende melk + yoghurt (+~4L ter plaatse)</div>
+        <div class="kk-item">🫙 Geopende sauzen (+~3L)</div>
+        <div class="kk-item">🥚 Eieren optioneel (+~3L)</div>
         <div class="kk-tip">💡 Vacuümzakjes voor kaas en vlees scheelt 30% ruimte</div>
       </div>
       <div class="kk-card">
-        <div class="kk-titel">15°C koelkast</div><div class="kk-sub">12 liter · semi-houdbaar</div>
-        <div class="vol-bar-bg"><div class="vol-bar-fill" style="width:75%;background:#2563EB"></div></div>
-        <div class="vol-labels"><span>~9L bezet</span><span>3L vrij</span></div>
-        <div class="kk-item">🥒 Komkommer + paprika: ~4L</div>
-        <div class="kk-item">🫓 Brood/wraps (geopend): ~4L</div>
-        <div class="kk-item">🍎 Fruit (appels): ~3L</div>
+        <div class="kk-titel">🌡️ 15°C koelkast</div><div class="kk-sub">12 liter · semi-houdbaar · vinkjes sturen de balk</div>
+        <div class="vol-bar-bg"><div class="vol-bar-fill" id="bar-koel15" style="width:0%;background:var(--groen);transition:width .4s,background .3s"></div></div>
+        <div class="vol-labels"><span id="bar-koel15-label" style="transition:color .3s">0L gebruikt · 12L vrij</span><span>max 12L</span></div>
+        <div class="kk-item">🥒 Komkommer + paprika (vers, kort houdbaar)</div>
+        <div class="kk-item">🫓 Brood/wraps geopend (+~4L ter plaatse)</div>
+        <div class="kk-item">🍎 Fruit — appels, geen bananen</div>
         <div class="kk-tip">💡 Bananen NIET in koelkast — in de auto laten</div>
       </div>
     </div>
@@ -340,45 +340,48 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <div id="tab-auto" class="tab-content">
   <div class="content">
     <div class="bood-intro">✅ Dit kan gewoon in de warme auto — geen koeling nodig</div>
+    <div style="margin-bottom:12px;background:var(--blauw-licht);border-radius:var(--radius-klein);padding:8px 12px;font-size:12px;color:var(--blauw)">
+      💡 De balken vullen mee op basis van de aangevinkte boodschappen
+    </div>
     <div class="auto-grid">
       <div class="auto-card">
-        <div class="auto-card-titel">✅ Droog & houdbaar</div>
-        <div class="auto-item">● Alle pasta, rijst, couscous</div>
+        <div class="auto-card-titel">📦 Krat 1 — Droog & granen</div>
+        <div class="vol-bar-bg" style="margin-bottom:4px"><div class="vol-bar-fill" id="bar-droog" style="width:0%;background:var(--groen);transition:width .4s,background .3s"></div></div>
+        <div style="font-size:10px;color:var(--tekst-heel-zacht);margin-bottom:6px;display:flex;justify-content:space-between"><span id="bar-droog-label">0L gebruikt</span><span>max ~40L</span></div>
+        <div class="auto-item">● Pasta, rijst, couscous</div>
         <div class="auto-item">● Havermout + granola</div>
         <div class="auto-item">● Crackers + knäckebröd</div>
-        <div class="auto-item">● Alle specerijen</div>
-        <div class="auto-item">● Noten + rozijnen</div>
-        <div class="auto-item">● Energierepen</div>
-        <div class="auto-item">● Koffie + thee</div>
+        <div class="auto-item">● Tortilla wraps</div>
+        <div class="auto-item">● Uien + knoflook + aardappelen</div>
       </div>
       <div class="auto-card">
-        <div class="auto-card-titel">✅ Blik & pot (ongeopend)</div>
-        <div class="auto-item">● Chilli con carne blik</div>
-        <div class="auto-item">● Alle soepblikken</div>
-        <div class="auto-item">● Tonijn + makreel blik</div>
+        <div class="auto-card-titel">🥫 Krat 2 — Blik & pot</div>
+        <div class="vol-bar-bg" style="margin-bottom:4px"><div class="vol-bar-fill" id="bar-blik" style="width:0%;background:var(--groen);transition:width .4s,background .3s"></div></div>
+        <div style="font-size:10px;color:var(--tekst-heel-zacht);margin-bottom:6px;display:flex;justify-content:space-between"><span id="bar-blik-label">0L gebruikt</span><span>max ~40L</span></div>
+        <div class="auto-item">● Chilli con carne blik 4x</div>
+        <div class="auto-item">● Tonijn + makreel + soepen</div>
         <div class="auto-item">● Tomatenblokjes + pastasaus</div>
-        <div class="auto-item">● Champignons + spinazie blik</div>
-        <div class="auto-item">● Maïs + bonen blik</div>
-        <div class="auto-item">● Gegrilde paprika pot</div>
-        <div class="auto-item">● Kikkererwten blik</div>
-        <div class="auto-item">● Pesto + olijfolie (ongeopend)</div>
+        <div class="auto-item">● Groenten blik/pot</div>
+        <div class="auto-item">● Pesto + olijfolie + sauzen</div>
       </div>
       <div class="auto-card">
-        <div class="auto-card-titel">✅ Smeersels & basis</div>
-        <div class="auto-item">● UHT-melk (ongeopend)</div>
+        <div class="auto-card-titel">🧴 Krat 3 — Smeersels & snacks</div>
+        <div class="vol-bar-bg" style="margin-bottom:4px"><div class="vol-bar-fill" id="bar-smeersels" style="width:0%;background:var(--groen);transition:width .4s,background .3s"></div></div>
+        <div style="font-size:10px;color:var(--tekst-heel-zacht);margin-bottom:6px;display:flex;justify-content:space-between"><span id="bar-smeersels-label">0L gebruikt</span><span>max ~20L</span></div>
         <div class="auto-item">● Pindakaas + jam + honing</div>
-        <div class="auto-item">● Uien + knoflook</div>
-        <div class="auto-item">● Aardappelen (donker)</div>
-        <div class="auto-item">● Eieren (ongewassen)</div>
+        <div class="auto-item">● Smeerkaas + UHT-melk</div>
+        <div class="auto-item">● Koffie + thee</div>
+        <div class="auto-item">● Energierepen + noten + rozijnen</div>
+        <div class="auto-item">● Alle specerijen + bouillon</div>
       </div>
       <div class="auto-card">
         <div class="auto-card-titel">❌ NIET in warme auto</div>
         <div class="auto-item nee">● Chocolade — smelt</div>
-        <div class="auto-item nee">● Geopende sauzen</div>
-        <div class="auto-item nee">● Geopende UHT-melk</div>
+        <div class="auto-item nee">● Geopende sauzen / melk</div>
         <div class="auto-item nee">● Vacuum vlees >7°C</div>
         <div class="auto-item nee">● Feta vacuum (geopend)</div>
         <div class="auto-item nee">● Rijpe avocado + zachte vruchten</div>
+        <div class="auto-item nee">● Bananen (niet 15°C)</div>
       </div>
     </div>
     <div class="sectie-titel">📦 Inpaktips</div>
@@ -546,6 +549,7 @@ onSnapshot(boodDoc, snap=>{
     gecheckt={};
   }
   renderBoodschappen();
+  updateVolumeBars();
   setSyncStatus('online');
 }, err=>{
   setSyncStatus('offline');
@@ -681,7 +685,7 @@ function renderBoodschappen(){
     const items=sec.items.map((item,ii)=>{
       const key=si+'-'+ii;
       const checked=gecheckt[key]?'checked':'';
-      return '<div class="bood-item '+checked+'" onclick="toggleItem(this,''+key+'')"><div class="bood-check"></div><span class="bood-tekst">'+item+'</span></div>';
+      return '<div class="bood-item '+checked+'" data-key="'+key+'" onclick="toggleItem(this, this.dataset.key)"><div class="bood-check"></div><span class="bood-tekst">'+item+'</span></div>';
     }).join('');
     return '<div class="bood-sectie"><div class="bood-sectie-titel">'+sec.cat+'</div><div class="bood-card">'+items+'</div></div>';
   }).join('');
@@ -689,9 +693,11 @@ function renderBoodschappen(){
 }
 
 window.toggleItem=async function(el,key){
+  if(!key) key=el.dataset.key;
   gecheckt[key]=!gecheckt[key];
   el.classList.toggle('checked',gecheckt[key]);
   updateProgress();
+  updateVolumeBars();
   await slaBoodOp();
 };
 
@@ -763,12 +769,80 @@ window.resetBoodschappen=async function(){
 };
 
 
+
+// =================== VOLUME BALKEN ===================
+const VOL_MAP = {
+  '0-0':{loc:'droog',vol:2.0},'0-1':{loc:'droog',vol:1.0},'0-2':{loc:'droog',vol:0.5},
+  '0-3':{loc:'droog',vol:1.0},'0-4':{loc:'droog',vol:0.5},'0-5':{loc:'droog',vol:1.5},
+  '0-6':{loc:'droog',vol:1.5},'0-7':{loc:'droog',vol:2.0},'0-8':{loc:'droog',vol:2.0},
+  '1-0':{loc:'blik',vol:2.0},'1-1':{loc:'droog',vol:1.0},
+  '2-0':{loc:'blik',vol:3.0},'2-1':{loc:'blik',vol:2.0},'2-2':{loc:'blik',vol:0.5},
+  '2-3':{loc:'blik',vol:0.5},'2-4':{loc:'blik',vol:0.3},'2-5':{loc:'blik',vol:0.5},
+  '2-6':{loc:'blik',vol:0.3},'2-7':{loc:'blik',vol:0.3},
+  '3-0':{loc:'blik',vol:1.5},'3-1':{loc:'blik',vol:2.0},'3-2':{loc:'blik',vol:2.5},
+  '3-3':{loc:'blik',vol:1.5},'3-4':{loc:'blik',vol:1.5},'3-5':{loc:'blik',vol:1.0},
+  '3-6':{loc:'blik',vol:1.5},
+  '4-0':{loc:'blik',vol:2.0},'4-1':{loc:'blik',vol:1.0},'4-2':{loc:'blik',vol:2.0},
+  '4-3':{loc:'blik',vol:2.0},
+  '5-0':{loc:'smeersels',vol:1.0},'5-1':{loc:'smeersels',vol:0.5},'5-2':{loc:'smeersels',vol:0.3},
+  '5-3':{loc:'smeersels',vol:0.5},'5-4':{loc:'smeersels',vol:2.0},'5-5':{loc:'smeersels',vol:0.5},
+  '5-6':{loc:'smeersels',vol:1.5},'5-7':{loc:'smeersels',vol:0.5},'5-8':{loc:'smeersels',vol:0.3},
+  '6-0':{loc:'koel4',vol:2.0},'6-1':{loc:'koel4',vol:0.5},'6-2':{loc:'koel4',vol:0.5},
+  '6-3':{loc:'koel4',vol:1.0},'6-4':{loc:'koel4',vol:1.0},'6-5':{loc:'koel4',vol:1.5},
+  '6-6':{loc:'koel4',vol:0.5},
+  '7-0':{loc:'droog',vol:0.5},'7-1':{loc:'droog',vol:0.3},'7-2':{loc:'droog',vol:2.0},
+  '7-3':{loc:'koel15',vol:1.5},'7-4':{loc:'koel15',vol:1.0},
+  '8-0':{loc:'smeersels',vol:0.2},'8-1':{loc:'smeersels',vol:0.2},'8-2':{loc:'smeersels',vol:0.2},
+  '8-3':{loc:'smeersels',vol:0.2},'8-4':{loc:'smeersels',vol:0.2},'8-5':{loc:'smeersels',vol:0.2},
+  '8-6':{loc:'smeersels',vol:0.5},'8-7':{loc:'smeersels',vol:0.3},'8-8':{loc:'smeersels',vol:0.2},
+};
+
+const CAPS = {koel4:24, koel15:12, droog:40, blik:40, smeersels:20};
+
+function berekenVolumes() {
+  const t = {koel4:0, koel15:0, droog:0, blik:0, smeersels:0};
+  for (const [key, checked] of Object.entries(gecheckt)) {
+    if (!checked) continue;
+    const info = VOL_MAP[key];
+    if (info && t[info.loc] !== undefined) t[info.loc] += info.vol;
+  }
+  return t;
+}
+
+function updateVolumeBars() {
+  const t = berekenVolumes();
+  const bars = {
+    'bar-koel4':    {used:t.koel4,    cap:CAPS.koel4,    warn:20},
+    'bar-koel15':   {used:t.koel15,   cap:CAPS.koel15,   warn:10},
+    'bar-droog':    {used:t.droog,    cap:CAPS.droog,    warn:34},
+    'bar-blik':     {used:t.blik,     cap:CAPS.blik,     warn:34},
+    'bar-smeersels':{used:t.smeersels,cap:CAPS.smeersels,warn:17},
+  };
+  for (const [id, {used, cap, warn}] of Object.entries(bars)) {
+    const bar = document.getElementById(id);
+    const lbl = document.getElementById(id+'-label');
+    if (!bar) continue;
+    const pct = Math.min(100, (used/cap)*100);
+    bar.style.width = pct.toFixed(1)+'%';
+    const isOver = used > cap;
+    const isWarn = used >= warn;
+    bar.style.background = isOver ? 'var(--rood)' : isWarn ? 'var(--oranje)' : 'var(--groen)';
+    if (lbl) {
+      const vrij = Math.max(0, cap-used).toFixed(1);
+      lbl.textContent = isOver
+        ? '⚠️ Vol! +'+(used-cap).toFixed(1)+'L te veel'
+        : used.toFixed(1)+'L gebruikt · '+vrij+'L vrij';
+      lbl.style.color = isOver ? 'var(--rood)' : isWarn ? 'var(--oranje)' : 'var(--tekst-heel-zacht)';
+    }
+  }
+}
+
 // =================== REISROUTE DATA ===================
 const REISDAGEN = [
   {d:1, land:'NL', datum:'18 jul', titel:'Vertrek → Dresden', stops:[
     {type:'tussenstop', icon:'🚗', naam:'Vertrek Gelderland', detail:'~06:00 vertrek'},
     {type:'overnacht', icon:'⛺', naam:'Campingplatz Dresden-Mockritz', detail:'Aankomst 15:00–16:00', nav:'Campingplatz Dresden-Mockritz, Dresden', link:'https://www.eurocampings.nl/duitsland/saksen/dresden/campingplatz-dresden-mockritz-102661/'},
-    {type:'activiteit', icon:'🏛️', naam:'Dresden centrum', detail:''s Avonds: operagebouw, Frauenkirche, Elbe', nav:'Semperoper Dresden'},
+    {type:'activiteit', icon:'🏛️', naam:'Dresden centrum', detail:"'s Avonds: operagebouw, Frauenkirche, Elbe", nav:'Semperoper Dresden'},
   ]},
   {d:2, land:'DE', datum:'19 jul', titel:'Dresden → Białowieża', stops:[
     {type:'tussenstop', icon:'🚗', naam:'Vertrek Dresden', detail:'~08:30'},
@@ -778,7 +852,7 @@ const REISDAGEN = [
   {d:3, land:'PL', datum:'20 jul', titel:'Białowieża — Oerbos & Bizons', stops:[
     {type:'tussenstop', icon:'🛒', naam:'Boodschappen Białowieża', detail:'ul. Stoczek 12, Białowieża · 09:00', nav:'ul. Stoczek 12, Białowieża'},
     {type:'activiteit', icon:'🚲', naam:'Path of the Bison — Royal Oaks Trail', detail:'Fietsen huren 10:00–16:30 · €15 pp · Zwierzyniec open natuurgebied', nav:'Białowieża National Park, Poland'},
-    {type:'activiteit', icon:'🦬', naam:'Bizons spotten', detail:''s Avonds in het oerbos', nav:'Białowieża Forest'},
+    {type:'activiteit', icon:'🦬', naam:'Bizons spotten', detail:"'s Avonds in het oerbos", nav:'Białowieża Forest'},
     {type:'overnacht', icon:'🏕️', naam:'U Michała, Białowieża', detail:'€25', nav:'U Michała Białowieża'},
   ]},
   {d:4, land:'PL', datum:'21 jul', titel:'Białowieża → Trakai', stops:[
@@ -788,7 +862,7 @@ const REISDAGEN = [
   {d:5, land:'LT', datum:'22 jul', titel:'Trakai & Vilnius', stops:[
     {type:'activiteit', icon:'🏰', naam:'Kasteel van Trakai', detail:'Eilandkasteel op het meer', nav:'Trakai Island Castle, Lithuania'},
     {type:'activiteit', icon:'🚣', naam:'Suppen / kajakken', detail:'Op het meer rond het kasteel', nav:'Trakai, Lithuania'},
-    {type:'activiteit', icon:'🌆', naam:'Vilnius centrum', detail:''s Avonds of volgende ochtend', nav:'Vilnius Old Town, Lithuania'},
+    {type:'activiteit', icon:'🌆', naam:'Vilnius centrum', detail:"'s Avonds of volgende ochtend", nav:'Vilnius Old Town, Lithuania'},
     {type:'overnacht', icon:'🏕️', naam:'Holiday Centre Slenis', detail:'', nav:'Holiday Centre Slenis Trakai'},
   ]},
   {d:6, land:'LV', datum:'23 jul', titel:'Heuvel der Kruisen → Riga', stops:[
@@ -836,7 +910,7 @@ const REISDAGEN = [
     {type:'overnacht', icon:'🏕️', naam:'Lakselv, Noorwegen', detail:'', nav:'Lakselv, Norway'},
   ]},
   {d:15, land:'NO', datum:'1 aug', titel:'Lakselv → Noordkaap → Skarsvåg', stops:[
-    {type:'activiteit', icon:'🏔️', naam:'Noordkaap', detail:'71°10'21"N · meest noordelijke punt per auto bereikbaar', nav:'North Cape, Norway'},
+    {type:'activiteit', icon:'🏔️', naam:'Noordkaap', detail:"71°10'21\"N · meest noordelijke punt per auto bereikbaar", nav:'North Cape, Norway'},
     {type:'activiteit', icon:'🥾', naam:'Hike Knivskjellodden', detail:'~18 km retour · echt noordelijkste punt van Europa', nav:'Knivskjellodden trailhead, Norway'},
     {type:'overnacht', icon:'🏕️', naam:'Skarsvåg — wilde camping', detail:'', nav:'Skarsvåg, Norway'},
   ]},
@@ -994,6 +1068,7 @@ if('serviceWorker' in navigator){
 
 renderDagen();
 renderBoodschappen();
+updateVolumeBars();
 </script>
 </body>
 </html>
