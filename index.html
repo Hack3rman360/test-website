@@ -8,7 +8,6 @@
 <meta name="apple-mobile-web-app-title" content="Vakantie 🏔️">
 <meta name="theme-color" content="#1D9E75">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%231D9E75'/><text y='130' x='90' font-size='100' text-anchor='middle'>🏔️</text></svg>">
 <title>Scandinavië Vakantie 2025</title>
 <style>
 :root {
@@ -32,7 +31,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .header-title{font-size:18px;font-weight:700;letter-spacing:-0.3px}
 .header-sub{font-size:12px;color:var(--tekst-zacht);margin-top:1px}
-.dag-counter{background:var(--groen);color:white;font-size:12px;font-weight:600;padding:4px 10px;border-radius:var(--radius-pill)}
+.sync-status{font-size:11px;font-weight:600;padding:4px 10px;border-radius:var(--radius-pill);background:var(--groen-licht);color:var(--groen-donker);display:flex;align-items:center;gap:5px;transition:all .3s}
+.sync-status.syncing{background:var(--oranje-licht);color:var(--oranje)}
+.sync-status.offline{background:var(--rood-licht);color:var(--rood)}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
 
 .nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
@@ -40,7 +42,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .nav-btn.active{color:var(--groen-donker);border-bottom-color:var(--groen);font-weight:600}
 
 .content{padding:16px}
-
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
 .stat{background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius-klein);padding:10px 8px;text-align:center}
 .stat-n{font-size:22px;font-weight:700;color:var(--groen);line-height:1}
@@ -72,9 +73,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tag-med{background:var(--med-bg);color:var(--med-tekst)}
 .activiteit{display:flex;align-items:flex-start;gap:5px;margin-top:8px;font-size:11px;color:var(--tekst-zacht);font-style:italic;line-height:1.4}
 .shop-banner{background:var(--groen-licht);border:1px solid #9FE1CB;border-radius:var(--radius-klein);padding:7px 10px;margin-bottom:8px;font-size:12px;color:var(--groen-donker);font-weight:600;display:flex;align-items:center;gap:6px}
-
 .edit-btn{margin-left:auto;padding:4px 10px;font-size:11px;border:1px solid var(--rand-donker);border-radius:var(--radius-pill);background:transparent;color:var(--tekst-zacht);cursor:pointer;font-weight:500;flex-shrink:0}
-.edit-btn:active{background:var(--bg)}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:flex-end;justify-content:center}
@@ -86,7 +85,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .modal-label{font-size:11px;font-weight:600;color:var(--tekst-zacht);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .modal-input{width:100%;padding:10px 12px;border:1px solid var(--rand-donker);border-radius:var(--radius-klein);font-size:13px;font-family:inherit;color:var(--tekst);background:var(--bg);resize:none}
 .modal-input:focus{outline:none;border-color:var(--groen)}
-.modal-select{width:100%;padding:10px 12px;border:1px solid var(--rand-donker);border-radius:var(--radius-klein);font-size:13px;font-family:inherit;color:var(--tekst);background:var(--bg);appearance:none}
+.modal-select{width:100%;padding:10px 12px;border:1px solid var(--rand-donker);border-radius:var(--radius-klein);font-size:13px;font-family:inherit;color:var(--tekst);background:var(--bg)}
 .modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
 .btn-save{padding:12px;border:none;border-radius:var(--radius-klein);background:var(--groen);color:white;font-size:14px;font-weight:600;cursor:pointer}
 .btn-cancel{padding:12px;border:1px solid var(--rand-donker);border-radius:var(--radius-klein);background:transparent;color:var(--tekst-zacht);font-size:14px;font-weight:500;cursor:pointer}
@@ -128,16 +127,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .auto-item:last-child{border-bottom:none}
 .auto-item.nee{color:var(--tekst-zacht)}
 
-/* INSTALL BANNER */
-.install-banner{background:var(--groen-licht);border:1px solid #9FE1CB;border-radius:var(--radius);padding:12px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
-.install-banner-tekst{font-size:12px;color:var(--groen-donker);line-height:1.5;flex:1}
-.install-banner-close{background:none;border:none;font-size:18px;color:var(--groen-donker);cursor:pointer;padding:0 4px;flex-shrink:0}
-
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--wit);border-top:1px solid var(--rand);display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom)}
 .bottom-btn{flex:1;padding:10px 4px 8px;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--tekst-heel-zacht);font-size:10px;font-weight:500;transition:color .15s}
 .bottom-btn.active{color:var(--groen)}
 .bottom-btn svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-
 .tab-content{display:none}
 .tab-content.active{display:block}
 
@@ -159,7 +152,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="header-title">🏔️ Scandinavië 2025</div>
       <div class="header-sub">18 juli – 18 augustus · 2 personen</div>
     </div>
-    <div class="dag-counter" id="dag-teller">32 dagen</div>
+    <div class="sync-status" id="sync-status">
+      <div class="sync-dot"></div>
+      <span id="sync-tekst">Verbinden...</span>
+    </div>
   </div>
   <nav class="nav">
     <button class="nav-btn active" onclick="toonTab('plan',this)">Maaltijdplan</button>
@@ -169,13 +165,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </nav>
 </div>
 
-<!-- PLAN TAB -->
 <div id="tab-plan" class="tab-content active">
   <div class="content">
-    <div id="install-banner" class="install-banner" style="display:none">
-      <div class="install-banner-tekst" id="install-tekst"></div>
-      <button class="install-banner-close" onclick="sluitBanner()">✕</button>
-    </div>
     <div class="stats">
       <div class="stat"><div class="stat-n">32</div><div class="stat-l">dagen</div></div>
       <div class="stat"><div class="stat-n">~14</div><div class="stat-l">pasta</div></div>
@@ -205,29 +196,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- BOODSCHAPPEN TAB -->
 <div id="tab-bood" class="tab-content">
   <div class="content">
-    <div class="bood-intro">✅ Boodschappen dag 3 — Białowieża, Polen (20 jul)<br>Biedronka / Lidl / Kaufland · zo veel mogelijk blik en houdbaar</div>
+    <div class="bood-intro">✅ Boodschappen dag 3 — Białowieża, Polen (20 jul)<br>Biedronka / Lidl / Kaufland · vinkjes worden gesynchroniseerd!</div>
     <div style="background:var(--wit);border:1px solid var(--rand);border-radius:var(--radius);padding:12px;margin-bottom:14px">
       <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:6px">
         <span>Voortgang</span><span id="bood-tel">0 / 0</span>
       </div>
       <div class="vol-bar-bg"><div class="vol-bar-fill" id="bood-bar" style="background:var(--groen);width:0%;transition:width .3s"></div></div>
-      <div style="font-size:11px;color:var(--tekst-zacht);margin-top:4px">Tik een item aan om het af te vinken</div>
+      <div style="font-size:11px;color:var(--tekst-zacht);margin-top:4px">Tik een item aan — je vriendin ziet het meteen ook</div>
     </div>
     <div id="bood-lijst"></div>
   </div>
 </div>
 
-<!-- KOELKAST TAB -->
 <div id="tab-koel" class="tab-content">
   <div class="content">
     <div class="sectie-titel">❄️ Koelkast indeling</div>
     <div class="kk-grid">
       <div class="kk-card">
-        <div class="kk-titel">4°C koelkast</div>
-        <div class="kk-sub">24 liter · bederfelijk</div>
+        <div class="kk-titel">4°C koelkast</div><div class="kk-sub">24 liter · bederfelijk</div>
         <div class="vol-bar-bg"><div class="vol-bar-fill" style="width:85%;background:#1D9E75"></div></div>
         <div class="vol-labels"><span>~20L bezet</span><span>4L vrij</span></div>
         <div class="kk-item">🥩 Vacuum vlees/vis: ~8L</div>
@@ -238,8 +226,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="kk-tip">💡 Vacuümzakjes voor kaas en vlees scheelt 30% ruimte</div>
       </div>
       <div class="kk-card">
-        <div class="kk-titel">15°C koelkast</div>
-        <div class="kk-sub">12 liter · semi-houdbaar</div>
+        <div class="kk-titel">15°C koelkast</div><div class="kk-sub">12 liter · semi-houdbaar</div>
         <div class="vol-bar-bg"><div class="vol-bar-fill" style="width:75%;background:#2563EB"></div></div>
         <div class="vol-labels"><span>~9L bezet</span><span>3L vrij</span></div>
         <div class="kk-item">🥒 Komkommer + paprika: ~4L</div>
@@ -250,12 +237,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     </div>
     <div class="sectie-titel">📋 Gouden regels</div>
     <div class="regels-card">
-      <div class="regel"><div class="regel-num">1</div><div>Vlees altijd onderaan in 4°C vak — lekken beschadigt niets</div></div>
-      <div class="regel"><div class="regel-num">2</div><div>Geopende blikken nooit in de koelkast — doe inhoud in bakje met deksel</div></div>
-      <div class="regel"><div class="regel-num">3</div><div>Kaasblok in een luchtige doek wikkelen, niet plastic — blijft weken goed</div></div>
+      <div class="regel"><div class="regel-num">1</div><div>Vlees altijd onderaan in 4°C vak</div></div>
+      <div class="regel"><div class="regel-num">2</div><div>Geopende blikken in bakje met deksel, niet in koelkast</div></div>
+      <div class="regel"><div class="regel-num">3</div><div>Kaasblok in luchtige doek wikkelen, niet plastic</div></div>
       <div class="regel"><div class="regel-num">4</div><div>Koelkast zo min mogelijk openen op rijdagen</div></div>
       <div class="regel"><div class="regel-num">5</div><div>Eieren hoeven niet gekoeld — buiten geeft meer ruimte</div></div>
-      <div class="regel"><div class="regel-num">6</div><div>Avondeten vlees koop je 's ochtends of dag ervoor, niet bulk</div></div>
+      <div class="regel"><div class="regel-num">6</div><div>Avondeten vlees koop je 's ochtends of dag ervoor</div></div>
     </div>
     <div class="sectie-titel">🔄 Aanvullen onderweg</div>
     <div class="kk-card">
@@ -268,7 +255,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 </div>
 
-<!-- AUTO TAB -->
 <div id="tab-auto" class="tab-content">
   <div class="content">
     <div class="bood-intro">✅ Dit kan gewoon in de warme auto — geen koeling nodig</div>
@@ -288,7 +274,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="auto-item">● Chilli con carne blik</div>
         <div class="auto-item">● Alle soepblikken</div>
         <div class="auto-item">● Tonijn + makreel blik</div>
-        <div class="auto-item">● Tomatenblokjes blik</div>
+        <div class="auto-item">● Tomatenblokjes + pastasaus</div>
         <div class="auto-item">● Champignons + spinazie blik</div>
         <div class="auto-item">● Maïs + bonen blik</div>
         <div class="auto-item">● Gegrilde paprika pot</div>
@@ -298,8 +284,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div class="auto-card">
         <div class="auto-card-titel">✅ Smeersels & basis</div>
         <div class="auto-item">● UHT-melk (ongeopend)</div>
-        <div class="auto-item">● Pindakaas (ongeopend)</div>
-        <div class="auto-item">● Jam + honing</div>
+        <div class="auto-item">● Pindakaas + jam + honing</div>
         <div class="auto-item">● Uien + knoflook</div>
         <div class="auto-item">● Aardappelen (donker)</div>
         <div class="auto-item">● Eieren (ongewassen)</div>
@@ -311,16 +296,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <div class="auto-item nee">● Geopende UHT-melk</div>
         <div class="auto-item nee">● Vacuum vlees >7°C</div>
         <div class="auto-item nee">● Feta vacuum (geopend)</div>
-        <div class="auto-item nee">● Rijpe avocado</div>
-        <div class="auto-item nee">● Zachte vruchten</div>
+        <div class="auto-item nee">● Rijpe avocado + zachte vruchten</div>
       </div>
     </div>
     <div class="sectie-titel">📦 Inpaktips</div>
     <div class="regels-card">
       <div class="regel"><div class="regel-num">1</div><div>Blik en droog onderin een stevige krat — verschuift niet</div></div>
-      <div class="regel"><div class="regel-num">2</div><div>Koelkasten in de schaduw zetten of afdekken met een deken</div></div>
-      <div class="regel"><div class="regel-num">3</div><div>Kookkrat apart: pan, gasbrander, bestek, borden — snel bereikbaar</div></div>
-      <div class="regel"><div class="regel-num">4</div><div>Dagrugzak elke ochtend vullen met lunch + snacks voor hikes</div></div>
+      <div class="regel"><div class="regel-num">2</div><div>Koelkasten in de schaduw of afdekken met een deken</div></div>
+      <div class="regel"><div class="regel-num">3</div><div>Kookkrat apart: pan, gasbrander, bestek, borden</div></div>
+      <div class="regel"><div class="regel-num">4</div><div>Dagrugzak elke ochtend vullen met lunch + snacks</div></div>
     </div>
   </div>
 </div>
@@ -330,18 +314,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="modal">
     <div class="modal-title" id="modal-titel"></div>
     <div class="modal-sub" id="modal-sub"></div>
-    <div class="modal-field">
-      <div class="modal-label">Ontbijt</div>
-      <textarea class="modal-input" id="edit-O" rows="2"></textarea>
-    </div>
-    <div class="modal-field">
-      <div class="modal-label">Lunch</div>
-      <textarea class="modal-input" id="edit-L" rows="2"></textarea>
-    </div>
-    <div class="modal-field">
-      <div class="modal-label">Avondeten</div>
-      <textarea class="modal-input" id="edit-A" rows="2"></textarea>
-    </div>
+    <div class="modal-field"><div class="modal-label">Ontbijt</div><textarea class="modal-input" id="edit-O" rows="2"></textarea></div>
+    <div class="modal-field"><div class="modal-label">Lunch</div><textarea class="modal-input" id="edit-L" rows="2"></textarea></div>
+    <div class="modal-field"><div class="modal-label">Avondeten</div><textarea class="modal-input" id="edit-A" rows="2"></textarea></div>
     <div class="modal-field">
       <div class="modal-label">Type avondeten</div>
       <select class="modal-select" id="edit-tag">
@@ -352,10 +327,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         <option value="med">🫒 mediterraans</option>
       </select>
     </div>
-    <div class="modal-field">
-      <div class="modal-label">Activiteit / locatie notitie</div>
-      <textarea class="modal-input" id="edit-act" rows="2"></textarea>
-    </div>
+    <div class="modal-field"><div class="modal-label">Activiteit / notitie</div><textarea class="modal-input" id="edit-act" rows="2"></textarea></div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="sluitModal()">Annuleren</button>
       <button class="btn-save" onclick="slaOp()">Opslaan</button>
@@ -379,19 +351,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </button>
 </div>
 
-<script>
-const LANDEN={
-  NL:{naam:'Nederland',vlag:'🇳🇱',bg:'#EFF6FF',tekst:'#1D4ED8'},
-  DE:{naam:'Duitsland',vlag:'🇩🇪',bg:'#FEF3C7',tekst:'#92400E'},
-  PL:{naam:'Polen',vlag:'🇵🇱',bg:'#FEF2F2',tekst:'#991B1B'},
-  LT:{naam:'Litouwen',vlag:'🇱🇹',bg:'#F0FDF4',tekst:'#166534'},
-  LV:{naam:'Letland',vlag:'🇱🇻',bg:'#F5F3FF',tekst:'#5B21B6'},
-  EE:{naam:'Estland',vlag:'🇪🇪',bg:'#FDF2F8',tekst:'#9D174D'},
-  FI:{naam:'Finland',vlag:'🇫🇮',bg:'#ECFDF5',tekst:'#065F46'},
-  NO:{naam:'Noorwegen',vlag:'🇳🇴',bg:'#FFF7ED',tekst:'#9A3412'},
-  SE:{naam:'Zweden',vlag:'🇸🇪',bg:'#F9FAFB',tekst:'#374151'},
-  DK:{naam:'Denemarken',vlag:'🇩🇰',bg:'#FEF3C7',tekst:'#78350F'},
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, collection } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD5Uud-I5N2ryFfoyTQfq47Do3wp776csw",
+  authDomain: "scandinavie-vakantie.firebaseapp.com",
+  projectId: "scandinavie-vakantie",
+  storageBucket: "scandinavie-vakantie.firebasestorage.app",
+  messagingSenderId: "125237845972",
+  appId: "1:125237845972:web:b14931cae5ae1499c94041"
 };
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const LANDEN={NL:{naam:'Nederland',vlag:'🇳🇱',bg:'#EFF6FF',tekst:'#1D4ED8'},DE:{naam:'Duitsland',vlag:'🇩🇪',bg:'#FEF3C7',tekst:'#92400E'},PL:{naam:'Polen',vlag:'🇵🇱',bg:'#FEF2F2',tekst:'#991B1B'},LT:{naam:'Litouwen',vlag:'🇱🇹',bg:'#F0FDF4',tekst:'#166534'},LV:{naam:'Letland',vlag:'🇱🇻',bg:'#F5F3FF',tekst:'#5B21B6'},EE:{naam:'Estland',vlag:'🇪🇪',bg:'#FDF2F8',tekst:'#9D174D'},FI:{naam:'Finland',vlag:'🇫🇮',bg:'#ECFDF5',tekst:'#065F46'},NO:{naam:'Noorwegen',vlag:'🇳🇴',bg:'#FFF7ED',tekst:'#9A3412'},SE:{naam:'Zweden',vlag:'🇸🇪',bg:'#F9FAFB',tekst:'#374151'},DK:{naam:'Denemarken',vlag:'🇩🇰',bg:'#FEF3C7',tekst:'#78350F'}};
 const TAG_CSS={pasta:'tag-pasta',chilli:'tag-chilli',bbq:'tag-bbq',med:'tag-med'};
 const TAG_LBL={pasta:'pasta',chilli:'chilli',bbq:'BBQ',med:'mediterraans'};
 
@@ -417,7 +394,7 @@ const ORIGINEEL=[
   {d:19,land:'NO',datum:'5 aug',loc:'Lofoten — Kabelvåg',O:'Yoghurt + granola',L:'Rijstsalade + tonijn + maïs',A:'Pasta puttanesca met tonijn + olijven + kappertjes',tag:'pasta',act:'Festvågtind hike (3-4 uur) · Kabelvåg viewpoint'},
   {d:20,land:'NO',datum:'6 aug',loc:'Lofoten — Henningsvær → Reine',O:'Havermout + bosvruchten',L:'Baguette + gerookte zalm + komkommer',A:'Pasta met tomatensaus + mozzarella + basilicum',tag:'pasta',act:'Reinebringen hike · Ramberg beach · Skagsanden · Hamnøy viewpoint'},
   {d:21,land:'NO',datum:'7 aug',loc:'Reine → Å',O:'Ei op toast',L:'Wraps met avocado + ei + sla',A:'BBQ-worstjes + aardappelen in folie',tag:'bbq',act:'Munkebu hut trail (6-7 uur, top 3 Lofoten)'},
-  {d:22,land:'NO',datum:'8 aug',loc:'Lofoten — Ryten / Haukland',O:'Cruesli + melk',L:'Energiereep + noten + appel (op pad!)',A:'Pasta met gehakt + tomatensaus',tag:'pasta',act:'Ryten hike (5-6 uur) · Kvalvika Beach · zwemmen Haukland · Mannen (opt.)'},
+  {d:22,land:'NO',datum:'8 aug',loc:'Lofoten — Ryten / Haukland',O:'Cruesli + melk',L:'Energiereep + noten + appel (op pad!)',A:'Pasta met gehakt + tomatensaus',tag:'pasta',act:'Ryten hike (5-6 uur) · Kvalvika Beach · zwemmen Haukland'},
   {d:23,land:'NO',datum:'9 aug',loc:'Ferry Moskenes → Bodø → Mo i Rana',O:'Brood + kaas (ferry)',L:'Ferry: soep + brood',A:'Roergebakken rijst met ei + paprika (blik) + maïs + sojasaus',tag:'med',act:'Via ferrata Bratten Bodø · rijdag Mo i Rana'},
   {d:24,land:'NO',datum:'10 aug',loc:'Mo i Rana → Laksforsen → Steinkjer',O:'Havermout',L:'Baguette + ham + komkommer',A:'Pasta puttanesca (olijven + kappertjes + ansjovis)',tag:'pasta',act:'Laksforsen waterval · Namsskogan · Steinkjer'},
   {d:25,land:'NO',datum:'11 aug',loc:'Steinkjer → Trollstigen → Geiranger',O:'Yoghurt + muesli',L:'Rijstsalade + maïs + paprika',A:'Kipfilet met roergebakken courgette (blik) + paprika + knoflook + rijst',tag:'med',act:'Trollstigen · Geiranger · Dalsnibba viewpoint'},
@@ -432,13 +409,13 @@ const ORIGINEEL=[
 
 const BOODSCHAPPEN=[
   {cat:'🍝 Pasta, rijst, couscous & granen',items:['Spaghetti 2 kg','Penne 1 kg','Tagliatelle 500g','Rijst 1,5 kg','Couscous 500g','Havermout 1 kg','Cruesli/granola 1 kg','Crackers groot pak','Knäckebröd groot pak']},
-  {cat:'🌶️ Chilli con carne (kant-en-klaar blik)',items:['Chilli con carne blik 4x (gewoon opwarmen!)','Tortilla wraps groot pak (voor chilli + wraps-avonden)']},
+  {cat:'🌶️ Chilli con carne (kant-en-klaar blik)',items:['Chilli con carne blik 4x','Tortilla wraps groot pak']},
   {cat:'🫙 Pasta sauzen & conserven',items:['Tomatenblokjes blik 6x','Pastasaus blik/pot 4x','Pesto groen pot 2x','Olijfolie 500ml','Kappertjes pot','Olijven pot (zwart)','Ansjovis klein blikje 2x','Zongedroogde tomaat pot']},
   {cat:'🥫 Groenten & peulvruchten uit blik/pot',items:['Gegrilde paprika pot 3x','Champignons blik 4x','Maïs blik 6x','Kikkererwten blik 3x','Spinazie blik/pot 3x','Courgette blik/pot 2x','Kidney bonen blik 3x']},
-  {cat:'🐟 Vis uit blik',items:['Tonijn in blik 8x','Makreel in blik 4x','Tomatensoep blik 4x','Groentesoep blik 4x']},
-  {cat:'🫙 Ontbijt, smeersels & snacks',items:['Pindakaas groot pot','Jam pot','Honing knijpfles','Smeerkaas tubje 2x (houdbaar)','UHT-melk 4L','Koffie + thee','Energierepen 20x (hikes!)','Noten mix 500g','Rozijnen 250g']},
-  {cat:'🥩 Vlees vacuum (koelkast — week 1)',items:['Rookworsten vacuum 4x (ook voor BBQ)','Spekjes vacuum 2x','Ham vacuum 2x','Kipfilet vacuum 2x (eet binnen 5 dagen!)','Gerookte zalm vacuum 2x','Harde kaas blok (gouda-type)','Feta vacuum 2x']},
-  {cat:'🧅 Verse groente houdbaar (auto ok)',items:['Uien net 1 kg','Knoflook 3 bollen','Aardappelen 2 kg','Komkommers 3x (koel bewaren)','Paprika\'s 4x (koel bewaren)']},
+  {cat:'🐟 Vis uit blik + soepen',items:['Tonijn in blik 8x','Makreel in blik 4x','Tomatensoep blik 4x','Groentesoep blik 4x']},
+  {cat:'🫙 Ontbijt, smeersels & snacks',items:['Pindakaas groot pot','Jam pot','Honing knijpfles','Smeerkaas tubje 2x','UHT-melk 4L','Koffie + thee','Energierepen 20x','Noten mix 500g','Rozijnen 250g']},
+  {cat:'🥩 Vlees vacuum (koelkast — week 1)',items:['Rookworsten vacuum 4x','Spekjes vacuum 2x','Ham vacuum 2x','Kipfilet vacuum 2x (eet binnen 5 dagen!)','Gerookte zalm vacuum 2x','Harde kaas blok (gouda-type)','Feta vacuum 2x']},
+  {cat:'🧅 Verse groente houdbaar',items:['Uien net 1 kg','Knoflook 3 bollen','Aardappelen 2 kg','Komkommers 3x','Paprika\'s 4x']},
   {cat:'🧂 Specerijen & basis',items:['Zout + peper','Italiaanse kruiden','Knoflookpoeder','Komijnpoeder','Paprikapoeder','Dille gedroogd','Bouillonblokjes 20x','Mosterd knijpfles','Sojasaus klein flesje']},
 ];
 
@@ -447,78 +424,102 @@ let huidigLand='all';
 let wijzigingen={};
 let gecheckt={};
 let bewerkDag=null;
+let syncActief=false;
 
-function laadOpgeslagen(){
-  try{
-    const w=localStorage.getItem('vakantie_wijzigingen');
-    if(w) wijzigingen=JSON.parse(w);
-    const c=localStorage.getItem('vakantie_bood');
-    if(c) gecheckt=JSON.parse(c);
-  }catch(e){}
+// SYNC STATUS UI
+function setSyncStatus(status){
+  const el=document.getElementById('sync-status');
+  const tekst=document.getElementById('sync-tekst');
+  el.className='sync-status';
+  if(status==='online'){el.classList.add('');tekst.textContent='Gesynchroniseerd';}
+  else if(status==='syncing'){el.classList.add('syncing');tekst.textContent='Opslaan...';}
+  else{el.classList.add('offline');tekst.textContent='Offline';}
 }
 
-function slaOpLokaal(){
+// FIRESTORE LISTENERS
+const wijzDoc=doc(db,'vakantie','wijzigingen');
+const boodDoc=doc(db,'vakantie','boodschappen');
+
+// Realtime luisteren naar wijzigingen
+onSnapshot(wijzDoc, snap=>{
+  if(snap.exists()){
+    wijzigingen=snap.data()||{};
+  } else {
+    wijzigingen={};
+  }
+  renderDagen();
+  setSyncStatus('online');
+}, err=>{
+  console.error(err);
+  setSyncStatus('offline');
+});
+
+onSnapshot(boodDoc, snap=>{
+  if(snap.exists()){
+    gecheckt=snap.data()||{};
+  } else {
+    gecheckt={};
+  }
+  renderBoodschappen();
+  setSyncStatus('online');
+}, err=>{
+  setSyncStatus('offline');
+});
+
+// OPSLAAN NAAR FIRESTORE
+async function slaWijzOp(){
+  setSyncStatus('syncing');
   try{
-    localStorage.setItem('vakantie_wijzigingen',JSON.stringify(wijzigingen));
-  }catch(e){}
+    await setDoc(wijzDoc, wijzigingen);
+    setSyncStatus('online');
+  }catch(e){setSyncStatus('offline');}
 }
 
-function dagData(dag){
-  return wijzigingen[dag.d] ? {...dag,...wijzigingen[dag.d]} : dag;
+async function slaBoodOp(){
+  setSyncStatus('syncing');
+  try{
+    await setDoc(boodDoc, gecheckt);
+    setSyncStatus('online');
+  }catch(e){setSyncStatus('offline');}
 }
 
 // TABS
-function toonTab(id,navBtn,bnId){
+window.toonTab=function(id,navBtn,bnId){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   if(navBtn){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));navBtn.classList.add('active');}
   document.querySelectorAll('.bottom-btn').forEach(b=>b.classList.remove('active'));
   const map={plan:'bn-plan',bood:'bn-bood',koel:'bn-koel',auto:'bn-auto'};
   document.getElementById(bnId||map[id]).classList.add('active');
-}
+};
 
 // FILTER
-function filterLand(land,btn){
+window.filterLand=function(land,btn){
   huidigLand=land;
   document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderDagen();
-}
+};
 
 // RENDER DAGEN
+function dagData(dag){return wijzigingen[dag.d]?{...dag,...wijzigingen[dag.d]}:dag;}
+
 function renderDagen(){
   const lijst=document.getElementById('daglijst');
   const gef=huidigLand==='all'?ORIGINEEL:ORIGINEEL.filter(d=>d.land===huidigLand);
-  document.getElementById('dag-teller').textContent=gef.length+(gef.length===1?' dag':' dagen');
   if(!gef.length){lijst.innerHTML='<p style="color:#9E9C96;font-size:13px;padding:2rem 0;text-align:center">Geen dagen voor dit land.</p>';return;}
-  const gewijzigd=d=>!!wijzigingen[d.d];
   lijst.innerHTML=gef.map(orig=>{
     const dag=dagData(orig);
     const l=LANDEN[dag.land];
     const shop=dag.shop?`<div class="shop-banner">🛒 <strong>Boodschappen vandaag!</strong> — Biedronka / Lidl / Kaufland</div>`:'';
     const tag=dag.tag?`<span class="tag ${TAG_CSS[dag.tag]}">${TAG_LBL[dag.tag]}</span>`:'';
-    const gewijzigdDot=gewijzigd(orig)?'<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-left:5px;vertical-align:middle" title="Aangepast"></span>':'';
-    return `<div class="dag-kaart">
-      ${shop}
-      <div class="dag-header">
-        <span class="dag-num">Dag ${dag.d}</span>
-        <span class="land-badge" style="background:${l.bg};color:${l.tekst}">${l.vlag} ${l.naam}</span>
-        <span class="dag-datum">${dag.datum}${gewijzigdDot}</span>
-        <button class="edit-btn" onclick="openModal(${orig.d})">✏️ Bewerk</button>
-        <span class="dag-loc">${dag.loc}</span>
-      </div>
-      <div class="maaltijden">
-        <div class="maaltijd"><div class="maaltijd-type">Ontbijt</div><div class="maaltijd-naam">${dag.O}</div></div>
-        <div class="maaltijd"><div class="maaltijd-type">Lunch</div><div class="maaltijd-naam">${dag.L}</div></div>
-        <div class="maaltijd"><div class="maaltijd-type">Avondeten</div><div class="maaltijd-naam">${dag.A}${tag}</div></div>
-      </div>
-      ${dag.act?`<div class="activiteit"><span style="flex-shrink:0">📍</span><span>${dag.act}</span></div>`:''}
-    </div>`;
+    const gewijzigdDot=wijzigingen[orig.d]?'<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-left:5px;vertical-align:middle"></span>':'';
+    return `<div class="dag-kaart">${shop}<div class="dag-header"><span class="dag-num">Dag ${dag.d}</span><span class="land-badge" style="background:${l.bg};color:${l.tekst}">${l.vlag} ${l.naam}</span><span class="dag-datum">${dag.datum}${gewijzigdDot}</span><button class="edit-btn" onclick="openModal(${orig.d})">✏️ Bewerk</button><span class="dag-loc">${dag.loc}</span></div><div class="maaltijden"><div class="maaltijd"><div class="maaltijd-type">Ontbijt</div><div class="maaltijd-naam">${dag.O}</div></div><div class="maaltijd"><div class="maaltijd-type">Lunch</div><div class="maaltijd-naam">${dag.L}</div></div><div class="maaltijd"><div class="maaltijd-type">Avondeten</div><div class="maaltijd-naam">${dag.A}${tag}</div></div></div>${dag.act?`<div class="activiteit"><span style="flex-shrink:0">📍</span><span>${dag.act}</span></div>`:''}</div>`;
   }).join('');
 }
 
 // MODAL
-function openModal(dagNr){
+window.openModal=function(dagNr){
   bewerkDag=dagNr;
   const orig=ORIGINEEL.find(d=>d.d===dagNr);
   const dag=dagData(orig);
@@ -531,47 +532,47 @@ function openModal(dagNr){
   document.getElementById('edit-act').value=dag.act||'';
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow='hidden';
-}
+};
 
-function sluitModal(){
+window.sluitModal=function(){
   document.getElementById('modal').classList.remove('open');
   document.body.style.overflow='';
   bewerkDag=null;
-}
+};
 
-function modalKlik(e){
-  if(e.target===document.getElementById('modal')) sluitModal();
-}
+window.modalKlik=function(e){
+  if(e.target===document.getElementById('modal')) window.sluitModal();
+};
 
-function slaOp(){
+window.slaOp=async function(){
   if(!bewerkDag) return;
   wijzigingen[bewerkDag]={
     O:document.getElementById('edit-O').value.trim(),
     L:document.getElementById('edit-L').value.trim(),
     A:document.getElementById('edit-A').value.trim(),
-    tag:document.getElementById('edit-tag').value||undefined,
+    tag:document.getElementById('edit-tag').value||'',
     act:document.getElementById('edit-act').value.trim(),
   };
-  slaOpLokaal();
-  sluitModal();
+  window.sluitModal();
   renderDagen();
-}
+  await slaWijzOp();
+};
 
-function resetDag(){
+window.resetDag=async function(){
   if(!bewerkDag) return;
   if(!confirm('Terugzetten naar origineel?')) return;
   delete wijzigingen[bewerkDag];
-  slaOpLokaal();
-  sluitModal();
+  window.sluitModal();
   renderDagen();
-}
+  await slaWijzOp();
+};
 
 // BOODSCHAPPEN
 function renderBoodschappen(){
   const lijst=document.getElementById('bood-lijst');
   lijst.innerHTML=BOODSCHAPPEN.map((sec,si)=>{
     const items=sec.items.map((item,ii)=>{
-      const key=si+'-'+ii;
+      const key=`${si}-${ii}`;
       const checked=gecheckt[key]?'checked':'';
       return `<div class="bood-item ${checked}" onclick="toggleItem(this,'${key}')"><div class="bood-check"></div><span class="bood-tekst">${item}</span></div>`;
     }).join('');
@@ -580,12 +581,12 @@ function renderBoodschappen(){
   updateProgress();
 }
 
-function toggleItem(el,key){
+window.toggleItem=async function(el,key){
   gecheckt[key]=!gecheckt[key];
   el.classList.toggle('checked',gecheckt[key]);
   updateProgress();
-  try{localStorage.setItem('vakantie_bood',JSON.stringify(gecheckt));}catch(e){}
-}
+  await slaBoodOp();
+};
 
 function updateProgress(){
   const totaal=BOODSCHAPPEN.reduce((s,sec)=>s+sec.items.length,0);
@@ -594,34 +595,11 @@ function updateProgress(){
   document.getElementById('bood-bar').style.width=Math.round((klaar/totaal)*100)+'%';
 }
 
-// INSTALL BANNER
-function toonInstallBanner(){
-  const banner=document.getElementById('install-banner');
-  const tekst=document.getElementById('install-tekst');
-  const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.navigator.standalone;
-  const isAndroid=/android/i.test(navigator.userAgent);
-  if(isIOS){
-    tekst.innerHTML='<strong>Installeer als app op iPhone:</strong><br>Tik op het deelicoon (□↑) onderaan Safari → "Zet op beginscherm" → dan werkt hij offline als echte app.';
-    banner.style.display='flex';
-  } else if(isAndroid){
-    tekst.innerHTML='<strong>Installeer als app:</strong><br>Tik op de drie puntjes in Chrome → "Toevoegen aan startscherm" → dan werkt hij offline als echte app.';
-    banner.style.display='flex';
-  }
-}
-
-function sluitBanner(){
-  document.getElementById('install-banner').style.display='none';
-  try{localStorage.setItem('banner_gesloten','1');}catch(e){}
-}
-
 // SERVICE WORKER
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
 
-// INIT
-laadOpgeslagen();
-try{if(!localStorage.getItem('banner_gesloten')) toonInstallBanner();}catch(e){toonInstallBanner();}
 renderDagen();
 renderBoodschappen();
 </script>
