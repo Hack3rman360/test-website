@@ -814,7 +814,7 @@ window.toonTab=function(id,navBtn,bnId){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   if(id==='weer') renderWeer();
-  if(id==='reis') setTimeout(autoRouteAlleZichtbareDagen, 300);
+  if(id==='reis') setTimeout(autoRouteAlleZichtbareDagen, 150);
   document.querySelectorAll('.bottom-btn').forEach(b=>b.classList.remove('active'));
   const map={plan:'bn-plan',reis:'bn-reis',bood:'bn-bood',pack:'bn-pack',geld:'bn-geld',weer:'bn-weer',koel:'bn-koel',auto:'bn-auto'};
   const target=bnId||map[id];
@@ -1312,42 +1312,154 @@ async function geocodeNominatim(query) {
   if (!query || query.trim() === '') return null;
   if (geocodeCache[query]) return geocodeCache[query];
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
     const url = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(query) + '&format=json&limit=1';
-    const resp = await fetch(url, {headers: {'Accept-Language': 'nl', 'User-Agent': 'ScanVakantieApp/1.0'}});
+    const resp = await fetch(url, {
+      headers: {'Accept-Language': 'nl', 'User-Agent': 'ScanVakantieApp/1.0'},
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
     const data = await resp.json();
     if (data && data[0]) {
       const result = {lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon)};
       geocodeCache[query] = result;
       return result;
     }
-  } catch(e) {}
+  } catch(e) {
+    // Timeout or network error — return null silently
+  }
   return null;
 }
 
+const COORDS_LOOKUP = {
+  'Campingplatz Dresden-Mockritz, Dresden': {lat:51.0504, lon:13.7373},
+  'Semperoper Dresden': {lat:51.0543, lon:13.7342},
+  'Ulica Boleść 2, Warszawa, Polen': {lat:52.2513, lon:21.0222},
+  'U Michała Białowieża': {lat:52.7069, lon:23.868},
+  'Białowieża National Park, Poland': {lat:52.7069, lon:23.868},
+  'Białowieża Forest': {lat:52.7069, lon:23.868},
+  'ul. Stoczek 12, Białowieża': {lat:52.7069, lon:23.868},
+  'Holiday Centre Slenis Trakai': {lat:54.6379, lon:24.934},
+  'Trakai Island Castle, Lithuania': {lat:54.6379, lon:24.934},
+  'Hill of Crosses, Šiauliai, Lithuania': {lat:56.0149, lon:23.4167},
+  'Riverside Camping Riga': {lat:56.9496, lon:24.1052},
+  'Central Market Riga, Latvia': {lat:56.9441, lon:24.1134},
+  'Skyline Bar Riga Latvia': {lat:56.951, lon:24.1099},
+  'Cēsis, Latvia': {lat:57.3122, lon:25.2735},
+  'Pirita Harbour Camping Tallinn': {lat:59.4614, lon:24.8318},
+  'Tallinn Old Town, Estonia': {lat:59.437, lon:24.7454},
+  'Pirita Beach, Tallinn': {lat:59.4614, lon:24.8318},
+  'Tallinn Ferry Terminal, Estonia': {lat:59.4453, lon:24.7671},
+  'Helsinki, Finland': {lat:60.1699, lon:24.9384},
+  'Ukko-Koli, Koli National Park, Finland': {lat:63.0934, lon:29.8039},
+  'Koli National Park, Finland': {lat:63.0934, lon:29.8039},
+  'Hossa National Park, Finland': {lat:65.4756, lon:29.5544},
+  'Rovaniemi, Finland': {lat:66.5039, lon:25.7294},
+  'Lake Inari, Finland': {lat:68.9, lon:27.03},
+  'Camping Inari Finland': {lat:68.9, lon:27.03},
+  'Karigasniemi border crossing Finland Norway': {lat:69.6569, lon:25.8406},
+  'Lakselv, Norway': {lat:70.0497, lon:24.9744},
+  'North Cape, Norway': {lat:71.1694, lon:25.7842},
+  'Knivskjellodden trailhead, Norway': {lat:71.1321, lon:25.6581},
+  'Skarsvåg, Norway': {lat:71.1167, lon:25.8333},
+  'Northern Lights Cathedral Alta Norway': {lat:69.9667, lon:23.25},
+  'Alta, Norway': {lat:69.9667, lon:23.25},
+  'Camping Alta Norway': {lat:69.9667, lon:23.25},
+  'Kvænangsfjellet viewpoint Norway': {lat:69.8833, lon:21.55},
+  'Nordkjosbotn, Norway': {lat:69.3667, lon:19.5333},
+  'Lyngen Alps, Norway': {lat:69.65, lon:20.2333},
+  'Bjerkvik, Norway': {lat:68.5333, lon:17.55},
+  'Tjeldsundbrua, Norway': {lat:68.6833, lon:16.6667},
+  'Gullesfjord, Norway': {lat:68.75, lon:15.6667},
+  'Raftsundet, Norway': {lat:68.4167, lon:15.3333},
+  'Tjeldbergtinden, Norway': {lat:68.65, lon:16.5},
+  'Kabelvåg Lofoten Norway': {lat:68.2167, lon:14.4833},
+  'Kabelvåg, Lofoten, Norway': {lat:68.2167, lon:14.4833},
+  'Festvågtind trailhead, Kabelvåg, Norway': {lat:68.1833, lon:14.3667},
+  'Reinebringen trailhead, Lofoten, Norway': {lat:67.9333, lon:13.0833},
+  'Ramberg Beach, Lofoten, Norway': {lat:68.0833, lon:13.2},
+  'Skagsanden Beach, Lofoten': {lat:68.1, lon:13.25},
+  'Hamnøy, Lofoten, Norway': {lat:67.9167, lon:13.0833},
+  'Moskenes Camping Reine Norway': {lat:67.9333, lon:13.0833},
+  'Munkebu trailhead, Sørvågen, Norway': {lat:67.8667, lon:13.0},
+  'Ryten trailhead, Lofoten, Norway': {lat:68.0667, lon:13.5},
+  'Bergsbotn viewpoint Norway': {lat:68.0833, lon:13.4833},
+  'Flakstadpollen, Lofoten': {lat:68.0833, lon:13.45},
+  'Mannen trailhead Haukland, Lofoten': {lat:68.1, lon:13.55},
+  'Haukland Beach, Lofoten, Norway': {lat:68.1, lon:13.55},
+  'Uttakleiv Beach, Lofoten': {lat:68.1333, lon:13.5167},
+  'Moskenes Ferry Terminal, Norway': {lat:67.9667, lon:12.9833},
+  'Bratten 7, 8014 Bodø, Norway': {lat:67.2833, lon:14.3833},
+  'Camping Mo i Rana Norway': {lat:66.3167, lon:14.15},
+  'Laksforsen waterfall, Norway': {lat:65.0333, lon:13.35},
+  'Namsskogan, Norway': {lat:64.8667, lon:13.2167},
+  'Camping Steinkjer Norway': {lat:64.0167, lon:11.5},
+  'Trollstigen, Norway': {lat:62.45, lon:7.6667},
+  'Dalsnibba viewpoint, Geiranger, Norway': {lat:62.0167, lon:7.2667},
+  'Camping Geiranger Norway': {lat:62.1, lon:7.2},
+  'Geiranger Kayak Rental Norway': {lat:62.1, lon:7.2},
+  'Skageflå, Geiranger, Norway': {lat:62.1167, lon:7.1667},
+  'Flydalsjuvet, Geiranger, Norway': {lat:62.1, lon:7.2333},
+  'Ørnesvingen viewpoint, Norway': {lat:62.1667, lon:7.3167},
+  'Loen Skylift, Norway': {lat:61.8667, lon:6.8333},
+  'Kjenndalsbreen glacier, Norway': {lat:61.8167, lon:6.9667},
+  'Lovatnet, Norway': {lat:61.8667, lon:7.1667},
+  'Nærøyfjord, Aurland, Norway': {lat:60.9167, lon:6.8667},
+  'Erdal, Aurland, Norway': {lat:60.9333, lon:7.0833},
+  'Tyssedal Trolltunga Carpark P1, Skjeggedalsvegen 66, 5770 Tyssedal': {lat:59.8667, lon:6.5667},
+  'Trolltunga trailhead P1, Tyssedal, Norway': {lat:59.8667, lon:6.5667},
+  'Tyssedal, Norway': {lat:59.8667, lon:6.5667},
+  'Preikestolen Fjellstue, Norway': {lat:58.9833, lon:6.1833},
+  'Magma Geopark, Egersund, Norway': {lat:58.45, lon:5.9833},
+  'Camping Oslofjord Norway': {lat:59.5, lon:10.6},
+  'Karlstad, Sweden': {lat:59.3833, lon:13.5},
+  'Vänern lake beach, Karlstad, Sweden': {lat:59.35, lon:13.4667},
+  'Solastaden, Karlstad, Sweden': {lat:59.3833, lon:13.5167},
+  'Camping Karlstad Sweden': {lat:59.3833, lon:13.5},
+  'Örebro Castle, Sweden': {lat:59.275, lon:15.2167},
+  'Wadköping Museum, Örebro, Sweden': {lat:59.275, lon:15.2167},
+  'Huskvarna, Sweden': {lat:57.7833, lon:14.2833},
+  'Utsikten Huskvarna Sweden': {lat:57.7833, lon:14.2833},
+  'Øresund Bridge, Sweden': {lat:55.6167, lon:12.9},
+  'Odense, Denmark': {lat:55.4, lon:10.3833},
+  'Camping Odense Denmark': {lat:55.4, lon:10.3833},
+  'Zelhem, Netherlands': {lat:51.9167, lon:6.3667},
+  'Hossa National Park Finland': {lat:65.4756, lon:29.5544},
+  'Camping Rovaniemi Finland': {lat:66.5039, lon:25.7294},
+  'Camping Rovaniemi Norway': {lat:66.5039, lon:25.7294},
+
+};
+
 async function getStopCoords(stop) {
-  // First try direct coords from nav
+  // 1. Direct coords in nav field (e.g. "69.6167,18.8333")
   const direct = extractCoords(stop.nav);
   if (direct) return direct;
-  // Then try geocoding nav string
+  // 2. Lookup table (instant, no API call needed)
+  if (stop.nav && COORDS_LOOKUP[stop.nav]) return COORDS_LOOKUP[stop.nav];
+  if (stop.naam && COORDS_LOOKUP[stop.naam]) return COORDS_LOOKUP[stop.naam];
+  // 3. Fallback: Nominatim geocoding for unknown places
   if (stop.nav && stop.nav.trim()) return await geocodeNominatim(stop.nav);
-  // Fallback: try stop name
   if (stop.naam && stop.naam.trim()) return await geocodeNominatim(stop.naam);
   return null;
 }
 
-async function berekenOSRM(fromCoords, toCoords) {
-  const cacheKey = fromCoords.lat.toFixed(3) + ',' + fromCoords.lon.toFixed(3) + '-' + toCoords.lat.toFixed(3) + ',' + toCoords.lon.toFixed(3);
+async function berekenOSRM(coordsList) {
+  // coordsList = array of {lat, lon} - all waypoints in order
+  if (!coordsList || coordsList.length < 2) return null;
+  const cacheKey = coordsList.map(c => c.lat.toFixed(2) + ',' + c.lon.toFixed(2)).join('|');
   if (osrmCache[cacheKey]) return osrmCache[cacheKey];
   try {
-    const url = 'https://router.project-osrm.org/route/v1/driving/' +
-      fromCoords.lon + ',' + fromCoords.lat + ';' +
-      toCoords.lon + ',' + toCoords.lat + '?overview=false';
-    const resp = await fetch(url);
+    const waypoints = coordsList.map(c => c.lon + ',' + c.lat).join(';');
+    const url = 'https://router.project-osrm.org/route/v1/driving/' + waypoints + '?overview=false';
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+    const resp = await fetch(url, {signal: controller.signal});
+    clearTimeout(timeout);
     const data = await resp.json();
     if (data.routes && data.routes[0]) {
       const km = Math.round(data.routes[0].distance / 1000);
-      const uurRaw = data.routes[0].duration / 3600;
-      const uur = Math.round(uurRaw * 2) / 2; // round to nearest 0.5h
+      const uur = Math.round(data.routes[0].duration / 3600 * 2) / 2;
       const result = {km, uur};
       osrmCache[cacheKey] = result;
       return result;
@@ -1356,59 +1468,63 @@ async function berekenOSRM(fromCoords, toCoords) {
   return null;
 }
 
+async function getOvernachtCoords(dagNr) {
+  const dag = REISDAGEN.find(d => d.d === dagNr);
+  if (!dag) return null;
+  const dagA = reisData(dag);
+  const stops = dagA.stops || dag.stops || [];
+  const overnacht = stops.find(s => s.type === 'overnacht' && s.nav && s.nav.trim());
+  const target = overnacht || [...stops].reverse().find(s => s.nav && s.nav.trim());
+  if (!target) return null;
+  return await getStopCoords(target);
+}
+
 async function autoRouteVoorDag(dag, dagActueel) {
-  // Skip only if manual override is set
   if (dagActueel.rij_km_override != null) return;
 
   const el = document.getElementById('osrm-dag-' + dag.d);
   if (!el) return;
 
-  // Always recalculate via OSRM based on current stops (ignore hardcoded rij_km)
+  // Collect ALL waypoints: prev overnacht + all stops of this day + this overnacht
+  const allStops = (dagActueel.stops || dag.stops || []).filter(s => s.nav && s.nav.trim());
+  const waypoints = [];
 
-  // Get all stops, find first and last with resolvable coords
-  const stops = (dagActueel.stops || dag.stops || []).filter(s => s.type !== 'overnacht' || stops.length <= 1);
-  const allStops = dagActueel.stops || dag.stops || [];
+  // Start: previous day overnacht
+  if (dag.d > 1) {
+    const prev = await getOvernachtCoords(dag.d - 1);
+    await new Promise(r => setTimeout(r, 100));
+    if (prev) waypoints.push(prev);
+  }
 
-  // Show loading
-  el.textContent = '🚗 Berekenen...';
-  el.style.cssText = 'font-size:11px;font-weight:600;background:#F1EFF8;color:#9D7DE8;padding:2px 8px;border-radius:20px;white-space:nowrap';
-
-  // Get coords for first meaningful stop and last stop
-  let fromCoords = null, toCoords = null;
+  // All stops of this day in order (skip empty nav)
   for (const stop of allStops) {
-    if (stop.type === 'tussenstop' && !fromCoords && stop.nav) {
-      fromCoords = await getStopCoords(stop);
-      await new Promise(r => setTimeout(r, 200));
-    }
-  }
-  // If no tussenstop found, use first stop
-  if (!fromCoords && allStops[0] && allStops[0].nav) {
-    fromCoords = await getStopCoords(allStops[0]);
-    await new Promise(r => setTimeout(r, 200));
-  }
-  // Last stop with nav as destination
-  for (let i = allStops.length - 1; i >= 0; i--) {
-    if (allStops[i].nav) {
-      toCoords = await getStopCoords(allStops[i]);
-      await new Promise(r => setTimeout(r, 200));
-      if (toCoords) break;
+    const c = await getStopCoords(stop);
+    await new Promise(r => setTimeout(r, 80));
+    if (c) {
+      // Avoid duplicate consecutive coords
+      const last = waypoints[waypoints.length - 1];
+      if (!last || Math.abs(last.lat - c.lat) > 0.001 || Math.abs(last.lon - c.lon) > 0.001) {
+        waypoints.push(c);
+      }
     }
   }
 
-  if (!fromCoords || !toCoords) {
-    el.textContent = dag.rij_km > 0 ? ('🚗 ' + dag.rij_km + ' km') : '📍 Verblijfdag';
-    el.style.cssText = 'font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px';
-    return;
-  }
-
-  // Same location = verblijfdag
-  if (Math.abs(fromCoords.lat - toCoords.lat) < 0.01 && Math.abs(fromCoords.lon - toCoords.lon) < 0.01) {
+  if (waypoints.length < 2) {
     el.textContent = '📍 Verblijfdag';
     el.style.cssText = 'font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px';
     return;
   }
 
-  const result = await berekenOSRM(fromCoords, toCoords);
+  // Check if all waypoints are basically the same location = verblijfdag
+  const first = waypoints[0], last = waypoints[waypoints.length - 1];
+  const totalSpread = Math.abs(first.lat - last.lat) + Math.abs(first.lon - last.lon);
+  if (totalSpread < 0.05 && waypoints.length <= 3) {
+    el.textContent = '📍 Verblijfdag';
+    el.style.cssText = 'font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px';
+    return;
+  }
+
+  const result = await berekenOSRM(waypoints);
   if (result && result.km > 2) {
     el.textContent = '🚗 ~' + result.km + ' km · ~' + result.uur + 'u';
     el.style.cssText = 'font-size:11px;font-weight:600;background:#F1EFF8;color:#5B21B6;padding:2px 8px;border-radius:20px;white-space:nowrap';
@@ -1567,10 +1683,12 @@ window.slaReisOp = async function() {
     rij_km_override: kmOverride ? parseFloat(kmOverride) : null,
     rij_uur_override: uurOverride ? parseFloat(uurOverride) : null,
   };
-  // Clear OSRM cache so it recalculates with the new stops
+  // Clear both caches so all coords and routes recalculate fresh
   for (const key of Object.keys(osrmCache)) { delete osrmCache[key]; }
+  for (const key of Object.keys(geocodeCache)) { delete geocodeCache[key]; }
   window.sluitReisModal();
   renderReis();
+  setTimeout(autoRouteAlleZichtbareDagen, 100);
   await slaReisWijzOp();
 };
 
@@ -1578,8 +1696,10 @@ window.resetReisDag = async function() {
   if (!bewerkReisDag) return;
   if (!confirm('Dag ' + bewerkReisDag + ' terugzetten naar origineel?')) return;
   delete reisWijzigingen[bewerkReisDag];
+  for (const key of Object.keys(osrmCache)) { delete osrmCache[key]; }
   window.sluitReisModal();
   renderReis();
+  setTimeout(autoRouteAlleZichtbareDagen, 100);
   await slaReisWijzOp();
 };
 
