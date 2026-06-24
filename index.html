@@ -1357,14 +1357,13 @@ async function berekenOSRM(fromCoords, toCoords) {
 }
 
 async function autoRouteVoorDag(dag, dagActueel) {
-  // Skip if manual override
+  // Skip only if manual override is set
   if (dagActueel.rij_km_override != null) return;
 
   const el = document.getElementById('osrm-dag-' + dag.d);
   if (!el) return;
 
-  // If hardcoded km exists, just show it (already displayed in badge)
-  if (dag.rij_km && dag.rij_km > 0) return;
+  // Always recalculate via OSRM based on current stops (ignore hardcoded rij_km)
 
   // Get all stops, find first and last with resolvable coords
   const stops = (dagActueel.stops || dag.stops || []).filter(s => s.type !== 'overnacht' || stops.length <= 1);
@@ -1568,6 +1567,8 @@ window.slaReisOp = async function() {
     rij_km_override: kmOverride ? parseFloat(kmOverride) : null,
     rij_uur_override: uurOverride ? parseFloat(uurOverride) : null,
   };
+  // Clear OSRM cache so it recalculates with the new stops
+  for (const key of Object.keys(osrmCache)) { delete osrmCache[key]; }
   window.sluitReisModal();
   renderReis();
   await slaReisWijzOp();
@@ -1613,14 +1614,13 @@ function renderReis() {
         '</div>';
       }).join('');
       const gewijzigdDotReis = reisWijzigingen[dag.d] ? '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-left:5px;vertical-align:middle"></span>' : '';
+    const osrmId = 'osrm-dag-' + dag.d;
     const kmOverride = dagActueel.rij_km_override != null ? dagActueel.rij_km_override : null;
     const uurOverride = dagActueel.rij_uur_override != null ? dagActueel.rij_uur_override : null;
-    const kmFinal = kmOverride != null ? kmOverride : (dag.rij_km || 0);
-    const uurFinal = uurOverride != null ? uurOverride : (dag.rij_uur || 0);
-    const osrmId = 'osrm-dag-' + dag.d;
-    const rijBadge = kmFinal > 0
-      ? '<span id="' + osrmId + '" style="font-size:11px;font-weight:600;background:#F1EFF8;color:#5B21B6;padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap">🚗 ' + kmFinal + ' km · ~' + uurFinal + 'u</span>'
-      : '<span id="' + osrmId + '" style="font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px">📍 Verblijfdag</span>';
+    // If manual override set, show that — otherwise always let OSRM calculate
+    const rijBadge = kmOverride != null
+      ? '<span id="' + osrmId + '" style="font-size:11px;font-weight:600;background:#F1EFF8;color:#5B21B6;padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap">🚗 ' + kmOverride + ' km · ~' + (uurOverride || '?') + 'u</span>'
+      : '<span id="' + osrmId + '" style="font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px">🚗 Berekenen...</span>';
     return '<div class="reis-kaart">' +
         '<div class="reis-dag-header">' +
           '<span class="dag-num">Dag ' + dag.d + '</span>' +
