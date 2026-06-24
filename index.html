@@ -626,7 +626,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <button onclick="voegStopToe()" style="width:100%;padding:10px;border:none;border-radius:var(--radius-klein);background:var(--groen);color:white;font-size:13px;font-weight:600;cursor:pointer;margin-top:4px">+ Voeg stop toe</button>
     </div>
 
-    <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--rand)">
+      <div style="font-size:12px;font-weight:600;color:var(--tekst-zacht);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Rijinfo (optioneel overschrijven)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
+        <div>
+          <div class="modal-label">Km (leeg = auto)</div>
+          <input id="reis-edit-km" class="modal-input" type="number" min="0" placeholder="bijv. 320" style="padding:8px 10px;font-size:13px;border-radius:var(--radius-klein)">
+        </div>
+        <div>
+          <div class="modal-label">Rijuren (leeg = auto)</div>
+          <input id="reis-edit-uur" class="modal-input" type="number" min="0" step="0.5" placeholder="bijv. 4.0" style="padding:8px 10px;font-size:13px;border-radius:var(--radius-klein)">
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--tekst-heel-zacht);margin-bottom:10px">Leeg laten = automatisch berekend via coördinaten</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <button class="btn-cancel" onclick="sluitReisModal()">Annuleren</button>
       <button class="btn-save" onclick="slaReisOp()">Opslaan</button>
       <button class="btn-reset" style="grid-column:1/-1" onclick="resetReisDag()">↩ Dag terugzetten naar origineel</button>
@@ -800,6 +814,7 @@ window.toonTab=function(id,navBtn,bnId){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   if(id==='weer') renderWeer();
+  if(id==='reis') setTimeout(autoRouteAlleZichtbareDagen, 300);
   document.querySelectorAll('.bottom-btn').forEach(b=>b.classList.remove('active'));
   const map={plan:'bn-plan',reis:'bn-reis',bood:'bn-bood',pack:'bn-pack',geld:'bn-geld',weer:'bn-weer',koel:'bn-koel',auto:'bn-auto'};
   const target=bnId||map[id];
@@ -1280,6 +1295,139 @@ function mapsUrl(nav) {
 }
 
 
+
+// =================== OSRM AUTO ROUTING + NOMINATIM GEOCODING ===================
+const osrmCache = {};
+const geocodeCache = {};
+
+function extractCoords(navStr) {
+  if (!navStr) return null;
+  // Direct coords like "69.6167,18.8333"
+  const m = navStr.match(/^(-?\d+\.?\d*),(-?\d+\.?\d*)$/);
+  if (m) return {lat: parseFloat(m[1]), lon: parseFloat(m[2])};
+  return null;
+}
+
+async function geocodeNominatim(query) {
+  if (!query || query.trim() === '') return null;
+  if (geocodeCache[query]) return geocodeCache[query];
+  try {
+    const url = 'https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(query) + '&format=json&limit=1';
+    const resp = await fetch(url, {headers: {'Accept-Language': 'nl', 'User-Agent': 'ScanVakantieApp/1.0'}});
+    const data = await resp.json();
+    if (data && data[0]) {
+      const result = {lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon)};
+      geocodeCache[query] = result;
+      return result;
+    }
+  } catch(e) {}
+  return null;
+}
+
+async function getStopCoords(stop) {
+  // First try direct coords from nav
+  const direct = extractCoords(stop.nav);
+  if (direct) return direct;
+  // Then try geocoding nav string
+  if (stop.nav && stop.nav.trim()) return await geocodeNominatim(stop.nav);
+  // Fallback: try stop name
+  if (stop.naam && stop.naam.trim()) return await geocodeNominatim(stop.naam);
+  return null;
+}
+
+async function berekenOSRM(fromCoords, toCoords) {
+  const cacheKey = fromCoords.lat.toFixed(3) + ',' + fromCoords.lon.toFixed(3) + '-' + toCoords.lat.toFixed(3) + ',' + toCoords.lon.toFixed(3);
+  if (osrmCache[cacheKey]) return osrmCache[cacheKey];
+  try {
+    const url = 'https://router.project-osrm.org/route/v1/driving/' +
+      fromCoords.lon + ',' + fromCoords.lat + ';' +
+      toCoords.lon + ',' + toCoords.lat + '?overview=false';
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.routes && data.routes[0]) {
+      const km = Math.round(data.routes[0].distance / 1000);
+      const uurRaw = data.routes[0].duration / 3600;
+      const uur = Math.round(uurRaw * 2) / 2; // round to nearest 0.5h
+      const result = {km, uur};
+      osrmCache[cacheKey] = result;
+      return result;
+    }
+  } catch(e) {}
+  return null;
+}
+
+async function autoRouteVoorDag(dag, dagActueel) {
+  // Skip if manual override
+  if (dagActueel.rij_km_override != null) return;
+
+  const el = document.getElementById('osrm-dag-' + dag.d);
+  if (!el) return;
+
+  // If hardcoded km exists, just show it (already displayed in badge)
+  if (dag.rij_km && dag.rij_km > 0) return;
+
+  // Get all stops, find first and last with resolvable coords
+  const stops = (dagActueel.stops || dag.stops || []).filter(s => s.type !== 'overnacht' || stops.length <= 1);
+  const allStops = dagActueel.stops || dag.stops || [];
+
+  // Show loading
+  el.textContent = '🚗 Berekenen...';
+  el.style.cssText = 'font-size:11px;font-weight:600;background:#F1EFF8;color:#9D7DE8;padding:2px 8px;border-radius:20px;white-space:nowrap';
+
+  // Get coords for first meaningful stop and last stop
+  let fromCoords = null, toCoords = null;
+  for (const stop of allStops) {
+    if (stop.type === 'tussenstop' && !fromCoords && stop.nav) {
+      fromCoords = await getStopCoords(stop);
+      await new Promise(r => setTimeout(r, 200));
+    }
+  }
+  // If no tussenstop found, use first stop
+  if (!fromCoords && allStops[0] && allStops[0].nav) {
+    fromCoords = await getStopCoords(allStops[0]);
+    await new Promise(r => setTimeout(r, 200));
+  }
+  // Last stop with nav as destination
+  for (let i = allStops.length - 1; i >= 0; i--) {
+    if (allStops[i].nav) {
+      toCoords = await getStopCoords(allStops[i]);
+      await new Promise(r => setTimeout(r, 200));
+      if (toCoords) break;
+    }
+  }
+
+  if (!fromCoords || !toCoords) {
+    el.textContent = dag.rij_km > 0 ? ('🚗 ' + dag.rij_km + ' km') : '📍 Verblijfdag';
+    el.style.cssText = 'font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px';
+    return;
+  }
+
+  // Same location = verblijfdag
+  if (Math.abs(fromCoords.lat - toCoords.lat) < 0.01 && Math.abs(fromCoords.lon - toCoords.lon) < 0.01) {
+    el.textContent = '📍 Verblijfdag';
+    el.style.cssText = 'font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px';
+    return;
+  }
+
+  const result = await berekenOSRM(fromCoords, toCoords);
+  if (result && result.km > 2) {
+    el.textContent = '🚗 ~' + result.km + ' km · ~' + result.uur + 'u';
+    el.style.cssText = 'font-size:11px;font-weight:600;background:#F1EFF8;color:#5B21B6;padding:2px 8px;border-radius:20px;white-space:nowrap';
+  } else {
+    el.textContent = '📍 Verblijfdag';
+    el.style.cssText = 'font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px';
+  }
+}
+
+async function autoRouteAlleZichtbareDagen() {
+  const gef = huidigReisLand === 'all' ? REISDAGEN : REISDAGEN.filter(d => reisData(d).land === huidigReisLand);
+  // Sequential with delay to respect Nominatim rate limit (1 req/sec)
+  for (const dag of gef) {
+    await autoRouteVoorDag(dag, reisData(dag));
+    await new Promise(r => setTimeout(r, 150));
+  }
+}
+
 // =================== REISROUTE BEWERKEN ===================
 let reisWijzigingen = {};
 let bewerkReisDag = null;
@@ -1319,6 +1467,8 @@ window.openReisModal = function(dagNr) {
   document.getElementById('reis-edit-land').value = dag.land || orig.land;
   document.getElementById('reis-edit-titel').value = dag.titel || '';
   document.getElementById('reis-edit-datum').value = dag.datum || '';
+  document.getElementById('reis-edit-km').value = dag.rij_km_override || '';
+  document.getElementById('reis-edit-uur').value = dag.rij_uur_override || '';
   renderStopsEdit();
   document.getElementById('reis-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1408,14 +1558,15 @@ window.voegStopToe = function() {
 
 window.slaReisOp = async function() {
   if (!bewerkReisDag) return;
-  const origDag = REISDAGEN.find(function(d){return d.d===bewerkReisDag;});
+  const kmOverride = document.getElementById('reis-edit-km').value;
+  const uurOverride = document.getElementById('reis-edit-uur').value;
   reisWijzigingen[bewerkReisDag] = {
     land: document.getElementById('reis-edit-land').value,
     titel: document.getElementById('reis-edit-titel').value.trim(),
     datum: document.getElementById('reis-edit-datum').value.trim(),
     stops: tijdelijkeStops,
-    rij_km: origDag ? (origDag.rij_km || 0) : 0,
-    rij_uur: origDag ? (origDag.rij_uur || 0) : 0,
+    rij_km_override: kmOverride ? parseFloat(kmOverride) : null,
+    rij_uur_override: uurOverride ? parseFloat(uurOverride) : null,
   };
   window.sluitReisModal();
   renderReis();
@@ -1462,11 +1613,14 @@ function renderReis() {
         '</div>';
       }).join('');
       const gewijzigdDotReis = reisWijzigingen[dag.d] ? '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#F59E0B;margin-left:5px;vertical-align:middle"></span>' : '';
-    const km = dagActueel.rij_km || dag.rij_km || 0;
-    const uur = dagActueel.rij_uur || dag.rij_uur || 0;
-    const rijBadge = km > 0
-      ? '<span style="font-size:11px;font-weight:600;background:#F1EFF8;color:#5B21B6;padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap">🚗 ' + km + ' km · ~' + uur + 'u</span>'
-      : '<span style="font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px">📍 Verblijfdag</span>';
+    const kmOverride = dagActueel.rij_km_override != null ? dagActueel.rij_km_override : null;
+    const uurOverride = dagActueel.rij_uur_override != null ? dagActueel.rij_uur_override : null;
+    const kmFinal = kmOverride != null ? kmOverride : (dag.rij_km || 0);
+    const uurFinal = uurOverride != null ? uurOverride : (dag.rij_uur || 0);
+    const osrmId = 'osrm-dag-' + dag.d;
+    const rijBadge = kmFinal > 0
+      ? '<span id="' + osrmId + '" style="font-size:11px;font-weight:600;background:#F1EFF8;color:#5B21B6;padding:2px 8px;border-radius:var(--radius-pill);white-space:nowrap">🚗 ' + kmFinal + ' km · ~' + uurFinal + 'u</span>'
+      : '<span id="' + osrmId + '" style="font-size:11px;color:var(--tekst-heel-zacht);padding:2px 4px">📍 Verblijfdag</span>';
     return '<div class="reis-kaart">' +
         '<div class="reis-dag-header">' +
           '<span class="dag-num">Dag ' + dag.d + '</span>' +
